@@ -1,0 +1,1509 @@
+<x-dc>
+<div class="app shell">
+
+  <div class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">A</div>
+      <div>
+        <div class="brand-name">Acme</div>
+        <div class="brand-sub">AI Visibility</div>
+      </div>
+    </div>
+    <div class="nav">
+      <div class="nav-group">Overview</div>
+      <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="4">
+        <div class="nav-item" sc-camel-on-click="{{ tab.onClick }}" style="color:{{ tab.color }};background:{{ tab.bg }}">
+          <div class="nav-dot" style="background:{{ tab.dot }}"></div>
+          <div class="nav-label">{{ tab.label }}</div>
+          <sc-if value="{{ tab.badge }}" hint-placeholder-val="{{ false }}">
+            <div class="nav-badge">{{ tab.badge }}</div>
+          </sc-if>
+        </div>
+      </sc-for>
+
+      <div class="nav-group">360 Degree View</div>
+      <sc-for list="{{ seoTabs }}" as="tab" hint-placeholder-count="6">
+        <div class="nav-item" sc-camel-on-click="{{ tab.onClick }}" style="color:{{ tab.color }};background:{{ tab.bg }}">
+          <div class="nav-dot" style="background:{{ tab.dot }}"></div>
+          <div class="nav-label">{{ tab.label }}</div>
+        </div>
+      </sc-for>
+
+      <div class="nav-group">Monitoring</div>
+      <sc-for list="{{ gscTabs }}" as="tab" hint-placeholder-count="1">
+        <div class="nav-item" sc-camel-on-click="{{ tab.onClick }}" style="color:{{ tab.color }};background:{{ tab.bg }}">
+          <div class="nav-dot" style="background:{{ tab.dot }}"></div>
+          <div class="nav-label">{{ tab.label }}</div>
+        </div>
+      </sc-for>
+
+      <div class="nav-group">Brand Artifacts</div>
+      <sc-for list="{{ brandTabs }}" as="tab" hint-placeholder-count="4">
+        <div class="nav-item" sc-camel-on-click="{{ tab.onClick }}" style="color:{{ tab.color }};background:{{ tab.bg }}">
+          <div class="nav-dot" style="background:{{ tab.dot }}"></div>
+          <div class="nav-label">{{ tab.label }}</div>
+        </div>
+      </sc-for>
+
+    </div>
+  </div>
+
+  <div class="main">
+
+    <div class="topbar">
+
+      <div class="topbar-spacer"></div><div class="topbar-tools">
+        <div class="chip">
+          <span class="chip-key">Domain</span><span class="chip-val">acme.com</span>
+        </div>
+        <div style="position:relative">
+          <div class="icon-btn" sc-camel-on-click="{{ toggleRefreshConfig }}" title="Configure refresh frequency">
+            <svg width="15" height="15" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          </div>
+          <sc-if value="{{ showRefreshConfig }}" hint-placeholder-val="{{ false }}">
+            <div class="popover" style="width:220px">
+              <div class="kicker" style="margin-bottom:10px">Refresh frequency</div>
+              <sc-raw-select class="input select" value="{{ refreshFrequency }}" sc-camel-on-change="{{ onRefreshFrequencyChange }}" style="width:100%;margin-bottom:10px">
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="biweekly">Every 2 weeks</option>
+                <option value="monthly">Monthly</option>
+              </sc-raw-select>
+              <div class="btn btn-primary" sc-camel-on-click="{{ toggleRefreshConfig }}" style="width:100%">Save</div>
+            </div>
+          </sc-if>
+        </div>
+        <!--AI_ENGINE_TOPBAR_MARKER-->
+        <div style="position:relative">
+          
+          <sc-if value="{{ showDatePicker }}" hint-placeholder-val="{{ false }}">
+            <div class="popover stack" style="gap:10px;width:220px">
+              <div class="stack" style="gap:4px">
+                <span class="kicker">From</span>
+                <input class="input" type="date" value="{{ dateFrom }}" max="{{ dateFromMax }}" sc-camel-on-change="{{ onDateFromChange }}">
+              </div>
+              <div class="stack" style="gap:4px">
+                <span class="kicker">To</span>
+                <input class="input" type="date" value="{{ dateTo }}" min="{{ dateToMin }}" sc-camel-on-change="{{ onDateToChange }}">
+              </div>
+              <div class="btn btn-dark" sc-camel-on-click="{{ toggleDatePicker }}" style="align-self:flex-end">Apply</div>
+            </div>
+          </sc-if>
+        </div>
+        
+      </div>
+      
+    </div>
+
+    <div class="content">
+
+      <sc-if value="{{ isProposed }}" hint-placeholder-val="{{ true }}">
+        <div class="view" key="proposed">
+          <div class="section-head"><span class="section-no">01</span><h2 class="section-title">Prompts</h2></div>
+          <p class="section-sub">The prompt set Acme tracks, and how each one performs across answer engines.</p>
+
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px;border-bottom:1px solid var(--line);flex-wrap:wrap;row-gap:10px">
+            <div sc-camel-on-click="{{ selectYourPrompts }}" style="display:flex;align-items:center;gap:6px;padding-bottom:10px;font-size:13.5px;font-weight:600;cursor:pointer;color:{{ yourPromptsColor }};border-bottom:2px solid {{ yourPromptsBorder }};flex-shrink:0">Your prompts</div>
+            <div sc-camel-on-click="{{ selectMentions }}" style="display:flex;align-items:center;gap:6px;padding-bottom:10px;font-size:13.5px;font-weight:600;cursor:pointer;color:{{ mentionsColor }};border-bottom:2px solid {{ mentionsBorder }};flex-shrink:0">Prompt Mentions</div>
+            
+            <div style="flex:1 1 auto;min-width:8px"></div>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-bottom:8px">
+              <input value="{{ searchQuery }}" sc-camel-on-change="{{ onSearchChange }}" placeholder="Search prompts…" class="input" style="width:160px">
+              <div sc-camel-on-click="{{ toggleEditTopics }}" class="btn">Edit Topics</div>
+              <div sc-camel-on-click="{{ toggleAddForm }}" class="btn">+ Add Prompts</div>
+              <div sc-camel-on-click="{{ toggleCopilot }}" class="btn btn-primary">
+                <div style="width:6px;height:6px;border-radius:50%;background:var(--paper);flex-shrink:0"></div>
+                Ask Copilot
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;font-size:12.5px;color:var(--steel);flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid var(--line);border-radius:8px;background:var(--paper)">
+              Date:
+              <input type="date" value="{{ promptsDateFrom }}" sc-camel-on-change="{{ onPromptsDateFromChange }}" style="font-size:12px;border:none;color:var(--text);font-weight:600">
+              <span>–</span>
+              <input type="date" value="{{ promptsDateTo }}" sc-camel-on-change="{{ onPromptsDateToChange }}" style="font-size:12px;border:none;color:var(--text);font-weight:600">
+            </div>
+            <sc-raw-select value="{{ promptsRegionFilter }}" sc-camel-on-change="{{ onPromptsRegionFilterChange }}" class="input select">
+              <option value="na">United States</option>
+              <option value="emea">United Kingdom</option>
+              <option value="apac">India</option>
+              <option value="latam">Brazil</option>
+            </sc-raw-select>
+            <sc-raw-select value="{{ promptsPlatformFilter }}" sc-camel-on-change="{{ onPromptsPlatformFilterChange }}" class="input select">
+              <option value="all">All platforms (5)</option>
+              <option value="ChatGPT">ChatGPT</option>
+              <option value="Perplexity">Perplexity</option>
+              <option value="Google AI Overviews">Google AI Overviews</option>
+              <option value="Microsoft Co-Pilot">Microsoft Co-Pilot</option>
+              <option value="Claude">Claude</option>
+            </sc-raw-select>
+          </div>
+
+          <sc-if value="{{ showAddForm }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;gap:8px;margin-bottom:16px;background:var(--paper);border:1px solid var(--teal-deep);border-radius:10px;padding:12px">
+              <input value="{{ newPromptText }}" sc-camel-on-change="{{ onNewPromptChange }}" placeholder="e.g. best CRM software for startups" class="input" style="flex:1">
+              <sc-raw-select value="{{ newPromptTopicId }}" sc-camel-on-change="{{ onNewPromptTopicChange }}" style="width:200px;font-size:12.5px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:var(--text);background:var(--paper)">
+                <sc-for list="{{ topics }}" as="topic" hint-placeholder-count="3">
+                  <option value="{{ topic.id }}">{{ topic.name }}</option>
+                </sc-for>
+                <option value="__new__">+ Add new topic…</option>
+              </sc-raw-select>
+              <sc-if value="{{ isAddingNewTopic }}" hint-placeholder-val="{{ false }}">
+                <input value="{{ newTopicName }}" sc-camel-on-change="{{ onNewTopicNameChange }}" placeholder="new topic name" style="width:160px;font-size:12.5px;border:1px solid var(--teal-deep);border-radius:8px;padding:8px 10px;color:var(--text)">
+              </sc-if>
+              <div sc-camel-on-click="{{ addPrompt }}" class="btn btn-primary">Save</div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isYourPrompts }}" hint-placeholder-val="{{ true }}">
+            <sc-if value="{{ hasRecommendedFromPlatform }}" hint-placeholder-val="{{ true }}">
+              <div class="reco-panel card card-pad" style="border-color:var(--info-line);margin-bottom:16px">
+                <div style="font-size:12.5px;font-weight:700;color:var(--info);margin-bottom:4px">Recommended prompts from platform</div>
+                <div style="font-size:11.5px;color:var(--steel);margin-bottom:14px">Suggested based on your category and competitor coverage</div>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <sc-for list="{{ recommendedFromPlatform }}" as="r" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;gap:12px;background:var(--info-bg);border-radius:10px;padding:11px 14px">
+                      <div style="flex:1;font-size:13px;font-weight:500;color:var(--info)">"{{ r.text }}"</div>
+                      <div style="font-size:10.5px;color:var(--info);opacity:0.7;font-family:var(--font-mono)">{{ r.topicName }}</div>
+                      <div sc-camel-on-click="{{ r.onAdd }}" class="btn btn-sm" style="background:var(--info);border-color:var(--info);color:#fff">+ Add</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+            <div class="table-wrap">
+              <div class="thead" style="display:grid;grid-template-columns:28px 1.6fr 1fr 0.75fr 0.8fr 0.9fr 0.9fr 0.85fr 0.65fr 0.6fr;gap:10px;padding:12px 16px;min-width:1150px;white-space:nowrap">
+                <div></div><div>Prompt</div><div>Topic</div><div>Prompt Type</div><div>Volume</div><div>Mention Rate</div><div>Citation Rate</div><div>Share of Voice</div><div>Positive</div><div></div>
+              </div>
+              <sc-for list="{{ visiblePrompts }}" as="t" hint-placeholder-count="6">
+                <div class="trow" style="display:grid;grid-template-columns:28px 1.6fr 1fr 0.75fr 0.8fr 0.9fr 0.9fr 0.85fr 0.65fr 0.6fr;gap:10px;padding:12px 16px;align-items:center;min-width:1150px">
+                  <div sc-camel-on-click="{{ t.onDetailedView }}" title="Show detailed overview" style="cursor:pointer;color:var(--muted);display:inline-flex">
+                    <svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  </div>
+                  <div style="font-weight:500;color:var(--text)">{{ t.prompt_text }}</div>
+                  <div style="display:flex;align-items:center;gap:7px"><div style="width:7px;height:7px;border-radius:2px;background:{{ t.topicColor }};flex-shrink:0"></div>{{ t.topicName }}</div>
+                  <div><span class="{{ t.promptTypePillClass }} pill-mono">{{ t.promptType }}</span></div>
+                  <div style="color:var(--steel)">{{ t.volumeLabel }}</div>
+                  <div>{{ t.mentionRate }} <span style="font-size:10.5px;font-weight:700;color:{{ t.mentionTrendColor }}">{{ t.mentionTrend }}</span></div>
+                  <div>{{ t.citationRate }} <span style="font-size:10.5px;font-weight:700;color:{{ t.citationTrendColor }}">{{ t.citationTrend }}</span></div>
+                  <div>{{ t.shareOfVoice }} <span style="font-size:10.5px;font-weight:700;color:{{ t.sovTrendColor }}">{{ t.sovTrend }}</span></div>
+                  <div>{{ t.positiveRate }}</div>
+                  <div><span sc-camel-on-click="{{ t.onRemove }}" style="font-size:11px;font-weight:600;color:var(--neg);cursor:pointer;white-space:nowrap">Remove</span></div>
+                </div>
+              </sc-for>
+              <sc-if value="{{ noVisiblePrompts }}" hint-placeholder-val="{{ false }}">
+                <div style="text-align:center;padding:40px;color:var(--steel);font-size:13px">No prompts match your search.</div>
+              </sc-if>
+            </div>
+
+            <div style="border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:20px;margin-top:16px;overflow-x:auto">
+              <div style="font-size:13.5px;font-weight:700;margin-bottom:10px">Visibility by AI engine</div>
+              <div class="thead" style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:8px;padding:0 4px 8px;min-width:360px">
+                <div>Engine</div><div>Citation</div><div>Avg pos</div><div>Citation share %</div>
+              </div>
+              <sc-for list="{{ engineRows }}" as="row" hint-placeholder-count="5">
+                <div class="trow" style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:8px;padding:11px 4px;align-items:center;min-width:360px">
+                  <div style="font-weight:600;display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:2px;background:{{ row.color }}"></div>{{ row.engine }}</div>
+                  <div>{{ row.citation_rate }}</div>
+                  <div>{{ row.avg_position }}</div>
+                  <div>{{ row.citation_share }}</div>
+                </div>
+              </sc-for>
+            </div>
+
+            <sc-if value="{{ promptInspectPanel }}" hint-placeholder-val="{{ false }}">
+              <div sc-camel-on-click="{{ closePromptInspect }}" class="scrim" style="position:fixed">
+                <div sc-camel-on-click="{{ stopPropagation }}" class="drawer" style="width:min(480px, 100%);padding-bottom:80px">
+                  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px">
+                    <div>
+                      <div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">Prompt inspection</div>
+                      <div style="font-size:15px;font-weight:700">{{ promptInspectPanel.prompt_text }}</div>
+                    </div>
+                    <div sc-camel-on-click="{{ closePromptInspect }}" style="width:30px;height:30px;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--steel);flex-shrink:0">✕</div>
+                  </div>
+                  <div style="border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:18px 20px">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;font-size:12.5px;color:var(--text)">
+                      <div><span style="color:var(--steel)">Topic</span><br><b>{{ promptInspectPanel.topicName }}</b></div>
+                      <div><span style="color:var(--steel)">Prompt type</span><br><b>{{ promptInspectPanel.promptType }}</b></div>
+                      <div><span style="color:var(--steel)">Volume</span><br><b>{{ promptInspectPanel.volumeLabel }}</b></div>
+                      <div><span style="color:var(--steel)">Mention rate</span><br><b>{{ promptInspectPanel.mentionRate }} <span style="color:{{ promptInspectPanel.mentionTrendColor }}">{{ promptInspectPanel.mentionTrend }}</span></b></div>
+                      <div><span style="color:var(--steel)">Citation rate</span><br><b>{{ promptInspectPanel.citationRate }} <span style="color:{{ promptInspectPanel.citationTrendColor }}">{{ promptInspectPanel.citationTrend }}</span></b></div>
+                      <div><span style="color:var(--steel)">Positive rate</span><br><b>{{ promptInspectPanel.positiveRate }}</b></div>
+                    </div>
+                  </div>
+                  <div style="border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:16px;margin-top:14px;overflow-x:auto">
+                    <div style="font-size:12.5px;font-weight:700;margin-bottom:10px">Visibility by AI engine</div>
+                    <div class="thead" style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:8px;padding:0 4px 8px;min-width:360px">
+                      <div>Engine</div><div>Citation</div><div>Avg pos</div><div>Citation share %</div>
+                    </div>
+                    <sc-for list="{{ promptInspectPanel.engineRows }}" as="row" hint-placeholder-count="5">
+                      <div class="trow" style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:8px;padding:9px 4px;align-items:center;min-width:360px">
+                        <div style="font-weight:600;display:flex;align-items:center;gap:6px"><div style="width:7px;height:7px;border-radius:2px;background:{{ row.color }}"></div>{{ row.engine }}</div>
+                        <div>{{ row.citation_rate }}</div>
+                        <div>{{ row.avg_position }}</div>
+                        <div>{{ row.citation_share }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:16px;margin-top:14px">
+                    <div style="font-size:12.5px;font-weight:700;margin-bottom:10px">Top competitors</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px">
+                      <sc-for list="{{ promptInspectPanel.topCompetitors }}" as="brand" hint-placeholder-count="3">
+                        <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;padding:8px 12px;background:var(--cloud);border-radius:8px">
+                          <span style="font-weight:600">{{ brand.name }}</span>
+                          <span style="font-size:11px;font-weight:700;color:{{ brand.noteColor }}">{{ brand.note }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:16px;margin-top:14px">
+                    <div style="font-size:12.5px;font-weight:700;margin-bottom:10px">Share of Voice by competitor</div>
+                    <div class="thead" class="trow" style="display:grid;grid-template-columns:32px 1fr 0.7fr;gap:8px;padding:0 4px 8px">
+                      <div>Rank</div><div>Competitor</div><div>Share of Voice</div>
+                    </div>
+                    <sc-for list="{{ promptInspectPanel.sovByCompetitor }}" as="sc" hint-placeholder-count="4">
+                      <div class="trow" style="display:grid;grid-template-columns:32px 1fr 0.7fr;gap:8px;padding:9px 4px;align-items:center;background:{{ sc.rowBg }}">
+                        <div style="color:var(--muted);font-weight:700">{{ sc.rank }}</div>
+                        <div style="font-weight:600">{{ sc.name }}</div>
+                        <div style="font-weight:700">{{ sc.sov }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+          </sc-if>
+
+          <sc-if value="{{ isMentions }}" hint-placeholder-val="{{ false }}">
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+                <span style="font-size:12px;color:var(--steel)">AI Engine:</span>
+                <sc-raw-select value="{{ engineFilter }}" sc-camel-on-change="{{ onEngineFilterChange }}" class="input select">
+                  <option value="all">All engines</option>
+                  <option value="ChatGPT">ChatGPT</option>
+                  <option value="Perplexity">Perplexity</option>
+                  <option value="Google AI Overviews">Google AI Overviews</option>
+                  <option value="Microsoft Co-Pilot">Microsoft Co-Pilot</option>
+                  <option value="Claude">Claude</option>
+                </sc-raw-select>
+              </div>
+              <div style="border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:20px;margin-bottom:16px">
+                <div style="font-size:13.5px;font-weight:700;margin-bottom:4px">Prompt-level results<br><br></div>
+                
+                <div class="thead" class="trow" style="display:grid;grid-template-columns:2.2fr 0.9fr 0.9fr 0.7fr 0.8fr 0.8fr 0.9fr;gap:8px;padding:0 4px 8px">
+                  <div>Prompt</div><div>Engine</div><div>Mentioned</div><div>Position</div><div>Sentiment</div><div>Date</div><div>Citations</div>
+                </div>
+                <sc-for list="{{ filteredPrompts }}" as="p" hint-placeholder-count="4">
+                  <div sc-camel-on-click="{{ p.onSelect }}" class="trow" style="display:grid;grid-template-columns:2.2fr 0.9fr 0.9fr 0.7fr 0.8fr 0.8fr 0.9fr;gap:8px;padding:12px 4px;align-items:start;cursor:pointer">
+                    <div>
+                      <div style="font-weight:600;color:var(--text);margin-bottom:3px">"{{ p.prompt_text }}"</div>
+                      <div style="font-size:11px;color:var(--steel);line-height:1.5">"{{ p.response_excerpt }}"</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px"><div style="width:8px;height:8px;border-radius:2px;background:{{ p.engineColor }};flex-shrink:0"></div>{{ p.ai_engine }}</div>
+                    <div><span class="{{ p.mentionedPillClass }} pill-mono">{{ p.mentionedLabel }}</span></div>
+                    <div>{{ p.position }}</div>
+                    <div>{{ p.sentiment }}</div>
+                    <div style="color:var(--steel)">{{ p.dateLabel }}</div>
+                    <div>{{ p.citationCount }}</div>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ noPrompts }}" hint-placeholder-val="{{ false }}">
+                  <div style="text-align:center;padding:40px;color:var(--steel);font-size:13px">No prompts for this engine in the current window.</div>
+                </sc-if>
+              </div>
+
+              <sc-if value="{{ hasSelectedMention }}" hint-placeholder-val="{{ false }}">
+                <div class="table-wrap">
+                  <div style="padding:18px 22px;border-bottom:1px solid var(--line)">
+                    <div style="display:flex;align-items:flex-start;justify-content:space-between">
+                      <div>
+                        <div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">Prompt</div>
+                        <div style="font-size:16px;font-weight:700">{{ selectedMention.prompt_text }}</div>
+                      </div>
+                      <div sc-camel-on-click="{{ closeMention }}" style="width:30px;height:30px;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--steel);flex-shrink:0">✕</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap">
+                      <span style="font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:100px;border:1px solid var(--line);color:var(--steel)">Engine: {{ selectedMention.ai_engine }}</span>
+                      <span style="font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:100px;border:1px solid var(--info-line);color:var(--info)">Category Related</span>
+                      <div style="flex:1"></div>
+                      <span style="font-size:11.5px;font-weight:600;padding:6px 12px;border-radius:100px;border:1px solid var(--line);color:var(--text)">Persona ▾</span>
+                      <span style="font-size:11.5px;font-weight:600;padding:6px 12px;border-radius:100px;border:1px solid var(--line);color:var(--text)">Region ▾</span>
+                      <span style="font-size:11.5px;font-weight:600;padding:6px 12px;border-radius:100px;border:1px solid var(--line);color:var(--text)">Jun 1 – Jun 30 ▾</span>
+                      <span style="font-size:11.5px;font-weight:600;padding:6px 12px;border-radius:100px;border:1px solid var(--line);color:var(--text)">Daily ▾</span>
+                    </div>
+                  </div>
+
+                  <div style="padding:22px">
+                    <div style="border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px">
+                      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+                        <div style="font-size:13.5px;font-weight:700">Prompt Visibility</div>
+                        <div style="width:14px;height:14px;border-radius:50%;border:1px solid var(--muted);color:var(--steel);font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center">i</div>
+                      </div>
+                      <svg sc-camel-view-box="0 0 600 100" style="width:100%;height:100px;display:block">
+                        <line x1="0" y1="80" x2="600" y2="80" stroke="var(--line)" stroke-width="1" stroke-dasharray="4 4"></line>
+                        <circle cx="300" cy="80" r="4" fill="var(--info-line)"></circle>
+                      </svg>
+                      <div style="text-align:center;font-size:11px;color:var(--info-line);font-weight:600;margin-top:-6px">{{ selectedMention.mentionRatePct }}</div>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+                      <div style="border:1px solid var(--line);border-radius:12px;padding:16px 18px">
+                        <div style="font-size:13px;font-weight:700;margin-bottom:10px">Mention Rate by Competitor</div>
+                        <div style="display:grid;grid-template-columns:1fr auto;font-size:10.5px;font-weight:600;color:var(--muted);padding-bottom:6px;border-bottom:1px solid var(--cloud)">
+                          <div>Brand</div><div>Mention Rate</div>
+                        </div>
+                        <sc-for list="{{ mentionCompetitorRows }}" as="mc" hint-placeholder-count="4">
+                          <div style="display:grid;grid-template-columns:1fr auto;font-size:12.5px;padding:8px 0;border-bottom:1px solid var(--cloud);align-items:center">
+                            <div style="font-weight:500">{{ mc.name }}</div><div style="color:var(--steel)">{{ mc.rate }}</div>
+                          </div>
+                        </sc-for>
+                      </div>
+                      <div style="border:1px solid var(--line);border-radius:12px;padding:16px 18px">
+                        <div style="font-size:13px;font-weight:700;margin-bottom:10px">Mention Rate by Platform</div>
+                        <div style="display:grid;grid-template-columns:1fr auto;font-size:10.5px;font-weight:600;color:var(--muted);padding-bottom:6px;border-bottom:1px solid var(--cloud)">
+                          <div>Platform</div><div>Mention Rate</div>
+                        </div>
+                        <sc-for list="{{ mentionPlatformRows }}" as="mp" hint-placeholder-count="4">
+                          <div style="display:grid;grid-template-columns:1fr auto;font-size:12.5px;padding:8px 0;border-bottom:1px solid var(--cloud);align-items:center">
+                            <div style="display:flex;align-items:center;gap:7px"><div style="width:7px;height:7px;border-radius:2px;background:{{ mp.color }};flex-shrink:0"></div>{{ mp.name }}</div><div style="color:var(--steel)">{{ mp.rate }}</div>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </div>
+
+                    <div style="border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:16px">
+                      <div style="font-size:13px;font-weight:700;margin-bottom:10px">Paid Share of Voice by Competitor (ChatGPT Ads)</div>
+                      <div style="display:grid;grid-template-columns:1fr auto;font-size:10.5px;font-weight:600;color:var(--muted);padding-bottom:6px;border-bottom:1px solid var(--cloud)">
+                        <div>Brand</div><div>Paid SOV</div>
+                      </div>
+                      <sc-for list="{{ paidSovRows }}" as="ps" hint-placeholder-count="4">
+                        <div style="display:grid;grid-template-columns:1fr auto;font-size:12.5px;padding:8px 0;border-bottom:1px solid var(--cloud);align-items:center">
+                          <div style="font-weight:500">{{ ps.name }}</div><div style="color:var(--steel)">{{ ps.sov }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+
+                    <div style="border:1px solid var(--line);border-radius:12px;overflow:hidden">
+                      <div style="padding:14px 18px;font-size:13px;font-weight:700;border-bottom:1px solid var(--line)">Answer History</div>
+                      <div class="thead" style="display:grid;grid-template-columns:1fr 0.8fr 0.9fr 1.6fr 0.7fr 0.9fr 1fr 0.7fr;gap:8px;padding:10px 18px;color:var(--muted);border-bottom:1px solid var(--cloud)">
+                        <div>Date</div><div>Persona</div><div>Platform</div><div>Answer Preview</div><div>Cited</div><div>Mentioned</div><div>Competitors</div><div>Has Ads</div>
+                      </div>
+                      <sc-for list="{{ answerHistoryRows }}" as="ah" hint-placeholder-count="1">
+                        <div style="display:grid;grid-template-columns:1fr 0.8fr 0.9fr 1.6fr 0.7fr 0.9fr 1fr 0.7fr;gap:8px;padding:12px 18px;font-size:12.5px;align-items:center;border-bottom:1px solid var(--cloud)">
+                          <div>{{ ah.date }}</div>
+                          <div>{{ ah.persona }}</div>
+                          <div style="display:flex;align-items:center;gap:6px">{{ ah.platform }}</div>
+                          <div style="color:var(--steel);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ ah.preview }}</div>
+                          <div>{{ ah.cited }}</div>
+                          <div>{{ ah.mentioned }}</div>
+                          <div>—</div>
+                          <div>{{ ah.hasAds }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isRecommended }}" hint-placeholder-val="{{ false }}">
+            <div>
+              <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:16px;margin-bottom:16px">
+                <div style="border:1px solid var(--info-line);border-radius:12px;background:var(--info-bg);padding:18px 20px">
+                  <div style="font-size:12.5px;font-weight:700;color:var(--info);margin-bottom:6px">Recommended platform to prioritize</div>
+                  <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px">
+                    <div style="font-size:20px;font-weight:700;color:var(--info)">Perplexity</div>
+                    <div style="font-size:11.5px;font-weight:700;color:var(--pos);background:var(--teal-soft);padding:2px 8px;border-radius:100px">citations +18% this month</div>
+                  </div>
+                  <div style="font-size:12px;color:var(--info);opacity:0.85;line-height:1.6">Your tracked set has the thinnest coverage here while Perplexity is showing the fastest citation growth of any engine. Consider adding 2–3 prompts scoped to it.</div>
+                </div>
+                <div style="border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:18px 20px;display:flex;flex-direction:column;justify-content:center">
+                  <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px">Tracked prompts</div>
+                  <div style="font-size:24px;font-weight:700">{{ trackedCount }}</div>
+                  <div style="font-size:11.5px;color:var(--steel);margin-top:4px">across {{ topicCount }} topics</div>
+                </div>
+              </div>
+              <div style="font-size:12.5px;color:var(--steel);text-align:center;padding:12px 0">Prompts recommended by the platform now surface as a widget in the "Your prompts" tab.</div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isOverview }}" hint-placeholder-val="{{ false }}">
+        <div class="view" key="overview">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;gap:20px;flex-wrap:wrap">
+            <div>
+              <div class="section-head"><span class="section-no">01</span><h2 class="section-title">AEO Metrics</h2></div>
+              <p class="section-sub" style="margin-bottom:0">How Acme shows up across five answer engines for the selected period.</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;flex-wrap:wrap">
+              <sc-raw-select value="{{ marketingFilter }}" sc-camel-on-change="{{ onMarketingFilterChange }}" class="input select">
+                <option value="na">United States</option>
+                <option value="emea">United Kingdom</option>
+                <option value="apac">India</option>
+                <option value="latam">Brazil</option>
+              </sc-raw-select>
+              <sc-raw-select value="{{ overviewTimeRange }}" sc-camel-on-change="{{ onOverviewTimeRangeChange }}" class="input select">
+                <option value="7d">Last 7 days</option>
+                <option value="30d">Last 30 days</option>
+                <option value="90d">Last 90 days</option>
+                <option value="180d">Last 180 days</option>
+                <option value="365d">Last 12 months</option>
+              </sc-raw-select>
+              <sc-raw-select value="{{ gscDeviceFilter }}" sc-camel-on-change="{{ onGscDeviceFilterChange }}" class="input select">
+                <option value="all">All devices</option>
+                <option value="desktop">Desktop</option>
+                <option value="mobile">Mobile</option>
+                <option value="tablet">Tablet</option>
+              </sc-raw-select>
+            </div>
+          </div>
+          
+
+          <div class="kpi-grid kpi-grid-6" style="margin-bottom:24px">
+            <sc-for list="{{ kpis }}" as="kpi" hint-placeholder-count="6">
+              <div class="metric" style="min-width:0">
+                <div class="metric-label" style="min-width:0">
+                  <span style="min-width:0">{{ kpi.label }}</span>
+                  <span sc-camel-on-mouse-enter="{{ kpi.onInfoEnter }}" sc-camel-on-mouse-leave="{{ kpi.onInfoLeave }}" style="width:13px;height:13px;border-radius:50%;border:1px solid var(--line-strong);color:var(--muted);font-size:9px;display:flex;align-items:center;justify-content:center;cursor:default;flex-shrink:0">i</span>
+                </div>
+                <div class="metric-value num">{{ kpi.value }}</div>
+                <div class="metric-delta" style="color:{{ kpi.trendColor }}">{{ kpi.trend }}</div>
+                <sc-if value="{{ kpi.showTooltipLeft }}" hint-placeholder-val="{{ false }}">
+                  <div class="tooltip" style="left:0">{{ kpi.definition }}</div>
+                </sc-if>
+                <sc-if value="{{ kpi.showTooltipRight }}" hint-placeholder-val="{{ false }}">
+                  <div class="tooltip" style="right:0">{{ kpi.definition }}</div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+
+          <div class="stack" style="gap:16px">
+            <div class="card card-pad" style="overflow-x:auto">
+              <div class="block-title" style="margin-bottom:10px">Visibility by AI engine</div>
+              <div class="thead" style="display:grid;grid-template-columns:1.3fr 0.9fr 0.9fr 0.9fr 0.9fr 0.9fr 0.7fr;gap:8px;padding:0 4px 8px;background:transparent;min-width:700px">
+                <div>Engine</div><div>Visibility</div><div>Mention rate</div><div>Share of voice</div><div>Citation rate</div><div>Sentiment</div><div>Avg pos</div>
+              </div>
+              <sc-for list="{{ engineRows }}" as="row" hint-placeholder-count="4">
+                <div class="trow" style="display:grid;grid-template-columns:1.3fr 0.9fr 0.9fr 0.9fr 0.9fr 0.9fr 0.7fr;gap:8px;padding:11px 4px;align-items:center;min-width:700px">
+                  <div style="font-weight:600;display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:2px;flex-shrink:0;background:{{ row.color }}"></span>{{ row.engine }}</div>
+                  <div class="num">{{ row.visibility_score }}</div>
+                  <div class="num">{{ row.mention_rate }}</div>
+                  <div class="num">{{ row.share_of_voice }}</div>
+                  <div class="num">{{ row.citation_rate }}</div>
+                  <div class="num">{{ row.sentiment_score }}</div>
+                  <div class="num">{{ row.avg_position }}</div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div class="card card-pad">
+              <div class="block-title" style="margin-bottom:12px">Top competing brands</div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ competingBrands }}" as="brand" hint-placeholder-count="3">
+                  <div class="pill pill-neutral" style="font-size:12.5px;padding:7px 13px">
+                    <span style="font-weight:600">{{ brand.name }}</span>
+                    <span style="font-weight:700;color:{{ brand.noteColor }}">{{ brand.note }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-head"><span class="section-no">02</span><h2 class="section-title">Search Performance</h2></div>
+          <p class="section-sub">Organic visibility from Google Search Console for the selected period.</p>
+          <div class="kpi-grid">
+            <sc-for list="{{ gscKpis }}" as="kpi" hint-placeholder-count="4">
+              <div class="metric">
+                <div class="metric-label">{{ kpi.label }}</div>
+                <div class="metric-value-plain num">{{ kpi.value }}</div>
+                <div class="metric-delta" style="color:{{ kpi.deltaColor }}">{{ kpi.delta }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-head"><span class="section-no">03</span><h2 class="section-title">Marketing Performance</h2></div>
+          <p class="section-sub">Audience and revenue outcomes from Google Analytics for the same period.</p>
+          <div class="kpi-grid">
+            <sc-for list="{{ ga4Kpis }}" as="g" hint-placeholder-count="5">
+              <div class="metric">
+                <div class="metric-label">{{ g.label }}</div>
+                <div class="metric-value-plain num">{{ g.value }}</div>
+                <sc-if value="{{ g.hasTrend }}" hint-placeholder-val="{{ false }}">
+                  <div class="metric-delta" style="color:{{ g.trendColor }}">{{ g.trend }}</div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isInsights }}" hint-placeholder-val="{{ false }}">
+        <div class="view" key="insights">
+          <div class="section-head"><span class="section-no">01</span><h2 class="section-title">Insights</h2></div>
+          <p class="section-sub">Automatically surfaced patterns across citations, prompts, and search performance.</p>
+          <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:28px">
+            <sc-for list="{{ insights }}" as="ins" hint-placeholder-count="3">
+              <div class="statement">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:10px">
+                  <div style="font-size:15px;font-weight:700;color:var(--ink);line-height:1.4;letter-spacing:-.018em">{{ ins.title }}</div>
+                  <div class="kicker" style="white-space:nowrap;flex-shrink:0">{{ ins.timeAgo }}</div>
+                </div>
+                <sc-if value="{{ ins.isReco }}" hint-placeholder-val="{{ false }}">
+                  <div style="margin-bottom:10px"><span class="pill pill-mono pill-violet">Opportunity</span></div>
+                  <div style="font-size:12.5px;color:var(--steel);line-height:1.5;margin-bottom:16px">{{ ins.reasonText }}</div>
+                  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+                    <sc-for list="{{ ins.items }}" as="it" hint-placeholder-count="2">
+                      <div style="display:flex;align-items:center;gap:12px;background:var(--cloud);border-radius:8px;padding:11px 14px">
+                        <div style="flex:1;font-size:13px;font-weight:500;color:var(--text)">{{ it.label }}</div>
+                        <div style="font-size:10.5px;color:var(--steel);font-family:var(--font-mono)">{{ it.sublabel }}</div>
+                        <div sc-camel-on-click="{{ it.onAdd }}" class="btn btn-sm" style="background:var(--info);border-color:var(--info);color:#fff">+ Add</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ ins.isNotReco }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+                    <span class="metric-value num" style="font-size:24px">{{ ins.statValue }}</span>
+                    <span style="font-size:12.5px;font-weight:600;color:{{ ins.statDeltaColor }}">{{ ins.statDelta }}</span>
+                    <span class="pill pill-mono" style="background:{{ ins.severityBg }};color:{{ ins.severityColor }};border-color:{{ ins.severityColor }}">{{ ins.severity }}</span>
+                  </div>
+                  <div style="border:1px solid var(--line);border-radius:var(--r-md);background:var(--cloud);padding:14px 16px;margin-bottom:16px">
+                    <sc-if value="{{ ins.isLine }}" hint-placeholder-val="{{ false }}">
+                      <svg sc-camel-view-box="0 0 280 90" style="width:100%;height:80px;display:block">
+                        <polyline points="{{ ins.chartLine1 }}" fill="none" stroke="var(--muted)" stroke-width="2"></polyline>
+                        <polyline points="{{ ins.chartLine2 }}" fill="none" stroke="{{ ins.chartColor }}" stroke-width="2.5"></polyline>
+                      </svg>
+                    </sc-if>
+                    <sc-if value="{{ ins.isBar }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;align-items:flex-end;gap:16px;height:104px;padding:0 8px">
+                        <sc-for list="{{ ins.barItems }}" as="bi" hint-placeholder-count="4">
+                          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%">
+                            <div style="font-size:10.5px;font-weight:700;color:var(--text);margin-bottom:4px">{{ bi.value }}</div>
+                            <div style="width:100%;max-width:36px;height:{{ bi.h }};background:{{ bi.color }};border-radius:4px 4px 0 0"></div>
+                            <div style="font-family:var(--font-mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:6px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:72px;flex-shrink:0">{{ bi.label }}</div>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ ins.isDonut }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;align-items:center;justify-content:center;height:80px">
+                        <div style="width:76px;height:76px;border-radius:50%;background:{{ ins.donutGradient }};display:flex;align-items:center;justify-content:center">
+                          <div style="width:52px;height:52px;border-radius:50%;background:var(--paper);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--text)">{{ ins.donutLabel }}</div>
+                        </div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ ins.isHbar }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;flex-direction:column;gap:14px;justify-content:center;height:80px;padding:0 4px">
+                        <sc-for list="{{ ins.hbarItems }}" as="hi" hint-placeholder-count="2">
+                          <div>
+                            <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--steel);margin-bottom:4px"><span>{{ hi.label }}</span><span style="font-weight:700;color:var(--text)">{{ hi.value }}</span></div>
+                            <div style="height:8px;border-radius:100px;background:var(--line);overflow:hidden"><div style="height:100%;width:{{ hi.pct }};background:{{ hi.color }};border-radius:100px"></div></div>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+                  </div>
+                  <div class="kicker" style="margin-bottom:8px">Root cause</div>
+                  <div style="border:1px solid var(--line);border-radius:var(--r-md);background:var(--paper);padding:13px 15px;margin-bottom:16px">
+                    <div class="pill pill-mono pill-info" style="margin-bottom:8px">{{ ins.rootCauseTag }}</div>
+                    <div style="font-size:12.8px;color:var(--text);line-height:1.65">{{ ins.rootCauseText }}</div>
+                    <div sc-camel-on-click="{{ ins.onViewDetails }}" style="display:inline-flex;align-items:center;gap:5px;margin-top:10px;font-size:11.5px;font-weight:700;color:var(--teal-deep);cursor:pointer">View detailed breakdown →</div>
+                  </div>
+                  <div class="kicker" style="margin-bottom:8px">Business impact</div>
+                  <div class="callout" style="margin-bottom:16px">
+                    <div class="pill pill-mono" style="margin-bottom:9px;background:rgba(201,169,97,.22);border-color:rgba(201,169,97,.55);color:var(--teal-light)">{{ ins.impactTag }}</div>
+                    <div class="callout-body">{{ ins.impactText }}</div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ ins.isNotReco }}" hint-placeholder-val="{{ true }}">
+                  <div class="btn btn-dark" sc-camel-on-click="{{ ins.onDraft }}">
+                    <sc-if value="{{ ins.articleActionIsUpdate }}" hint-placeholder-val="{{ false }}">Update article →</sc-if>
+                    <sc-if value="{{ ins.articleActionIsDraft }}" hint-placeholder-val="{{ false }}">Draft article →</sc-if>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ insightDetailPanel }}" hint-placeholder-val="{{ false }}">
+            <div sc-camel-on-click="{{ closeInsightDetail }}" class="scrim" style="position:fixed">
+              <div sc-camel-on-click="{{ stopPropagation }}" class="drawer" style="width:min(560px, 100%);padding-bottom:80px">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;gap:12px">
+                  <div>
+                    <div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">Detailed breakdown</div>
+                    <div style="font-size:15px;font-weight:700;line-height:1.4">{{ insightDetailPanel.title }}</div>
+                  </div>
+                  <div sc-camel-on-click="{{ closeInsightDetail }}" style="width:30px;height:30px;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--steel);flex-shrink:0">✕</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+                  <span style="font-size:22px;font-weight:700;color:var(--text)">{{ insightDetailPanel.statValue }}</span>
+                  <span style="font-size:12.5px;font-weight:600;color:{{ insightDetailPanel.statDeltaColor }}">{{ insightDetailPanel.statDelta }}</span>
+                  <span style="font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:100px;background:{{ insightDetailPanel.severityBg }};color:{{ insightDetailPanel.severityColor }}">{{ insightDetailPanel.severity }}</span>
+                </div>
+                <div style="border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:18px 20px;margin-bottom:14px">
+                  <div style="font-size:12.5px;font-weight:700;margin-bottom:12px">Trend</div>
+                  <sc-if value="{{ insightDetailPanel.isLine }}" hint-placeholder-val="{{ false }}">
+                    <svg sc-camel-view-box="0 0 280 90" style="width:100%;height:150px;display:block">
+                      <polyline points="{{ insightDetailPanel.chartLine1 }}" fill="none" stroke="var(--muted)" stroke-width="2"></polyline>
+                      <polyline points="{{ insightDetailPanel.chartLine2 }}" fill="none" stroke="{{ insightDetailPanel.chartColor }}" stroke-width="2.5"></polyline>
+                    </svg>
+                  </sc-if>
+                  <sc-if value="{{ insightDetailPanel.isBar }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;align-items:flex-end;gap:16px;height:150px;padding:0 8px">
+                      <sc-for list="{{ insightDetailPanel.barItems }}" as="bi" hint-placeholder-count="4">
+                        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%">
+                          <div style="font-size:11px;font-weight:700;color:var(--text);margin-bottom:4px">{{ bi.value }}</div>
+                          <div style="width:100%;max-width:44px;height:{{ bi.h }};background:{{ bi.color }};border-radius:4px 4px 0 0"></div>
+                          <div style="font-size:10px;color:var(--steel);margin-top:6px;text-align:center">{{ bi.label }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ insightDetailPanel.isDonut }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;align-items:center;justify-content:center;height:150px">
+                      <div style="width:120px;height:120px;border-radius:50%;background:{{ insightDetailPanel.donutGradient }};display:flex;align-items:center;justify-content:center">
+                        <div style="width:84px;height:84px;border-radius:50%;background:var(--paper);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--text)">{{ insightDetailPanel.donutLabel }}</div>
+                      </div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ insightDetailPanel.isHbar }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-direction:column;gap:18px;justify-content:center;padding:16px 4px">
+                      <sc-for list="{{ insightDetailPanel.hbarItems }}" as="hi" hint-placeholder-count="2">
+                        <div>
+                          <div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--steel);margin-bottom:5px"><span>{{ hi.label }}</span><span style="font-weight:700;color:var(--text)">{{ hi.value }}</span></div>
+                          <div style="height:12px;border-radius:100px;background:var(--line);overflow:hidden"><div style="height:100%;width:{{ hi.pct }};background:{{ hi.color }};border-radius:100px"></div></div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+                <div style="border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:18px 20px;margin-bottom:14px">
+                  <div style="font-size:12.5px;font-weight:700;margin-bottom:12px">Top contributors</div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                    <sc-for list="{{ insightDetailPanel.contributors }}" as="ct" hint-placeholder-count="2">
+                      <div style="border:1px solid var(--line);border-radius:8px;padding:12px 14px">
+                        <div style="font-size:12.5px;font-weight:600;color:var(--text)">{{ ct.value }}</div>
+                        <div style="font-size:10.5px;color:var(--steel);margin-top:2px">{{ ct.label }} · {{ ct.sub }}</div>
+                        <div style="font-size:15px;font-weight:700;color:var(--teal-deep);margin-top:6px">{{ ct.pct }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+                <div style="border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:18px 20px;margin-bottom:14px">
+                  <div style="font-size:12.5px;font-weight:700;margin-bottom:12px">How it developed</div>
+                  <div class="thead" class="trow" style="display:grid;grid-template-columns:0.9fr 0.7fr 1.4fr;gap:8px;padding:0 4px 8px">
+                    <div>Period</div><div>Status</div><div>Detail</div>
+                  </div>
+                  <sc-for list="{{ insightDetailPanel.timeline }}" as="tl" hint-placeholder-count="4">
+                    <div class="trow" style="display:grid;grid-template-columns:0.9fr 0.7fr 1.4fr;gap:8px;padding:10px 4px;align-items:center">
+                      <div style="color:var(--steel)">{{ tl.period }}</div>
+                      <div style="font-weight:700;color:var(--text)">{{ tl.value }}</div>
+                      <div style="color:var(--steel)">{{ tl.note }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="border:1px solid var(--teal-deep);background:var(--teal-soft);border-radius:12px;padding:16px 18px">
+                  <div style="font-size:11px;font-weight:700;color:var(--pos);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:6px">Why it matters</div>
+                  <div style="font-size:12.5px;color:var(--pos);line-height:1.5">{{ insightDetailPanel.impactText }}</div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ insightDraftPanel }}" hint-placeholder-val="{{ false }}">            <div sc-camel-on-click="{{ closeInsightDraft }}" class="scrim" style="position:fixed">
+              <div sc-camel-on-click="{{ stopPropagation }}" class="drawer" style="width:min(520px, 100%);padding-bottom:100px">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px">
+                  <div>
+                    <div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">Article draft</div>
+                    <div style="font-size:15px;font-weight:700;line-height:1.4">{{ insightDraftPanel.articleTitle }}</div>
+                  </div>
+                  <div sc-camel-on-click="{{ closeInsightDraft }}" style="width:30px;height:30px;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--steel);flex-shrink:0">✕</div>
+                </div>
+                <div style="font-size:11px;color:var(--steel);margin-bottom:16px">Generated from: {{ insightDraftPanel.title }}</div>
+                <div style="border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:20px;margin-bottom:16px">
+                  <div style="font-size:14px;font-weight:700;margin-bottom:12px">{{ insightDraftPanel.articleTitle }}</div>
+                  <sc-if value="{{ insightDraftPanel.isDraftMode }}" hint-placeholder-val="{{ true }}">
+                    <sc-for list="{{ insightDraftPanel.draftParagraphs }}" as="p" hint-placeholder-count="3">
+                      <div style="font-size:12.5px;color:var(--text);line-height:1.7;margin-bottom:12px">{{ p }}</div>
+                    </sc-for>
+                  </sc-if>
+                  <sc-if value="{{ insightDraftPanel.isUpdate }}" hint-placeholder-val="{{ false }}">
+                    <div style="font-size:11px;font-weight:700;color:var(--steel);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:10px">Proposed changes</div>
+                    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+                      <sc-for list="{{ insightDraftPanel.changes }}" as="ch" hint-placeholder-count="3">
+                        <div style="border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--cloud)">
+                          <div style="font-size:10.5px;font-weight:700;color:var(--pos);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:4px">{{ ch.label }}</div>
+                          <div style="font-size:12px;color:var(--text);line-height:1.5">{{ ch.detail }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                    <div style="margin-top:4px;border:1px dashed var(--line);border-radius:8px;padding:14px;font-size:11.5px;color:var(--muted)">Full before/after diff and updated content body would render here for review before publishing.</div>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ insightPublished }}" hint-placeholder-val="{{ false }}">
+                  <div style="background:var(--teal-soft);color:var(--pos);font-size:12.5px;font-weight:600;padding:10px 14px;border-radius:8px;text-align:center;margin-bottom:10px">Published to CMS</div>
+                </sc-if>
+                <div sc-camel-on-click="{{ publishInsightDraft }}" style="background:var(--teal-deep);color:#fff;text-align:center;padding:12px;border-radius:8px;font-size:13.5px;font-weight:700;cursor:pointer">Publish to CMS</div>
+              </div>
+            </div>
+          </sc-if>
+
+          <div style="border:1px solid var(--teal-deep);background:var(--teal-soft);border-radius:12px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:16px">
+            <div style="width:36px;height:36px;border-radius:8px;background:var(--paper);color:var(--teal-deep);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">99</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13.5px;font-weight:700;color:var(--pos)">Need help acting on these insights? Connect with a top 3% creator on the Pepper platform</div>
+              <div style="font-size:12px;color:var(--pos);opacity:0.85;margin-top:2px">Pepper creators can turn these insights into published articles, outreach, and placements — so citations actually move the needle on your visibility.</div>
+            </div>
+            <sc-if value="{{ pepperRequested }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size:12.5px;font-weight:700;color:var(--pos);background:var(--teal-soft);border:1px solid var(--teal-deep);padding:9px 16px;border-radius:8px;white-space:nowrap;flex-shrink:0">Request sent — we'll be in touch</div>
+            </sc-if>
+            <sc-if value="{{ pepperNotRequested }}" hint-placeholder-val="{{ true }}">
+              <div sc-camel-on-click="{{ requestPepperHelp }}" style="font-size:12.5px;font-weight:600;color:#fff;background:var(--teal-deep);padding:9px 16px;border-radius:8px;cursor:pointer;white-space:nowrap;flex-shrink:0">Talk to our team</div>
+            </sc-if>
+          </div>
+
+          <div style="border-top:1px solid var(--line);padding-top:20px">
+            
+            
+            
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              
+              
+              
+              
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isCitations }}" hint-placeholder-val="{{ false }}">
+        <div class="view" key="citations">
+          <div class="section-head"><span class="section-no">01</span><h2 class="section-title">Pages</h2></div>
+          <p class="section-sub">Which pages answer engines cite, alongside their search and analytics performance.</p>
+
+          <div class="card card-pad" style="overflow-x:auto">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;gap:20px;flex-wrap:wrap">
+              <div class="block-title">360 Degree View</div>
+              <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;flex-wrap:wrap">
+                <sc-raw-select value="{{ citationsCountryFilter }}" sc-camel-on-change="{{ onCitationsCountryFilterChange }}" class="input select">
+                  <option value="na">United States</option>
+                  <option value="emea">United Kingdom</option>
+                  <option value="apac">India</option>
+                  <option value="latam">Brazil</option>
+                </sc-raw-select>
+                <sc-raw-select value="{{ citationsTimeRangeFilter }}" sc-camel-on-change="{{ onCitationsTimeRangeFilterChange }}" class="input select">
+                  <option value="7d">Last 7 days</option>
+                  <option value="30d">Last 30 days</option>
+                  <option value="90d">Last 90 days</option>
+                  <option value="180d">Last 180 days</option>
+                  <option value="365d">Last 12 months</option>
+                </sc-raw-select>
+                <sc-raw-select value="{{ citationsDeviceFilter }}" sc-camel-on-change="{{ onCitationsDeviceFilterChange }}" class="input select">
+                  <option value="all">All devices</option>
+                  <option value="desktop">Desktop</option>
+                  <option value="mobile">Mobile</option>
+                  <option value="tablet">Tablet</option>
+                </sc-raw-select>
+                <sc-raw-select value="{{ citationsEngineFilter }}" sc-camel-on-change="{{ onCitationsEngineFilterChange }}" class="input select">
+                  <option value="all">All AI engines</option>
+                  <option value="ChatGPT">ChatGPT</option>
+                  <option value="Perplexity">Perplexity</option>
+                  <option value="Google AI Overviews">Google AI Overviews</option>
+                  <option value="Microsoft Co-Pilot">Microsoft Co-Pilot</option>
+                  <option value="Claude">Claude</option>
+                </sc-raw-select>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:40px 230px 100px 70px 62px 84px 62px 70px 70px 62px 54px;gap:16px;padding:0 4px 8px;min-width:1090px">
+              <div style="grid-column:span 2"></div>
+              <div style="grid-column:span 2;font-size:11px;font-weight:700;color:var(--pos);text-transform:uppercase;letter-spacing:0.04em;border-bottom:2px solid var(--teal-deep);padding-bottom:6px;text-align:center">AEO Health</div>
+              <div style="grid-column:span 3;font-size:11px;font-weight:700;color:var(--info);text-transform:uppercase;letter-spacing:0.04em;border-bottom:2px solid var(--navy-2);padding-bottom:6px;text-align:center">Site Engagement</div>
+              <div style="grid-column:span 4;font-size:11px;font-weight:700;color:var(--info);text-transform:uppercase;letter-spacing:0.04em;border-bottom:2px solid var(--info-line);padding-bottom:6px;text-align:center">Search Performance</div>
+            </div>
+            <div class="thead" style="display:grid;grid-template-columns:40px 230px 100px 70px 62px 84px 62px 70px 70px 62px 54px;gap:16px;padding:0 4px 12px;white-space:nowrap;min-width:1090px;text-align:center">
+              <div></div><div style="text-align:left">URL</div><div>Citations</div><div>Avg pos</div><div>Traffic</div><div>Engagement</div><div>Conv.</div><div>Avg pos</div><div>Impr.</div><div>Clicks</div><div>CTR</div>
+            </div>
+            <sc-for list="{{ citations }}" as="c" hint-placeholder-count="5">
+              <div class="trow" style="display:grid;grid-template-columns:40px 230px 100px 70px 62px 84px 62px 70px 70px 62px 54px;gap:16px;padding:18px 4px;align-items:start;min-width:1090px;text-align:center">
+                <div sc-camel-on-click="{{ c.onDetailedView }}" title="Show detailed overview" style="cursor:pointer;color:var(--muted);padding:4px 6px;display:inline-flex">
+                  <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </div>
+                <div style="text-align:left">
+                  <div style="font-weight:600;color:var(--text);margin-bottom:3px">{{ c.url }}</div>
+                  <div style="font-size:10.5px;color:var(--steel)">top prompt: "{{ c.topPrompt }}"</div>
+                </div>
+                <div>{{ c.citations_count }} <sc-if value="{{ c.hasChange }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:{{ c.changeColor }}">({{ c.change_vs_previous }})</span></sc-if></div>
+                <div>{{ c.avg_citation_position }} <sc-if value="{{ c.hasAvgPosDelta }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:{{ c.avgPosDeltaColor }}">({{ c.avgPosDelta }})</span></sc-if></div>
+                <div>{{ c.ga4Users }} <sc-if value="{{ c.hasUsersDelta }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:{{ c.usersDeltaColor }}">({{ c.usersDelta }})</span></sc-if></div>
+                <div>{{ c.ga4Engagement }}</div>
+                <div>{{ c.ga4Conv }}</div>
+                <div>{{ c.gscPosition }} <sc-if value="{{ c.hasPosDelta }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:{{ c.posDeltaColor }}">({{ c.posDelta }})</span></sc-if></div>
+                <div>{{ c.gscImpressions }} <sc-if value="{{ c.hasImprDelta }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:{{ c.imprDeltaColor }}">({{ c.imprDelta }})</span></sc-if></div>
+                <div>{{ c.gscClicks }} <sc-if value="{{ c.hasClicksDelta }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:{{ c.clicksDeltaColor }}">({{ c.clicksDelta }})</span></sc-if></div>
+                <div>{{ c.gscCtr }} <sc-if value="{{ c.hasCtrDelta }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:{{ c.ctrDeltaColor }}">({{ c.ctrDelta }})</span></sc-if></div>
+              </div>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ inspectPanel }}" hint-placeholder-val="{{ false }}">
+            <div sc-camel-on-click="{{ closeInspectPanel }}" class="scrim" style="position:fixed">
+              <div sc-camel-on-click="{{ stopPropagation }}" class="drawer" style="width:min(520px, 100%);padding-bottom:80px">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px">
+                  <div>
+                    <div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">URL inspection</div>
+                    <div style="font-size:15px;font-weight:700;word-break:break-all">{{ inspectPanel.url }}</div>
+                  </div>
+                  <div sc-camel-on-click="{{ closeInspectPanel }}" style="width:30px;height:30px;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--steel);flex-shrink:0">✕</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:14px">
+                  <div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px">
+                      <div style="font-size:12.5px;font-weight:700">AEO Metrics</div>
+                      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <sc-raw-select value="{{ citationsCountryFilter }}" sc-camel-on-change="{{ onCitationsCountryFilterChange }}" style="font-size:11.5px;border:1px solid var(--line);border-radius:8px;padding:5px 8px;background:var(--paper);color:var(--text)">
+                          <option value="na">United States</option>
+                          <option value="emea">United Kingdom</option>
+                          <option value="apac">India</option>
+                          <option value="latam">Brazil</option>
+                        </sc-raw-select>
+                        <sc-raw-select value="{{ citationsTimeRangeFilter }}" sc-camel-on-change="{{ onCitationsTimeRangeFilterChange }}" style="font-size:11.5px;border:1px solid var(--line);border-radius:8px;padding:5px 8px;background:var(--paper);color:var(--text)">
+                          <option value="7d">Last 7 days</option>
+                          <option value="30d">Last 30 days</option>
+                          <option value="90d">Last 90 days</option>
+                          <option value="180d">Last 180 days</option>
+                          <option value="365d">Last 12 months</option>
+                        </sc-raw-select>
+                        <sc-raw-select value="{{ citationsDeviceFilter }}" sc-camel-on-change="{{ onCitationsDeviceFilterChange }}" style="font-size:11.5px;border:1px solid var(--line);border-radius:8px;padding:5px 8px;background:var(--paper);color:var(--text)">
+                          <option value="all">All devices</option>
+                          <option value="desktop">Desktop</option>
+                          <option value="mobile">Mobile</option>
+                          <option value="tablet">Tablet</option>
+                        </sc-raw-select>
+                        <sc-raw-select value="{{ citationsEngineFilter }}" sc-camel-on-change="{{ onCitationsEngineFilterChange }}" style="font-size:11.5px;border:1px solid var(--line);border-radius:8px;padding:5px 8px;background:var(--paper);color:var(--text)">
+                          <option value="all">All AI engines</option>
+                          <option value="ChatGPT">ChatGPT</option>
+                          <option value="Perplexity">Perplexity</option>
+                          <option value="Google AI Overviews">Google AI Overviews</option>
+                          <option value="Microsoft Co-Pilot">Microsoft Co-Pilot</option>
+                          <option value="Claude">Claude</option>
+                        </sc-raw-select>
+                      </div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">
+                      <sc-for list="{{ inspectPanel.kpis }}" as="kpi" hint-placeholder-count="3">
+                        <div style="border:1px solid var(--line);border-radius:12px;padding:12px 10px;background:var(--paper)">
+                          <div style="display:flex;align-items:center;gap:4px;margin-bottom:8px">
+                            <div style="font-size:9.5px;font-weight:600;color:var(--steel);text-transform:uppercase;letter-spacing:0.02em">{{ kpi.label }}</div>
+                          </div>
+                          <div style="font-size:18px;font-weight:700;color:var(--text);letter-spacing:-0.01em">{{ kpi.value }}</div>
+                          <div style="font-size:9.5px;color:{{ kpi.trendColor }};margin-top:6px;font-weight:600">{{ kpi.trend }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                    <div style="border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:16px;overflow-x:auto">
+                      <div style="font-size:12.5px;font-weight:700;margin-bottom:10px">Visibility by AI engine</div>
+                      <div class="thead" style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:8px;padding:0 4px 8px;min-width:360px">
+                        <div>Engine</div><div>Citation</div><div>Avg pos</div><div>Citation share %</div>
+                      </div>
+                      <sc-for list="{{ inspectPanel.engineRows }}" as="row" hint-placeholder-count="5">
+                        <div class="trow" style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:8px;padding:9px 4px;align-items:center;min-width:360px">
+                          <div style="font-weight:600;display:flex;align-items:center;gap:6px"><div style="width:7px;height:7px;border-radius:2px;background:{{ row.color }}"></div>{{ row.engine }}</div>
+                          <div>{{ row.citation_rate }}</div>
+                          <div>{{ row.avg_position }}</div>
+                          <div>{{ row.citation_share }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:18px 20px">
+                    <div style="font-weight:600;font-size:13.5px;color:var(--text);margin-bottom:12px">Top 5 prompts</div>
+                    <div style="display:flex;flex-direction:column;gap:8px">
+                      <sc-for list="{{ inspectPanel.topPrompts }}" as="p" hint-placeholder-count="5">
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;background:var(--cloud);border-radius:8px;font-size:12px">
+                          <span style="color:var(--text)">"{{ p.prompt_text }}"</span>
+                          <span style="font-weight:700;color:var(--text);flex-shrink:0">{{ p.mentionRate }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="border:1px solid #C7C2F2;background:var(--info-bg);border-radius:12px;padding:18px 20px">
+                    <div style="font-weight:600;font-size:13.5px;color:var(--info);margin-bottom:12px">Site Engagement</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;font-size:12.5px;color:var(--info)">
+                      <div><span style="opacity:0.65">Sessions</span><br><b>{{ inspectPanel.ga4Sessions }}</b></div>
+                      <div><span style="opacity:0.65">Traffic</span><br><b>{{ inspectPanel.ga4Users }}</b></div>
+                      <div><span style="opacity:0.65">Engagement</span><br><b>{{ inspectPanel.ga4Engagement }}</b></div>
+                      <div><span style="opacity:0.65">Conversions</span><br><b>{{ inspectPanel.ga4Conv }}</b></div>
+                    </div>
+                    <div style="margin-top:14px">
+                      <div style="font-size:10.5px;color:var(--info);opacity:0.65;margin-bottom:4px">Traffic trend</div>
+                      <svg width="100%" height="40" sc-camel-view-box="0 0 200 40" sc-camel-preserve-aspect-ratio="none"><polyline points="{{ inspectPanel.trafficSpark }}" fill="none" stroke="var(--navy-2)" stroke-width="2"></polyline></svg>
+                    </div>
+                  </div>
+                  <div style="border:1px solid #C7C2F2;background:var(--info-bg);border-radius:12px;padding:18px 20px">
+                    <div style="font-weight:600;font-size:13.5px;color:var(--info);margin-bottom:12px">Search Performance</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;font-size:12.5px;color:var(--info)">
+                      <div><span style="opacity:0.65">Clicks</span><br><b>{{ inspectPanel.gscClicks }}</b></div>
+                      <div><span style="opacity:0.65">Impressions</span><br><b>{{ inspectPanel.gscImpressions }}</b></div>
+                      <div><span style="opacity:0.65">CTR</span><br><b>{{ inspectPanel.gscCtr }}</b></div>
+                      <div><span style="opacity:0.65">Position</span><br><b>{{ inspectPanel.gscPosition }}</b></div>
+                    </div>
+                    <div style="margin-top:14px">
+                      <div style="font-size:10.5px;color:var(--info);opacity:0.65;margin-bottom:4px">CTR trend</div>
+                      <svg width="100%" height="40" sc-camel-view-box="0 0 200 40" sc-camel-preserve-aspect-ratio="none"><polyline points="{{ inspectPanel.ctrSpark }}" fill="none" stroke="var(--info-line)" stroke-width="2"></polyline></svg>
+                    </div>
+                  </div>
+                  <div style="border:1px solid var(--navy-2);background:var(--info-bg);border-radius:12px;padding:18px 20px">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+                      <div style="font-weight:600;font-size:13.5px;color:var(--info)">Index coverage</div>
+                      <span style="font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:100px;background:{{ inspectPanel.indexStatus.verdictBg }};color:{{ inspectPanel.indexStatus.verdictColor }}">{{ inspectPanel.indexStatus.verdict }}</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;font-size:12.5px;color:var(--info)">
+                      <div><span style="opacity:0.65">Coverage state</span><br><b>{{ inspectPanel.indexStatus.coverageState }}</b></div>
+                      <div><span style="opacity:0.65">Last crawl</span><br><b>{{ inspectPanel.indexStatus.lastCrawlTime }}</b></div>
+                      <div><span style="opacity:0.65">Robots.txt</span><br><b>{{ inspectPanel.indexStatus.robotsTxtState }}</b></div>
+                      <div><span style="opacity:0.65">Indexing state</span><br><b>{{ inspectPanel.indexStatus.indexingState }}</b></div>
+                      <div><span style="opacity:0.65">Page Fetch</span><br><b>{{ inspectPanel.indexStatus.pageFetchState }}</b></div>
+                      <div><span style="opacity:0.65">Referring URLs</span><br><b>{{ inspectPanel.indexStatus.referringUrlsList }}</b></div>
+                      <div><span style="opacity:0.65">Google Canonical</span><br><b style="word-break:break-all">{{ inspectPanel.indexStatus.googleCanonical }}</b></div>
+                      <div><span style="opacity:0.65">User canonical</span><br><b style="word-break:break-all">{{ inspectPanel.indexStatus.userCanonical }}</b></div>
+                      <div><span style="opacity:0.65">Sitemap</span><br><b>{{ inspectPanel.indexStatus.sitemapList }}</b></div>
+                    </div>
+                    <a href="{{ inspectPanel.indexStatus.inspectionResultLink }}" target="_blank" style="display:inline-block;margin-top:14px;font-size:11.5px;font-weight:600;color:var(--info);text-decoration:underline">Open in Search Console →</a>
+                  </div>
+                  <div style="border:1px solid var(--info-line);background:var(--info-bg);border-radius:12px;padding:18px 20px">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+                      <div style="font-weight:600;font-size:13.5px;color:var(--info)">Mobile usability</div>
+                      <span style="font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:100px;background:var(--teal-soft);color:var(--pos)">PASS</span>
+                    </div>
+                    <div style="font-size:12.5px;color:var(--info);opacity:0.85;margin-bottom:12px">No mobile usability issues detected on this page.</div>
+                    <div style="border:1px solid #C7C2F2;border-radius:8px;background:var(--paper);height:150px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px">
+                      <span style="font-size:11px;color:var(--info);font-weight:600">Rendered screenshot preview</span>
+                    </div>
+                  </div>
+                  <div style="border:1px solid var(--info-line);background:var(--info-bg);border-radius:12px;padding:18px 20px">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+                      <div style="font-weight:600;font-size:13.5px;color:var(--info)">Rich results</div>
+                      <span style="font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:100px;background:var(--teal-soft);color:var(--pos)">PASS</span>
+                    </div>
+                    <div style="font-size:12.5px;color:var(--info);opacity:0.85;margin-bottom:12px">Structured data parsed successfully — no invalid items detected.</div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap">
+                      <span style="font-size:11.5px;font-family:var(--font-mono);padding:4px 10px;border-radius:100px;border:1px solid var(--info-line);background:var(--paper);color:var(--info)">Article</span>
+                      <span style="font-size:11.5px;font-family:var(--font-mono);padding:4px 10px;border-radius:100px;border:1px solid var(--info-line);background:var(--paper);color:var(--info)">BreadcrumbList</span>
+                      <span style="font-size:11.5px;font-family:var(--font-mono);padding:4px 10px;border-radius:100px;border:1px solid var(--info-line);background:var(--paper);color:var(--info)">FAQPage</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isBrandKeywords }}" hint-placeholder-val="{{ false }}">
+        <div class="view">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <div>
+              <div class="section-head"><span class="section-no">01</span><h2 class="section-title">Keywords</h2></div>
+              <p class="section-sub" style="margin-bottom:0">Rankings, search performance, and volume for your tracked keyword set.</p>
+            </div>
+            
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap">
+            <div style="flex:1"></div>
+            <input value="{{ keywordSearchQuery }}" sc-camel-on-change="{{ onKeywordSearchChange }}" placeholder="Search keywords…" style="font-size: 12.5px; border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; width: 370px; color: var(--text); height: 10px">
+            <div style="flex:1;display:flex;justify-content:flex-end;gap:8px">
+              <div sc-camel-on-click="{{ toggleAddKeywordForm }}" class="btn">+ Add Keywords</div>
+              <div sc-camel-on-click="{{ toggleCopilot }}" class="btn btn-primary">
+                <div style="width:6px;height:6px;border-radius:50%;background:var(--paper)"></div>
+                Ask Copilot
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;font-size:12.5px;color:var(--steel);flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid var(--line);border-radius:8px;background:var(--paper)">
+              Date:
+              <input type="date" value="{{ keywordsDateFrom }}" sc-camel-on-change="{{ onKeywordsDateFromChange }}" style="font-size:12px;border:none;color:var(--text);font-weight:600">
+              <span>–</span>
+              <input type="date" value="{{ keywordsDateTo }}" sc-camel-on-change="{{ onKeywordsDateToChange }}" style="font-size:12px;border:none;color:var(--text);font-weight:600">
+            </div>
+            <sc-raw-select value="{{ keywordsRegionFilter }}" sc-camel-on-change="{{ onKeywordsRegionFilterChange }}" class="input select">
+              <option value="na">United States</option>
+              <option value="emea">United Kingdom</option>
+              <option value="apac">India</option>
+              <option value="latam">Brazil</option>
+            </sc-raw-select>
+            <sc-raw-select value="{{ keywordsPlatformFilter }}" sc-camel-on-change="{{ onKeywordsPlatformFilterChange }}" class="input select">
+              <option value="all">All platforms (5)</option>
+              <option value="ChatGPT">ChatGPT</option>
+              <option value="Perplexity">Perplexity</option>
+              <option value="Google AI Overviews">Google AI Overviews</option>
+              <option value="Microsoft Co-Pilot">Microsoft Co-Pilot</option>
+              <option value="Claude">Claude</option>
+            </sc-raw-select>
+          </div>
+          <sc-if value="{{ hasRecommendedKeywords }}" hint-placeholder-val="{{ true }}">
+            <div class="reco-panel card card-pad" style="border-color:var(--info-line);margin:16px 0">
+              <div style="font-size:12.5px;font-weight:700;color:var(--info);margin-bottom:4px">Recommended keywords from platform</div>
+              <div style="font-size:11.5px;color:var(--steel);margin-bottom:14px">Suggested by Acme based on your category and competitor coverage</div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <sc-for list="{{ recommendedKeywords }}" as="r" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:12px;background:var(--info-bg);border-radius:10px;padding:11px 14px">
+                    <div style="flex:1;font-size:13px;font-weight:500;color:var(--info)">"{{ r.text }}"</div>
+                    <div sc-camel-on-click="{{ r.onAdd }}" class="btn btn-sm" style="background:var(--info);border-color:var(--info);color:#fff">+ Add</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ showAddKeywordForm }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;gap:8px;margin-bottom:16px;background:var(--paper);border:1px solid var(--teal-deep);border-radius:10px;padding:12px">
+              <input value="{{ newKeywordText }}" sc-camel-on-change="{{ onNewKeywordChange }}" placeholder="e.g. ai citation benchmarks" class="input" style="flex:1">
+              <div sc-camel-on-click="{{ addBrandKeyword }}" class="btn btn-primary">Save</div>
+            </div>
+          </sc-if>
+
+          <div style="margin-top:8px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+              <div style="font-size:16px;font-weight:700">Keywords</div>
+              <div style="font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid var(--navy-2);background:var(--info-bg);color:var(--info)">Export CSV</div>
+            </div>
+            <div style="font-size:12.5px;color:var(--steel);margin-bottom:16px">Ranking, search performance, and volume for your tracked keyword set — via Google Search Console and rank tracking</div>
+            <div class="table-wrap">
+              <div class="thead" style="display:grid;grid-template-columns:32px 1.9fr 0.9fr 1fr 0.8fr 0.7fr 0.7fr 0.9fr 1.3fr 1fr 0.8fr 0.8fr;gap:8px;padding:11px 18px;min-width:1112px;white-space:nowrap">
+                <div></div><div>Keyword</div><div>Impressions</div><div>Clicks</div><div>CTR</div><div>Pos</div><div>Chg</div><div>Volume</div><div>SERP features</div><div>Value</div><div>KD</div><div></div>
+              </div>
+              <sc-for list="{{ trackedSeoKeywords }}" as="k" hint-placeholder-count="8">
+                <div class="trow" style="display:grid;grid-template-columns:32px 1.9fr 0.9fr 1fr 0.8fr 0.7fr 0.7fr 0.9fr 1.3fr 1fr 0.8fr 0.8fr;gap:8px;padding:12px 18px;align-items:center;min-width:1112px">
+                  <div sc-camel-on-click="{{ k.onDetailedView }}" title="Show detailed overview" style="cursor:pointer;color:var(--muted);display:inline-flex">
+                    <svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  </div>
+                  <div><div style="font-weight:600">{{ k.kw }}</div><div style="font-size:11px;color:var(--steel);margin-top:2px">{{ k.url }}</div></div>
+                  <div style="color:var(--steel)">{{ k.impressions }}</div>
+                  <div style="font-weight:600">{{ k.clicks }}</div>
+                  <div style="color:var(--steel)">{{ k.ctr }}</div>
+                  <div style="font-weight:600">{{ k.pos }}</div>
+                  <sc-if value="{{ k.up }}"><div style="font-weight:600;color:var(--pos)">▲{{ k.change }}</div></sc-if>
+                  <sc-if value="{{ k.down }}"><div style="font-weight:600;color:var(--neg)">▼{{ k.change }}</div></sc-if>
+                  <sc-if value="{{ k.flat }}"><div style="color:var(--muted)">—</div></sc-if>
+                  <div>{{ k.vol }}</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:4px">
+                    <sc-for list="{{ k.features }}" as="f" hint-placeholder-count="1">
+                      <span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:100px;background:var(--info-bg);color:var(--info)">{{ f }}</span>
+                    </sc-for>
+                  </div>
+                  <div>{{ k.value }}</div>
+                  <div style="color:var(--steel)">{{ k.kd }}</div>
+                  <div><span sc-camel-on-click="{{ k.onRemove }}" style="font-size:11px;font-weight:600;color:var(--neg);cursor:pointer">Remove</span></div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <sc-if value="{{ keywordInspectPanel }}" hint-placeholder-val="{{ false }}">
+            <div sc-camel-on-click="{{ closeKeywordInspect }}" class="scrim" style="position:fixed">
+              <div sc-camel-on-click="{{ stopPropagation }}" class="drawer" style="width:min(480px, 100%);padding-bottom:80px">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px">
+                  <div>
+                    <div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">Keyword inspection</div>
+                    <div style="font-size:15px;font-weight:700">{{ keywordInspectPanel.kw }}</div>
+                    <div style="font-size:11.5px;color:var(--steel);margin-top:4px">{{ keywordInspectPanel.url }}</div>
+                  </div>
+                  <div sc-camel-on-click="{{ closeKeywordInspect }}" style="width:30px;height:30px;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--steel);flex-shrink:0">✕</div>
+                </div>
+                <div style="border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:18px 20px;margin-bottom:14px">
+                  <div style="font-weight:600;font-size:13.5px;color:var(--text);margin-bottom:12px">Search performance</div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;font-size:12.5px;color:var(--text)">
+                    <div><span style="color:var(--steel)">Impressions</span><br><b>{{ keywordInspectPanel.impressions }}</b></div>
+                    <div><span style="color:var(--steel)">Clicks</span><br><b>{{ keywordInspectPanel.clicks }}</b></div>
+                    <div><span style="color:var(--steel)">CTR</span><br><b>{{ keywordInspectPanel.ctr }}</b></div>
+                    <div><span style="color:var(--steel)">Position</span><br><b>{{ keywordInspectPanel.pos }}</b></div>
+                  </div>
+                </div>
+                <div style="border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:18px 20px">
+                  <div style="font-weight:600;font-size:13.5px;color:var(--text);margin-bottom:12px">Ranking details</div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;font-size:12.5px;color:var(--text);margin-bottom:14px">
+                    <div><span style="color:var(--steel)">Search volume</span><br><b>{{ keywordInspectPanel.vol }}</b></div>
+                    <div><span style="color:var(--steel)">Traffic value</span><br><b>{{ keywordInspectPanel.value }}</b></div>
+                    <div><span style="color:var(--steel)">Keyword difficulty</span><br><b>{{ keywordInspectPanel.kd }}</b></div>
+                  </div>
+                  <div style="font-size:11px;font-weight:700;color:var(--steel);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:8px">SERP features</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px">
+                    <sc-for list="{{ keywordInspectPanel.features }}" as="f" hint-placeholder-count="1">
+                      <span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;background:var(--info-bg);color:var(--info)">{{ f }}</span>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isBrandCompetitors }}" hint-placeholder-val="{{ false }}">
+        <div class="view">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <div>
+              <div class="section-head"><span class="section-no">01</span><h2 class="section-title">Competitors</h2></div>
+              <p class="section-sub" style="margin-bottom:0">Relative authority, traffic, and answer-engine share across your tracked set.</p>
+            </div>
+            
+          </div>
+          <div style="display:flex;gap:8px;margin:16px 0;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px">
+            <input value="{{ newCompetitorText }}" sc-camel-on-change="{{ onNewCompetitorChange }}" placeholder="e.g. competitor-domain.com" style="flex: 1; font-size: 12.5px; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; color: var(--text); width: 542px; height: 13px">
+            <div sc-camel-on-click="{{ addBrandCompetitor }}" class="btn btn-primary">+ Add competitor</div><div sc-camel-on-click="{{ toggleCopilot }}" class="btn btn-primary">
+              <div style="width:6px;height:6px;border-radius:50%;background:var(--paper)"></div>
+              Ask Copilot
+            </div>
+          </div><div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;font-size:12.5px;color:var(--steel);flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid var(--line);border-radius:8px;background:var(--paper)">
+              Date:
+              <input type="date" value="{{ competitorsDateFrom }}" sc-camel-on-change="{{ onCompetitorsDateFromChange }}" style="font-size:12px;border:none;color:var(--text);font-weight:600">
+              <span>–</span>
+              <input type="date" value="{{ competitorsDateTo }}" sc-camel-on-change="{{ onCompetitorsDateToChange }}" style="font-size:12px;border:none;color:var(--text);font-weight:600">
+            </div>
+            <sc-raw-select value="{{ competitorsRegionFilter }}" sc-camel-on-change="{{ onCompetitorsRegionFilterChange }}" class="input select">
+              <option value="na">United States</option>
+              <option value="emea">United Kingdom</option>
+              <option value="apac">India</option>
+              <option value="latam">Brazil</option>
+            </sc-raw-select>
+            <sc-raw-select value="{{ competitorsPlatformFilter }}" sc-camel-on-change="{{ onCompetitorsPlatformFilterChange }}" class="input select">
+              <option value="all">All platforms (5)</option>
+              <option value="ChatGPT">ChatGPT</option>
+              <option value="Perplexity">Perplexity</option>
+              <option value="Google AI Overviews">Google AI Overviews</option>
+              <option value="Microsoft Co-Pilot">Microsoft Co-Pilot</option>
+              <option value="Claude">Claude</option>
+            </sc-raw-select>
+          </div><div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+            <div style="flex:1"></div>
+            
+            <div style="flex:1"></div>
+          </div>
+          
+          <sc-if value="{{ hasRecommendedCompetitors }}" hint-placeholder-val="{{ true }}">
+            <div class="reco-panel card card-pad" style="border-color:var(--info-line);margin:16px 0">
+              <div class="block-title" style="color:var(--info)">Recommended competitors from platform</div>
+              <div class="section-sub" style="margin:4px 0 14px">Domains showing up frequently alongside your brand in AI answers</div>
+              <div class="stack" style="gap:8px">
+                <sc-for list="{{ recommendedCompetitors }}" as="r" hint-placeholder-count="2">
+                  <div style="display:flex;align-items:center;gap:12px;background:var(--info-bg);border-radius:10px;padding:11px 14px">
+                    <div style="flex:1;font-size:13px;font-weight:500;color:var(--info)">{{ r.domain }}</div>
+                    <div class="btn btn-sm" sc-camel-on-click="{{ r.onAdd }}" style="background:var(--info);border-color:var(--info);color:#fff">+ Add</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <div style="margin-top:8px">
+            <div style="font-size:16px;font-weight:700;margin-bottom:4px">Competitor Comparison<br><br></div>
+            
+            <div class="table-wrap">
+              <div class="thead" style="display:grid;grid-template-columns:1.3fr 0.8fr 0.9fr 0.8fr 0.9fr 0.9fr 0.9fr 0.9fr 0.8fr 0.9fr 0.9fr 1fr 0.7fr;gap:8px;padding:11px 18px;min-width:1220px;white-space:nowrap">
+                <div>Domain</div><div>Authority</div><div>Traffic/mo</div><div>Keywords</div><div>Backlinks</div><div>Mention Rate</div><div>Citation Rate</div><div>Share of Voice</div><div>Sentiment</div><div>Avg Pos (AEO)</div><div>Shared KW</div><div>Avg SERP Pos</div><div></div>
+              </div>
+              <sc-for list="{{ consolidatedCompetitors }}" as="c" hint-placeholder-count="4">
+                <div class="trow" style="display:grid;grid-template-columns:1.3fr 0.8fr 0.9fr 0.8fr 0.9fr 0.9fr 0.9fr 0.9fr 0.8fr 0.9fr 0.9fr 1fr 0.7fr;gap:8px;padding:12px 18px;align-items:center;min-width:1220px;background:{{ c.rowBg }}">
+                  <div style="font-weight:700">{{ c.domain }}</div>
+                  <div>{{ c.as }}</div>
+                  <div>{{ c.traffic }}</div>
+                  <div>{{ c.keywords }}</div>
+                  <div>{{ c.backlinks }}</div>
+                  <div>{{ c.mentionRate }}</div>
+                  <div>{{ c.citationRate }}</div>
+                  <div>{{ c.shareOfVoice }}</div>
+                  <div>{{ c.sentiment }}</div>
+                  <div>{{ c.avgPosition }}</div>
+                  <div>{{ c.sharedKwCount }}</div>
+                  <div>{{ c.sharedKwAvgPos }}</div>
+                  <div><sc-if value="{{ c.onRemove }}" hint-placeholder-val="{{ false }}"><span sc-camel-on-click="{{ c.onRemove }}" style="font-size:11px;font-weight:600;color:var(--neg);cursor:pointer">Remove</span></sc-if></div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          </div>
+        </sc-if>
+
+      <sc-if value="{{ isBrandGuidelines }}" hint-placeholder-val="{{ false }}">
+        <div class="view">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+            <div>
+              <div class="section-head"><span class="section-no">01</span><h2 class="section-title">Brand Guidelines</h2></div>
+              <p class="section-sub" style="margin-bottom:0">The design tokens, voice, and rules that keep AI-generated summaries and reports on-brand.</p>
+            </div>
+            <div sc-camel-on-click="{{ toggleCopilot }}" class="btn btn-primary">
+              <div style="width:6px;height:6px;border-radius:50%;background:var(--paper)"></div>
+              Ask Brand Copilot
+            </div>
+          </div>
+          <sc-if value="{{ hasRecommendedGuidelines }}" hint-placeholder-val="{{ true }}">
+            <div class="reco-panel card card-pad" style="border-color:var(--info-line);margin-bottom:16px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--info);margin-bottom:4px">Recommended guidance from platform</div>
+              <div style="font-size:11.5px;color:var(--steel);margin-bottom:14px">Suggested additions based on common AI-summary mistakes for this category</div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <sc-for list="{{ recommendedGuidelines }}" as="r" hint-placeholder-count="2">
+                  <div style="display:flex;align-items:center;gap:12px;background:var(--info-bg);border-radius:10px;padding:11px 14px">
+                    <div style="flex:1;font-size:13px;font-weight:500;color:var(--info)">{{ r.text }}</div>
+                    <div sc-camel-on-click="{{ r.onAdd }}" class="btn btn-sm" style="background:var(--info);border-color:var(--info);color:#fff">+ Add</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+          <!-- Living style guide: these swatches, type ramp and elevation samples
+               render straight from the theme tokens, so the page can never drift
+               from the design system it documents. -->
+          <div class="grid-2" style="margin-bottom:16px">
+            <div class="card card-pad card-lift">
+              <div class="block-title" style="margin-bottom:10px">Voice &amp; tone</div>
+              <div style="font-size:12.8px;color:var(--steel);line-height:1.75">Clear, confident, and data-led. Explain what a metric means before citing it. Avoid hype and superlatives — let the numbers make the case.</div>
+            </div>
+            <div class="card card-pad card-lift">
+              <div class="block-title" style="margin-bottom:10px">Typography</div>
+              <div class="stack" style="gap:10px">
+                <div>
+                  <div class="kicker" style="margin-bottom:3px">Display · 800 · -.025em</div>
+                  <div style="font-size:22px;font-weight:800;letter-spacing:-.025em;color:var(--ink)">Answer engine visibility</div>
+                </div>
+                <div>
+                  <div class="kicker" style="margin-bottom:3px">Body · 400 · -.008em</div>
+                  <div style="font-size:13px;color:var(--text)">Citation rate rose 5.8 points against the prior period.</div>
+                </div>
+                <div>
+                  <div class="kicker" style="margin-bottom:3px">Mono eyebrow · 700 · .15em</div>
+                  <div style="font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--teal-deep)">Share of voice</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card card-pad" style="margin-bottom:16px">
+            <div class="block-title" style="margin-bottom:4px">Colour palette</div>
+            <div class="section-sub" style="margin-bottom:14px">Every surface in this dashboard is drawn from these tokens.</div>
+
+            <div class="kicker" style="margin-bottom:8px">Core</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:16px">
+              <div><div style="height:44px;border-radius:var(--r-sm);background:var(--ink)"></div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Ink</div><div class="kicker">#1A0F2E</div></div>
+              <div><div style="height:44px;border-radius:var(--r-sm);background:var(--navy)"></div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Navy</div><div class="kicker">#2D1B4E</div></div>
+              <div><div style="height:44px;border-radius:var(--r-sm);background:var(--navy-2)"></div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Navy 2</div><div class="kicker">#4A2C7A</div></div>
+            </div>
+
+            <div class="kicker" style="margin-bottom:8px">Primary accent</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:16px">
+              <div><div style="height:44px;border-radius:var(--r-sm);background:var(--teal)"></div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Teal</div><div class="kicker">#C9A961</div></div>
+              <div><div style="height:44px;border-radius:var(--r-sm);background:var(--teal-deep)"></div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Teal deep</div><div class="kicker">#A8893F</div></div>
+              <div><div style="height:44px;border-radius:var(--r-sm);background:var(--teal-light)"></div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Teal light</div><div class="kicker">#E8D097</div></div>
+              <div><div style="height:44px;border-radius:var(--r-sm);background:var(--teal-soft);border:1px solid var(--line)"></div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Teal soft</div><div class="kicker">#F5EDD9</div></div>
+            </div>
+
+            <div class="kicker" style="margin-bottom:8px">Secondary accent</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:16px">
+              <div><div style="height:44px;border-radius:var(--r-sm);background:var(--amber)"></div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Amber</div><div class="kicker">#D4756B</div></div>
+              <div><div style="height:44px;border-radius:var(--r-sm);background:var(--amber-light)"></div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Amber light</div><div class="kicker">#E89B92</div></div>
+            </div>
+
+            <div class="kicker" style="margin-bottom:8px">Neutrals</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px">
+              <div><div style="height:44px;border-radius:var(--r-sm);background:var(--cloud);border:1px solid var(--line)"></div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Cloud</div><div class="kicker">#F8F4F0</div></div>
+              <div><div style="height:44px;border-radius:var(--r-sm);background:var(--paper);border:1px solid var(--line)"></div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Paper</div><div class="kicker">#FFFFFF</div></div>
+              <div><div style="height:44px;border-radius:var(--r-sm);background:var(--text)"></div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Text</div><div class="kicker">#3D2A52</div></div>
+              <div><div style="height:44px;border-radius:var(--r-sm);background:var(--steel)"></div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Steel</div><div class="kicker">#6B5B7B</div></div>
+              <div><div style="height:44px;border-radius:var(--r-sm);background:var(--muted)"></div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Muted</div><div class="kicker">#8B7A9B</div></div>
+              <div><div style="height:44px;border-radius:var(--r-sm);background:var(--line)"></div><div style="font-size:11.5px;font-weight:600;margin-top:6px">Line</div><div class="kicker">#ECE5F2</div></div>
+            </div>
+          </div>
+
+          <div class="card card-pad" style="margin-bottom:16px">
+            <div class="block-title" style="margin-bottom:4px">Elevation &amp; components</div>
+            <div class="section-sub" style="margin-bottom:14px">Three shadow steps and the shared pill scale.</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:16px">
+              <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow-sm)"><div class="kicker">Shadow sm</div><div style="font-size:11.5px;color:var(--steel);margin-top:4px">Resting cards</div></div>
+              <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow-md)"><div class="kicker">Shadow md</div><div style="font-size:11.5px;color:var(--steel);margin-top:4px">Hover state</div></div>
+              <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow-lg)"><div class="kicker">Shadow lg</div><div style="font-size:11.5px;color:var(--steel);margin-top:4px">Drawers &amp; modals</div></div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <span class="pill pill-teal">Positive</span>
+              <span class="pill pill-amber">Attention</span>
+              <span class="pill pill-violet">Opportunity</span>
+              <span class="pill pill-info">Informational</span>
+              <span class="pill pill-warn">Warning</span>
+              <span class="pill pill-neg">Critical</span>
+              <span class="pill pill-neutral">Neutral</span>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div style="border:1px solid var(--teal-deep);border-radius:12px;background:var(--teal-soft);padding:18px 20px">
+              <div style="font-size:13px;font-weight:700;color:var(--pos);margin-bottom:10px">Do</div>
+              <div style="font-size:12.5px;color:var(--pos);line-height:1.8">
+                Cite the source API for every metric<br>
+                Use "acme.com" as the brand domain in examples<br>
+                Flag proposed/hypothetical features clearly
+              </div>
+            </div>
+            <div style="border:1px solid var(--amber);border-radius:12px;background:var(--amber-soft);padding:18px 20px">
+              <div style="font-size:13px;font-weight:700;color:#7A3329;margin-bottom:10px">Don't</div>
+              <div style="font-size:12.5px;color:#7A3329;line-height:1.8">
+                Don't present mocked data as live<br>
+                Don't use competitor brand names as our own<br>
+                Don't overstate confidence in AI-generated summaries
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:16px;border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:20px">
+            <div style="font-size:13.5px;font-weight:700;margin-bottom:12px">Additional guidance</div>
+            <div style="display:flex;gap:8px;margin-bottom:14px">
+              <input value="{{ newGuidanceText }}" sc-camel-on-change="{{ onNewGuidanceChange }}" placeholder="e.g. always link back to the source report" class="input" style="flex:1">
+              <div sc-camel-on-click="{{ addGuidanceNote }}" class="btn btn-primary">+ Add note</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ brandGuidanceRows }}" as="n" hint-placeholder-count="0">
+                <div style="display:flex;align-items:center;gap:12px;background:var(--cloud);border-radius:8px;padding:10px 14px">
+                  <div style="flex:1;font-size:13px">{{ n.text }}</div>
+                  <span sc-camel-on-click="{{ n.onRemove }}" style="font-size:11px;font-weight:600;color:var(--neg);cursor:pointer">Remove</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isSeoBacklinks }}" hint-placeholder-val="{{ false }}">
+        <div class="view">
+          <div style="margin-bottom:20px">
+            <div class="section-head"><span class="section-no">01</span><h2 class="section-title">Backlinks</h2></div>
+            <p class="section-sub">Referring domains and authority signals for acme.com (root domain).</p>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px">
+            <div style="background:var(--teal-soft);border:1px solid var(--teal-deep);border-radius:12px;padding:16px 18px"><div style="font-size:11.5px;color:var(--pos);font-weight:600;opacity:0.8">Authority Score</div><div style="font-size:22px;font-weight:700;color:var(--pos);margin-top:6px">47</div></div>
+            <div style="background:var(--teal-soft);border:1px solid var(--teal-deep);border-radius:12px;padding:16px 18px"><div style="font-size:11.5px;color:var(--pos);font-weight:600;opacity:0.8">Total Backlinks</div><div style="font-size:22px;font-weight:700;color:var(--pos);margin-top:6px">12,842</div></div>
+            <div style="background:var(--teal-soft);border:1px solid var(--teal-deep);border-radius:12px;padding:16px 18px"><div style="font-size:11.5px;color:var(--pos);font-weight:600;opacity:0.8">Referring Domains</div><div style="font-size:22px;font-weight:700;color:var(--pos);margin-top:6px">1,096</div></div>
+            <div style="background:var(--teal-soft);border:1px solid var(--teal-deep);border-radius:12px;padding:16px 18px"><div style="font-size:11.5px;color:var(--pos);font-weight:600;opacity:0.8">Referring URLs</div><div style="font-size:22px;font-weight:700;color:var(--pos);margin-top:6px">8,340</div></div>
+          </div>
+          <div style="background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin-bottom:16px">
+            <div style="font-size:13px;font-weight:600;margin-bottom:10px">Dofollow / Nofollow split</div>
+            <div style="display:flex;height:14px;border-radius:100px;overflow:hidden"><div style="width:68%;background:var(--teal-deep)"></div><div style="width:32%;background:var(--line)"></div></div>
+            <div style="display:flex;gap:18px;margin-top:8px;font-size:11.5px;color:var(--steel)">
+              <div><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--teal-deep);margin-right:5px"></span>Dofollow 68%</div>
+              <div><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--line);margin-right:5px"></span>Nofollow 32%</div>
+            </div>
+          </div>
+          <div style="background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden">
+            <div class="thead" style="display:grid;grid-template-columns:2fr 0.8fr 0.9fr 1fr 1fr;gap:8px;padding:11px 18px">
+              <div>Referring domain</div><div>AS</div><div>Backlinks</div><div>Type</div><div>First seen</div>
+            </div>
+            <sc-for list="{{ backlinkDomains }}" as="b" hint-placeholder-count="5">
+              <div class="trow" style="display:grid;grid-template-columns:2fr 0.8fr 0.9fr 1fr 1fr;gap:8px;padding:12px 18px;align-items:center">
+                <div style="font-weight:600">{{ b.domain }}</div><div>{{ b.as }}</div><div>{{ b.count }}</div><div style="color:var(--steel)">{{ b.type }}</div><div style="color:var(--steel)">{{ b.seen }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isGscSitemaps }}" hint-placeholder-val="{{ false }}">
+        <div class="view">
+          <div style="margin-bottom:22px">
+            <div class="section-head"><span class="section-no">01</span><h2 class="section-title">Sitemaps</h2></div>
+            <p class="section-sub">Submission and indexation status for every sitemap on the property.</p>
+          </div>
+          <div class="table-wrap">
+            <div class="thead" style="display:grid;grid-template-columns:2fr 1fr 1.4fr 1fr 1fr;gap:10px;padding:12px 20px">
+              <div>Sitemap</div><div>Status</div><div>Submitted vs indexed</div><div>Last downloaded</div><div>Warnings</div>
+            </div>
+            <sc-for list="{{ sitemaps }}" as="sm" hint-placeholder-count="4">
+              <div class="trow" style="display:grid;grid-template-columns:2fr 1fr 1.4fr 1fr 1fr;gap:10px;padding:16px 20px;align-items:center">
+                <div style="font-family:var(--font-mono);font-weight:600">{{ sm.path }}</div>
+                <div><span style="font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:100px;background:{{ sm.statusBg }};color:{{ sm.statusColor }}">{{ sm.status }}</span></div>
+                <div>
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <div style="flex:1;height:6px;border-radius:100px;background:var(--line);overflow:hidden"><div style="height:100%;width:{{ sm.pct }};background:{{ sm.barColor }};border-radius:100px"></div></div>
+                    <span style="font-size:11px;color:var(--steel);white-space:nowrap">{{ sm.indexed }}/{{ sm.submitted }}</span>
+                  </div>
+                </div>
+                <div style="color:var(--steel);font-size:12px">{{ sm.lastDownloaded }}</div>
+                <div style="color:var(--steel);font-size:12px">{{ sm.warnings }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="margin-top:16px;border:1px solid var(--muted);border-radius:12px;background:var(--paper);padding:16px 20px">
+            <div style="font-weight:600;font-size:13.5px;margin-bottom:6px">Ratio check</div>
+            <div style="font-size:12.5px;color:var(--steel);line-height:1.6">docs-sitemap.xml is still pending with 0 of 88 URLs indexed — worth a closer look if it's been more than a few days since submission. news-sitemap.xml is indexing only 21 of 56 URLs; cross-check the flagged errors below.</div>
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+  </div>
+
+  <sc-if value="{{ copilotOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;top:0;right:0;bottom:0;width:min(360px, 100%);background:var(--paper);border-left:1px solid var(--line);box-shadow:var(--shadow-lg);display:flex;flex-direction:column;animation:slideIn .3s var(--ease);z-index:45">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line)">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--info)"></div>
+          <div style="font-size:13.5px;font-weight:700">{{ copilotTitle }}</div>
+        </div>
+        <div sc-camel-on-click="{{ toggleCopilot }}" style="font-size:13px;color:var(--steel);cursor:pointer;padding:4px 8px">✕</div>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:12.5px;color:var(--steel);line-height:1.6">Tell me a topic or goal and I'll suggest prompts to track — you add the ones that fit.</div>
+        <sc-for list="{{ copilotSuggestions }}" as="sug" hint-placeholder-count="3">
+          <div style="border:1px solid var(--teal-light);background:var(--warn-bg);border-radius:10px;padding:12px 14px">
+            <div style="font-size:12.5px;font-weight:500;color:var(--text);margin-bottom:4px">"{{ sug.text }}"</div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="font-size:10.5px;color:var(--warn);font-family:var(--font-mono)">{{ sug.topicName }}</div>
+              <div sc-camel-on-click="{{ sug.onAdd }}" style="font-size:11.5px;font-weight:600;color:#fff;background:var(--teal-deep);padding:4px 10px;border-radius:7px;cursor:pointer">+ Add</div>
+            </div>
+          </div>
+        </sc-for>
+        <sc-if value="{{ noCopilotSuggestions }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:12px;color:var(--steel);text-align:center;padding:20px 0">All suggestions added. Ask about a new topic below.</div>
+        </sc-if>
+      </div>
+      <div style="padding:14px 18px;border-top:1px solid var(--line);display:flex;gap:8px">
+        <input value="{{ copilotInput }}" sc-camel-on-change="{{ onCopilotInputChange }}" placeholder="e.g. onboarding software for HR teams" style="flex:1;font-size:12.5px;border:1px solid var(--line);border-radius:8px;padding:9px 10px;color:var(--text)">
+        <div sc-camel-on-click="{{ askCopilot }}" style="font-size:12.5px;font-weight:600;color:#fff;background:var(--info);padding:9px 14px;border-radius:8px;cursor:pointer">Suggest</div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showEditTopics }}" hint-placeholder-val="{{ false }}">
+    <div class="scrim" style="position:fixed;display:flex;align-items:center;justify-content:center;z-index:50;padding:16px">
+      <div style="background:var(--paper);border-radius:var(--r-lg);width:min(520px, 100%);max-height:80vh;display:flex;flex-direction:column;box-shadow:var(--shadow-lg)">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--line)">
+          <div style="font-size:18px;font-weight:700">Edit Topics</div>
+          <div sc-camel-on-click="{{ toggleEditTopics }}" style="width:32px;height:32px;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--steel)">✕</div>
+        </div>
+        <div style="padding:20px 24px;flex:1;overflow-y:auto">
+          <div style="font-size:12.5px;color:var(--steel);margin-bottom:16px">Rename, remove, or add topics used to group your tracked prompts.</div>
+          <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:10px">Topics</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ topicsDraft }}" as="td" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="width:10px;height:10px;border-radius:50%;background:var(--amber);flex-shrink:0"></div>
+                <input value="{{ td.name }}" sc-camel-on-change="{{ td.onChange }}" style="flex:1;font-size:13px;border:1px solid var(--line);border-radius:8px;padding:9px 12px;color:var(--text)">
+                <div sc-camel-on-click="{{ td.onDelete }}" style="width:34px;height:34px;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--neg);flex-shrink:0">🗑</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;padding:16px 24px;border-top:1px solid var(--line)">
+          <div sc-camel-on-click="{{ addTopicDraft }}" style="font-size:12.5px;font-weight:600;color:var(--text);cursor:pointer">+ Add Topic</div>
+          <div style="flex:1"></div>
+          <div sc-camel-on-click="{{ toggleEditTopics }}" style="font-size:12.5px;font-weight:600;color:var(--text);background:var(--cloud);border:1px solid var(--line);padding:9px 16px;border-radius:8px;cursor:pointer;margin-right:8px">Cancel</div>
+          <div sc-camel-on-click="{{ saveTopics }}" style="font-size:12.5px;font-weight:600;color:#fff;background:var(--ink);padding:9px 16px;border-radius:8px;cursor:pointer">Save</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+
+</div></x-dc>

@@ -1,0 +1,14 @@
+{
+  "name": "pepper-project",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Acme AI visibility dashboard — self-contained HTML artifact",
+  "scripts": {
+    "build": "python3 build.py && python3 build.py --standalone",
+    "verify": "npm run build && node tools/verify.mjs",
+    "shots": "npm run build && node tools/verify.mjs --shots"
+  },
+  "devDependencies": {
+    "playwright": "1.49.0"
+  }
+}
