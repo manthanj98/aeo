@@ -99,7 +99,7 @@
 
       <sc-if value="{{ isProposed }}" hint-placeholder-val="{{ true }}">
         <div class="view" key="proposed">
-          <div class="section-head"><span class="section-no">01</span><h2 class="section-title">Prompts</h2></div>
+          <div class="section-head"><span class="section-mark"></span><h2 class="section-title">Prompts</h2></div>
           <p class="section-sub">The prompt set Acme tracks, and how each one performs across answer engines.</p>
 
           <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px;border-bottom:1px solid var(--line);flex-wrap:wrap;row-gap:10px">
@@ -546,7 +546,7 @@
 
       <sc-if value="{{ isInsights }}" hint-placeholder-val="{{ false }}">
         <div class="view" key="insights">
-          <div class="section-head"><span class="section-no">01</span><h2 class="section-title">Insights</h2></div>
+          <div class="section-head"><span class="section-mark"></span><h2 class="section-title">Insights</h2></div>
           <p class="section-sub">Automatically surfaced patterns across citations, prompts, and search performance.</p>
           <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:28px">
             <sc-for list="{{ insights }}" as="ins" hint-placeholder-count="3">
@@ -785,7 +785,7 @@
 
       <sc-if value="{{ isCitations }}" hint-placeholder-val="{{ false }}">
         <div class="view" key="citations">
-          <div class="section-head"><span class="section-no">01</span><h2 class="section-title">Pages</h2></div>
+          <div class="section-head"><span class="section-mark"></span><h2 class="section-title">Pages</h2></div>
           <p class="section-sub">Which pages answer engines cite, alongside their search and analytics performance.</p>
 
           <div class="card card-pad" style="overflow-x:auto">
@@ -1010,7 +1010,7 @@
         <div class="view">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
             <div>
-              <div class="section-head"><span class="section-no">01</span><h2 class="section-title">Keywords</h2></div>
+              <div class="section-head"><span class="section-mark"></span><h2 class="section-title">Keywords</h2></div>
               <p class="section-sub" style="margin-bottom:0">Rankings, search performance, and volume for your tracked keyword set.</p>
             </div>
             
@@ -1150,7 +1150,7 @@
         <div class="view">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
             <div>
-              <div class="section-head"><span class="section-no">01</span><h2 class="section-title">Competitors</h2></div>
+              <div class="section-head"><span class="section-mark"></span><h2 class="section-title">Competitors</h2></div>
               <p class="section-sub" style="margin-bottom:0">Relative authority, traffic, and answer-engine share across your tracked set.</p>
             </div>
             
@@ -1236,7 +1236,7 @@
         <div class="view">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
             <div>
-              <div class="section-head"><span class="section-no">01</span><h2 class="section-title">Brand Guidelines</h2></div>
+              <div class="section-head"><span class="section-mark"></span><h2 class="section-title">Brand Guidelines</h2></div>
               <p class="section-sub" style="margin-bottom:0">The design tokens, voice, and rules that keep AI-generated summaries and reports on-brand.</p>
             </div>
             <div sc-camel-on-click="{{ toggleCopilot }}" class="btn btn-primary">
@@ -1379,7 +1379,7 @@
       <sc-if value="{{ isSeoBacklinks }}" hint-placeholder-val="{{ false }}">
         <div class="view">
           <div style="margin-bottom:20px">
-            <div class="section-head"><span class="section-no">01</span><h2 class="section-title">Backlinks</h2></div>
+            <div class="section-head"><span class="section-mark"></span><h2 class="section-title">Backlinks</h2></div>
             <p class="section-sub">Referring domains and authority signals for acme.com (root domain).</p>
           </div>
           <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px">
@@ -1412,7 +1412,7 @@
       <sc-if value="{{ isGscSitemaps }}" hint-placeholder-val="{{ false }}">
         <div class="view">
           <div style="margin-bottom:22px">
-            <div class="section-head"><span class="section-no">01</span><h2 class="section-title">Sitemaps</h2></div>
+            <div class="section-head"><span class="section-mark"></span><h2 class="section-title">Sitemaps</h2></div>
             <p class="section-sub">Submission and indexation status for every sitemap on the property.</p>
           </div>
           <div class="table-wrap">
