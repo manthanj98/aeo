@@ -199,6 +199,75 @@ async function domHealth(page) {
   await page.close();
 }
 
+// ────────── 2b. cross-tab consistency: insight claims must match the tables
+// Insight copy is hand-written but the tables are the source of truth, so every
+// figure an insight quotes has to be reproducible from a dataset.
+{
+  const { page } = await newPage();
+
+  // Engine citation shares, read off the Performance table.
+  await page.click('.nav-item:has-text("Performance")');
+  await page.waitForTimeout(500);
+  const engines = await page.evaluate(() => {
+    const rows = [...document.querySelectorAll('.trow')]
+      .map(r => r.innerText.split('\n').map(s => s.trim()).filter(Boolean))
+      .filter(c => /ChatGPT|Perplexity|Overviews|Co-Pilot|Claude/.test(c[0]));
+    return rows.map(c => ({ engine: c[0], visibility: parseFloat(c[1]), mention: parseFloat(c[2]),
+                            sov: parseFloat(c[3]), citation: parseFloat(c[4]),
+                            sentiment: parseFloat(c[5]), pos: parseFloat(c[6]) }));
+  });
+  check(engines.length === 5, 'engine table exposes all five engines', `got ${engines.length}`);
+
+  // Headline KPIs are citation-share weighted means of that table.
+  const SHARE = { 'ChatGPT': 34, 'Perplexity': 27, 'Google AI Overviews': 18, 'Microsoft Co-Pilot': 13, 'Claude': 8 };
+  const weighted = key => engines.reduce((a, e) => a + e[key] * (SHARE[e.engine] ?? 0), 0) / 100;
+  const kpis = await page.evaluate(() => Object.fromEntries(
+    [...document.querySelectorAll('.metric')].slice(0, 6)
+      .map(m => [m.querySelector('.metric-label').innerText.split('\n')[0].trim().toLowerCase(),
+                 parseFloat(m.querySelector('.metric-value, .metric-value-plain').innerText)])));
+  for (const [label, key] of [['visibility', 'visibility'], ['mention rate', 'mention'],
+                              ['share of voice', 'sov'], ['citation rate', 'citation'],
+                              ['sentiment', 'sentiment'], ['avg. position', 'pos']]) {
+    const want = weighted(key), got = kpis[label];
+    check(Number.isFinite(got) && Math.abs(got - want) <= 0.55,
+          `KPI "${label}" matches the weighted engine table`,
+          `card ${got} vs weighted ${want.toFixed(2)}`);
+  }
+  check(Object.values(SHARE).reduce((a, b) => a + b, 0) === 100, 'engine citation shares sum to 100%');
+
+  // No insight may quote an engine share that the table does not support.
+  await page.click('.nav-item:has-text("Insights")');
+  await page.waitForTimeout(600);
+  const text = await page.evaluate(() => document.querySelector('.app').innerText);
+  const maxShare = Math.max(...Object.values(SHARE));
+  const bogus = [...text.matchAll(/(\d{2})% of (?:all )?citations? (?:come |sit )?from (?:a )?single engine/gi)]
+    .map(m => Number(m[1])).filter(v => v > maxShare);
+  check(bogus.length === 0, 'no insight claims a single-engine share above the table maximum',
+        bogus.join(', '));
+
+  // Domains described as "unlinked mentions" must not already be in Backlinks.
+  // Scoped to the card making the claim — other cards discuss linked domains
+  // legitimately, so a page-wide search would false-positive on those.
+  await page.click('.nav-item:has-text("Backlinks")');
+  await page.waitForTimeout(500);
+  const linked = await page.evaluate(() => [...document.querySelectorAll('.trow')]
+    .map(r => r.innerText.split('\n')[0].trim().toLowerCase().split('/')[0])
+    .filter(d => d.includes('.')));
+  await page.click('.nav-item:has-text("Insights")');
+  await page.waitForTimeout(600);
+  const unlinkedCard = await page.evaluate(() => {
+    const card = [...document.querySelectorAll('.statement')]
+      .find(c => /unlinked/i.test(c.innerText));
+    return card ? card.innerText.toLowerCase() : null;
+  });
+  const contradictions = unlinkedCard ? linked.filter(d => unlinkedCard.includes(d)) : [];
+  check(contradictions.length === 0,
+        'no domain is called an "unlinked mention" while it appears in Backlinks',
+        contradictions.join(', '));
+
+  await page.close();
+}
+
 // ────────────────────────────── 3a. wide viewports: tables must fill their card
 // An all-fixed-px grid leaves the remainder unallocated on a wide screen, which
 // reads as a dead gutter down the right of the table.

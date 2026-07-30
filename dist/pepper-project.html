@@ -4387,9 +4387,9 @@ class Component extends DCLogic {
     { url: 'www.acme.com/blog-post/athena-vs-semrush', topPrompt: 'best AEO and GEO visibility tracking tools', citations_count: 142, avg_citation_position: 1.8, change_vs_previous: '+18%', avgPosDelta: '+14%', engines: ['ChatGPT', 'Perplexity', 'Microsoft Co-Pilot'] },
     { url: 'www.acme.com/case-study/acceldata', topPrompt: 'how does acceldata improve ai search rankings', citations_count: 96, avg_citation_position: 2.3, engines: ['ChatGPT', 'Google AI Overviews'] },
     { url: 'www.acme.com/features/atlas', topPrompt: 'brand visibility monitoring tools', citations_count: 74, avg_citation_position: 3.1, change_vs_previous: '-16%', engines: ['Perplexity'] },
-    { url: 'www.acme.com/report/state-of-aeo-2026', topPrompt: 'state of AEO and GEO industry trends 2026', citations_count: 51, avg_citation_position: 2.7, engines: ['ChatGPT', 'Microsoft Co-Pilot'] },
+    { url: 'www.acme.com/report/state-of-aeo-2026', topPrompt: 'state of AEO and GEO industry trends 2026', citations_count: 51, avg_citation_position: 2.7, change_vs_previous: '+11%', engines: ['ChatGPT', 'Microsoft Co-Pilot'] },
     { url: 'www.acme.com/guide/geo-vs-seo-explained', topPrompt: 'difference between geo and seo strategy', citations_count: 44, avg_citation_position: 3.4, change_vs_previous: '+17%', engines: ['ChatGPT', 'Claude'] },
-    { url: 'www.acme.com/blog-post/how-ai-overviews-work', topPrompt: 'how does google ai overview pick sources', citations_count: 39, avg_citation_position: 2.9, engines: ['Google AI Overviews'] },
+    { url: 'www.acme.com/blog-post/how-ai-overviews-work', topPrompt: 'how does google ai overview pick sources', citations_count: 39, avg_citation_position: 2.9, change_vs_previous: '-11%', engines: ['Google AI Overviews'] },
     { url: 'www.acme.com/case-study/northwind-retail', topPrompt: 'ecommerce brand visibility case study', citations_count: 33, avg_citation_position: 4.1, change_vs_previous: '+19%', engines: ['Perplexity', 'ChatGPT'] },
     { url: 'www.acme.com/features/prompt-tracking', topPrompt: 'track brand mentions across ai prompts', citations_count: 28, avg_citation_position: 3.6, engines: ['Claude', 'Microsoft Co-Pilot'] },
     { url: 'www.acme.com/blog-post/citation-rate-benchmarks', topPrompt: 'average citation rate by industry', citations_count: 21, avg_citation_position: 4.8, change_vs_previous: '-15%', engines: ['ChatGPT'] },
@@ -4550,13 +4550,13 @@ class Component extends DCLogic {
         contributors: [{ label: 'Engine', value: 'Google AI Overviews', pct: '71%', sub: '28 citations' }, { label: 'Region', value: 'United States', pct: '64%', sub: '25 citations' }],
       },
       {
-        id: 'ins_2', articleAction: 'draft', severity: 'High', severityBg: 'var(--neg-bg)', severityColor: 'var(--neg)', timeAgo: '1d',
-        title: 'Pricing-related prompts have zero brand citations this month',
+        id: 'ins_2', articleAction: 'update', severity: 'High', severityBg: 'var(--neg-bg)', severityColor: 'var(--neg)', timeAgo: '1d',
+        title: 'Pricing prompts have zero citations \u2014 /pricing exists but is only partially indexed',
         statValue: '0', statDelta: '\u25bc no citations across 6 pricing prompts', statDeltaColor: 'var(--neg)',
         chartType: 'bar', barItems: [{ label: 'Acme', value: '0', h: '4%', color: 'var(--muted)' }, { label: 'AthenaHQ', value: '4', h: '80%', color: 'var(--amber)' }, { label: 'Profound', value: '3', h: '60%', color: 'var(--amber)' }, { label: 'Peec AI', value: '1', h: '20%', color: 'var(--amber-light)' }],
-        rootCauseTag: 'Competitor cited instead \u00b7 4 of 6 prompts', rootCauseText: 'AthenaHQ and Profound are being cited for pricing-comparison prompts where Acme has no dedicated pricing page content.',
-        impactTag: 'Impact: High', impactText: 'Zero citations on high-intent pricing prompts means prospects comparing options never see Acme mentioned at the moment they\'re closest to a decision. Closing this gap directly supports pipeline — pricing prompts sit late in the buyer journey.',
-        contributors: [{ label: 'Prompt type', value: 'Brand Related', pct: '100%', sub: '6 prompts' }, { label: 'Engine', value: 'ChatGPT', pct: '50%', sub: '3 prompts' }],
+        rootCauseTag: '/pricing \u00b7 PARTIAL index \u00b7 position 18.4 \u00b7 1.9% CTR', rootCauseText: 'This is not a missing-content gap. /pricing is live and in Search Console, but it inspects as PARTIAL, ranks 18.4, and converts 1.9% of impressions \u2014 the weakest page on the property. Engines cite AthenaHQ and Profound because the page they would otherwise cite is barely indexed and barely ranks.',
+        impactTag: 'Impact: High', impactText: 'Zero citations on high-intent pricing prompts means prospects comparing options never see Acme mentioned at the moment they\'re closest to a decision. Because the page already exists this is a fix-and-strengthen job, not a net-new content project — the fastest available path to pipeline.',
+        contributors: [{ label: 'Index status', value: 'PARTIAL', pct: '\u2014', sub: 'via URL Inspection' }, { label: 'Search position', value: '18.4', pct: '1.9% CTR', sub: '3,900 clicks' }],
       },
       {
         id: 'ins_3', articleAction: 'update', severity: 'Low', severityBg: 'var(--teal-soft)', severityColor: 'var(--pos)', timeAgo: '2d',
@@ -4570,11 +4570,11 @@ class Component extends DCLogic {
       {
         id: 'ins_4', articleAction: 'update', severity: 'Medium', severityBg: 'var(--warn-bg)', severityColor: 'var(--warn)', timeAgo: '3d',
         title: 'Quick win: /blog-post/citation-rate-benchmarks has high impressions but low CTR, despite a strong citation rate',
-        statValue: '4.6%', statDelta: 'CTR vs 22,300 impressions \u00b7 citation rate 21%', statDeltaColor: 'var(--warn)',
-        chartType: 'hbar', hbarItems: [{ label: 'CTR', value: '4.6%', pct: '23%', color: 'var(--teal-deep)' }, { label: 'Citation rate', value: '21%', pct: '84%', color: 'var(--teal-deep)' }],
-        rootCauseTag: 'High impressions + low CTR + high citation rate', rootCauseText: 'This page already shows strong AI citation performance — optimizing the title tag and meta description for traditional SEO could lift CTR without risking AI presence.',
+        statValue: '4.6%', statDelta: 'CTR vs 22,300 impressions \u00b7 21 citations', statDeltaColor: 'var(--warn)',
+        chartType: 'hbar', hbarItems: [{ label: 'CTR', value: '4.6%', pct: '23%', color: 'var(--teal-deep)' }, { label: 'Citations', value: '21', pct: '84%', color: 'var(--teal)' }],
+        rootCauseTag: 'High impressions + low CTR + healthy citations', rootCauseText: 'This page already shows strong AI citation performance — optimizing the title tag and meta description for traditional SEO could lift CTR without risking AI presence.',
         impactTag: 'Impact: Medium', impactText: 'High impressions with low CTR means real search demand is landing on this page but bouncing before conversion. A CTR lift here flows straight into organic traffic without any additional AI-visibility investment.',
-        contributors: [{ label: 'Impressions', value: '22,300', pct: 'High', sub: 'via Search Console' }, { label: 'Citation rate', value: '21%', pct: 'Strong', sub: 'via AI engines' }],
+        contributors: [{ label: 'Impressions', value: '22,300', pct: 'High', sub: 'via Search Console' }, { label: 'Citations', value: '21', pct: 'Healthy', sub: 'via AI engines' }],
       },
       {
         id: 'ins_5', articleAction: 'update', severity: 'Medium', severityBg: 'var(--warn-bg)', severityColor: 'var(--warn)', timeAgo: '4d',
@@ -4605,37 +4605,37 @@ class Component extends DCLogic {
       },
       {
         id: 'ins_8', articleAction: 'draft', severity: 'Medium', severityBg: 'var(--warn-bg)', severityColor: 'var(--warn)', timeAgo: '6d',
-        title: 'Engine concentration risk: 71% of all citations come from a single engine',
-        statValue: '71%', statDelta: 'of citations from Google AI Overviews alone', statDeltaColor: 'var(--warn)',
-        chartType: 'donut', donutPct: 71, donutColor: 'var(--teal-deep)', donutLabel: '71%',
-        rootCauseTag: 'Single-engine dependency \u00b7 diversification opportunity', rootCauseText: 'Citation volume is heavily concentrated in one engine — an algorithm change there would disproportionately impact overall visibility. ChatGPT and Claude remain under-indexed.',
+        title: 'Engine concentration risk: two engines carry 61% of all citations',
+        statValue: '61%', statDelta: 'of citations from ChatGPT and Perplexity combined', statDeltaColor: 'var(--warn)',
+        chartType: 'donut', donutPct: 61, donutColor: 'var(--teal-deep)', donutLabel: '61%',
+        rootCauseTag: 'ChatGPT 34% + Perplexity 27% \u00b7 diversification opportunity', rootCauseText: 'ChatGPT (34%) and Perplexity (27%) together account for 61% of citation share, while Co-Pilot (13%) and Claude (8%) trail well behind. A ranking change at either leader moves overall visibility more than everything else combined.',
         impactTag: 'Impact: High', impactText: 'Heavy reliance on one engine leaves overall visibility exposed to a single algorithm change. Diversifying citation sources makes Visibility Score more resilient across the whole AEO Metrics set.',
-        contributors: [{ label: 'Top engine', value: 'Google AI Overviews', pct: '71%', sub: 'of citations' }, { label: 'Under-indexed', value: 'Claude', pct: '8%', sub: 'citation share' }],
+        contributors: [{ label: 'Top two engines', value: 'ChatGPT + Perplexity', pct: '61%', sub: 'of citation share' }, { label: 'Under-indexed', value: 'Claude', pct: '8%', sub: 'citation share' }],
       },
       {
         id: 'ins_9', articleAction: 'update', severity: 'Low', severityBg: 'var(--teal-soft)', severityColor: 'var(--pos)', timeAgo: '1w',
-        title: 'Stale content: /features/atlas holds a strong citation rate but hasn\u2019t been refreshed in over 6 months',
+        title: '/features/atlas is crawled but not indexed \u2014 its citation position is slipping as a result',
         statValue: '74', statDelta: 'citations \u00b7 last content update 6+ months ago', statDeltaColor: 'var(--steel)',
         chartType: 'hbar', hbarItems: [{ label: 'Avg pos 6mo ago', value: '2.4', pct: '85%', color: 'var(--teal-deep)' }, { label: 'Avg pos now', value: '3.1', pct: '62%', color: 'var(--teal-deep)' }],
-        rootCauseTag: 'High citations + aging content \u00b7 refresh candidate', rootCauseText: 'AI engines still cite this page frequently, but its avg citation position has started slipping as competitors publish more current alternatives.',
+        rootCauseTag: 'Crawled \u2014 currently not indexed \u00b7 last crawl 9 days ago', rootCauseText: 'URL Inspection reports this page as crawled but NOT indexed. Engines still cite it from earlier coverage, which is why the citation count still looks healthy \u2014 but with the page out of the index that stock of citations can only decay, and avg position has already slipped from 2.4 to 3.1. Content age is a symptom here, not the cause.',
         impactTag: 'Impact: Low', impactText: 'Citation position is slipping gradually — not urgent today, but compounding if left untouched. A refresh protects long-term Citation Rate and Avg. Position on an already-proven page.',
-        contributors: [{ label: 'Citations', value: '74', pct: 'Strong', sub: 'across 1 engine' }, { label: 'Avg position', value: '3.1', pct: 'Slipping', sub: 'vs 2.4 6mo ago' }],
+        contributors: [{ label: 'Coverage state', value: 'Not indexed', pct: 'PARTIAL', sub: 'crawled 9 days ago' }, { label: 'Avg position', value: '3.1', pct: 'Slipping', sub: 'vs 2.4 6mo ago' }],
       },
       {
         id: 'ins_10', articleAction: 'draft', severity: 'Low', severityBg: 'var(--teal-soft)', severityColor: 'var(--pos)', timeAgo: '1w',
         title: 'Untapped engine: Claude has near-zero presence despite strong ChatGPT and Perplexity coverage',
-        statValue: '8%', statDelta: 'citation share on Claude vs 52% combined on ChatGPT + Perplexity', statDeltaColor: 'var(--steel)',
-        chartType: 'bar', barItems: [{ label: 'ChatGPT', value: '31%', h: '62%', color: 'var(--navy-2)' }, { label: 'Perplexity', value: '21%', h: '42%', color: 'var(--navy-2)' }, { label: 'Co-Pilot', value: '13%', h: '26%', color: 'var(--teal-deep)' }, { label: 'Claude', value: '8%', h: '16%', color: 'var(--navy)' }],
-        rootCauseTag: 'Cross-engine gap \u00b7 expansion opportunity', rootCauseText: 'Content that performs well on ChatGPT and Perplexity isn\u2019t surfacing on Claude, suggesting a formatting or sourcing pattern Claude doesn\u2019t favor as readily.',
+        statValue: '8%', statDelta: 'citation share on Claude, the engine that rates Acme highest (sentiment 85)', statDeltaColor: 'var(--steel)',
+        chartType: 'bar', barItems: [{ label: 'ChatGPT', value: '34%', h: '100%', color: 'var(--teal)' }, { label: 'Perplexity', value: '27%', h: '79%', color: 'var(--teal-deep)' }, { label: 'AI Overviews', value: '18%', h: '53%', color: 'var(--amber)' }, { label: 'Co-Pilot', value: '13%', h: '38%', color: 'var(--amber-light)' }, { label: 'Claude', value: '8%', h: '24%', color: 'var(--muted)' }],
+        rootCauseTag: 'Cross-engine gap \u00b7 expansion opportunity', rootCauseText: 'Claude gives Acme its highest sentiment score of any engine (85, against a 82 average) yet cites it least at 8% share. The goodwill is already there \u2014 what is missing is content in the shape Claude prefers to quote.',
         impactTag: 'Impact: Low', impactText: 'Claude is a smaller but growing share of AI search traffic acme currently can\'t capture. Expanding here diversifies Share of Voice and reduces dependence on any single engine.',
-        contributors: [{ label: 'Claude share', value: '8%', pct: 'Low', sub: 'of total citations' }, { label: 'ChatGPT + Perplexity', value: '52%', pct: 'High', sub: 'combined share' }],
+        contributors: [{ label: 'Claude citation share', value: '8%', pct: 'Lowest', sub: 'of five engines' }, { label: 'Claude sentiment', value: '85', pct: 'Highest', sub: 'of five engines' }],
       },
       {
         id: 'ins_11', articleAction: 'draft', severity: 'Medium', severityBg: 'var(--warn-bg)', severityColor: 'var(--warn)', timeAgo: '1w',
         title: 'Outreach opportunity: 3 unlinked mentions of Acme found on high-authority industry sites',
         statValue: '3', statDelta: 'unlinked brand mentions across AS 60+ domains', statDeltaColor: 'var(--warn)',
-        chartType: 'bar', barItems: [{ label: 'searchengineland.com', value: 'AS 71', h: '85%', color: 'var(--teal-deep)' }, { label: 'reddit.com', value: 'AS 94', h: '100%', color: 'var(--teal-deep)' }, { label: 'g2.com', value: 'AS 91', h: '95%', color: 'var(--teal-deep)' }],
-        rootCauseTag: 'Unlinked mentions \u00b7 outreach candidates', rootCauseText: 'These sites already mention Acme by name without linking or citing a source — a quick outreach email requesting a link or citation could convert these into trackable citations.',
+        chartType: 'bar', barItems: [{ label: 'techcrunch.com', value: 'AS 93', h: '100%', color: 'var(--teal)' }, { label: 'saastr.com', value: 'AS 74', h: '80%', color: 'var(--teal-deep)' }, { label: 'martechseries.com', value: 'AS 66', h: '71%', color: 'var(--amber)' }],
+        rootCauseTag: 'Unlinked mentions \u00b7 outreach candidates', rootCauseText: 'These three domains mention Acme by name with no link and no source citation, and none of them appear in the Backlinks tab yet. A short outreach email asking for a link or a cited data point converts each into a trackable referring domain.',
         impactTag: 'Impact: Medium', impactText: 'Unlinked mentions on high-authority sites are citations left on the table with minimal outreach effort. Converting these into real citations lifts Citation Rate with very little content investment.',
         contributors: [{ label: 'Mentions found', value: '3', pct: 'New', sub: 'this month' }, { label: 'Avg authority', value: '85', pct: 'High', sub: 'across sites' }],
       },
@@ -4647,6 +4647,78 @@ class Component extends DCLogic {
         rootCauseTag: 'Community mentions \u00b7 no official engagement yet', rootCauseText: 'AI engines increasingly cite Reddit threads directly in answers — engaging authentically in these communities could convert organic discussion into additional AI-visible citations.',
         impactTag: 'Impact: Low', impactText: 'AI engines increasingly surface Reddit threads directly, and Acme has no presence in an active conversation. Community engagement here builds Mention Rate and Citation Rate on a channel engines already trust.',
         contributors: [{ label: 'Threads found', value: '12', pct: 'r/SEO, r/marketing', sub: 'last 60 days' }, { label: 'Engine reliance', value: '32%', pct: 'Rising', sub: 'cite Reddit content' }],
+      },
+      {
+        id: 'ins_13', articleAction: 'draft', severity: 'High', severityBg: 'var(--neg-bg)', severityColor: 'var(--neg)', timeAgo: '8h',
+        title: 'Revenue is falling while every acquisition metric climbs',
+        statValue: '-2.8%', statDelta: 'revenue vs prior period, against +9.6% conversions', statDeltaColor: 'var(--neg)',
+        chartType: 'hbar', hbarItems: [{ label: 'Users', value: '+12.4%', pct: '78%', color: 'var(--teal)' }, { label: 'Conversions', value: '+9.6%', pct: '62%', color: 'var(--teal)' }, { label: 'Revenue', value: '-2.8%', pct: '18%', color: 'var(--neg)' }],
+        rootCauseTag: 'Conversions up 9.6% \u00b7 revenue down 2.8%', rootCauseText: 'Traffic, engagement and conversion volume are all up, so acquisition is working. Revenue moving the other way means revenue per conversion fell roughly 11% \u2014 the extra conversions are landing on lower-value plans or discounted terms, not on the same basket as before.',
+        impactTag: 'Impact: High', impactText: 'Every other metric on this dashboard reads as a win while the one that pays for the programme declines. Until revenue per conversion is understood, AEO gains will keep being reported as growth that finance cannot see.',
+        contributors: [{ label: 'Conversions', value: '1,842', pct: '+9.6%', sub: 'via Analytics' }, { label: 'Revenue', value: '$96,410', pct: '-2.8%', sub: 'rev/conversion -11%' }],
+      },
+      {
+        id: 'ins_14', articleAction: 'draft', severity: 'High', severityBg: 'var(--neg-bg)', severityColor: 'var(--neg)', timeAgo: '10h',
+        title: '136 submitted URLs are not indexed \u2014 including all 88 in docs-sitemap.xml',
+        statValue: '136', statDelta: 'URLs submitted but not indexed across 3 sitemaps', statDeltaColor: 'var(--neg)',
+        chartType: 'bar', barItems: [{ label: 'sitemap', value: '97%', h: '97%', color: 'var(--teal)' }, { label: 'blog', value: '85%', h: '85%', color: 'var(--teal-deep)' }, { label: 'news', value: '38%', h: '38%', color: 'var(--amber)' }, { label: 'docs', value: '0%', h: '2%', color: 'var(--neg)' }],
+        rootCauseTag: 'docs-sitemap.xml \u00b7 Pending \u00b7 0 of 88 indexed', rootCauseText: 'docs-sitemap.xml has never been processed, so none of its 88 URLs are in the index. news-sitemap.xml is indexing 21 of 56 with 2 errors, and blog-sitemap.xml is missing 63 URLs with 3 warnings. A page that is not indexed cannot be crawled for citations by any engine.',
+        impactTag: 'Impact: High', impactText: 'This sits upstream of every metric on this dashboard \u2014 Visibility, Citation Rate and Share of Voice are all measured against content the engines cannot currently reach. It is the cheapest available lift because the content already exists.',
+        contributors: [{ label: 'docs-sitemap.xml', value: '0 / 88', pct: 'Pending', sub: 'never processed' }, { label: 'news-sitemap.xml', value: '21 / 56', pct: '38%', sub: '2 errors' }],
+      },
+      {
+        id: 'ins_15', articleAction: 'draft', severity: 'Medium', severityBg: 'var(--warn-bg)', severityColor: 'var(--warn)', timeAgo: '2d',
+        title: 'Link equity is concentrated in the weakest domain and wasted on the strongest',
+        statValue: '156', statDelta: 'backlinks from a single AS 38 domain', statDeltaColor: 'var(--warn)',
+        chartType: 'bar', barItems: [{ label: 'seoforums.net', value: '156', h: '100%', color: 'var(--amber)' }, { label: 'searchengineland', value: '84', h: '54%', color: 'var(--teal-deep)' }, { label: 'reddit.com', value: '41', h: '26%', color: 'var(--teal)' }, { label: 'g2.com', value: '22', h: '14%', color: 'var(--muted)' }],
+        rootCauseTag: 'seoforums.net \u00b7 AS 38 \u00b7 more links than the next three combined', rootCauseText: 'One low-authority forum supplies 156 of the tracked backlinks \u2014 more than searchengineland, reddit and moz together (154). At the other end, g2.com carries AS 91 but every link from it is Nofollow, so the strongest referring domain passes no authority at all.',
+        impactTag: 'Impact: Medium', impactText: 'A profile weighted toward one low-authority source is fragile and reads as unnatural to ranking systems. Converting the g2.com relationship to followed links would move more authority than the entire seoforums.net footprint.',
+        contributors: [{ label: 'seoforums.net', value: '156 links', pct: 'AS 38', sub: 'Dofollow' }, { label: 'g2.com', value: '22 links', pct: 'AS 91', sub: 'Nofollow \u2014 no equity' }],
+      },
+      {
+        id: 'ins_16', articleAction: 'update', severity: 'Medium', severityBg: 'var(--warn-bg)', severityColor: 'var(--warn)', timeAgo: '3d',
+        title: 'Two declining keywords sit just outside page one \u2014 the cheapest ranking wins available',
+        statValue: '5,100', statDelta: 'combined monthly volume at positions 12 and 15', statDeltaColor: 'var(--warn)',
+        chartType: 'hbar', hbarItems: [{ label: 'ai search rank tracker \u00b7 pos 12', value: '\u25bc 3', pct: '58%', color: 'var(--amber)' }, { label: 'seo vs geo strategy \u00b7 pos 15', value: '\u25bc 5', pct: '44%', color: 'var(--neg)' }],
+        rootCauseTag: 'Striking distance \u00b7 both trending down', rootCauseText: 'ai search rank tracker (2,900 volume) fell 3 places to 12 and seo vs geo strategy (2,200 volume) fell 5 places to 15. Both are close enough to page one that a targeted refresh moves them, and both are moving the wrong way \u2014 so the window is narrowing.',
+        impactTag: 'Impact: Medium', impactText: 'Positions 11-15 capture almost no clicks, so this volume is currently earning nothing. Lifting either keyword onto page one converts existing, already-ranking content into traffic without new content investment.',
+        contributors: [{ label: 'ai search rank tracker', value: 'pos 12', pct: '2,900 vol', sub: 'down 3 places' }, { label: 'seo vs geo strategy', value: 'pos 15', pct: '2,200 vol', sub: 'down 5 places' }],
+      },
+      {
+        id: 'ins_17', articleAction: 'update', severity: 'Medium', severityBg: 'var(--warn-bg)', severityColor: 'var(--warn)', timeAgo: '1d',
+        title: 'A quarter of all citations come from a single page',
+        statValue: '26%', statDelta: 'of 545 citations sit on /blog-post/athena-vs-semrush', statDeltaColor: 'var(--warn)',
+        chartType: 'donut', donutPct: 26, donutColor: 'var(--teal)', donutLabel: '26%',
+        rootCauseTag: 'Top page 142 of 545 \u00b7 top three pages 57%', rootCauseText: 'athena-vs-semrush carries 142 citations, acceldata 96 and atlas 74 \u2014 together 57% of everything Acme is cited for. The remaining seven tracked pages share the other 43%. This is the same concentration risk as the engine split, measured on a different axis.',
+        impactTag: 'Impact: Medium', impactText: 'One page being deprioritised would remove a quarter of all citations at once. Atlas, already the third-largest contributor, is currently not indexed \u2014 so part of this concentration is actively at risk.',
+        contributors: [{ label: 'Top page', value: '142 citations', pct: '26%', sub: 'athena-vs-semrush' }, { label: 'Top three pages', value: '312 citations', pct: '57%', sub: 'of 545 total' }],
+      },
+      {
+        id: 'ins_18', articleAction: 'draft', severity: 'Medium', severityBg: 'var(--warn-bg)', severityColor: 'var(--warn)', timeAgo: '2d',
+        title: 'AI Data Processing is the weakest tracked topic \u2014 six prompts all underperforming',
+        statValue: '30%', statDelta: 'average mention rate vs 40% for AI Agents', statDeltaColor: 'var(--warn)',
+        chartType: 'bar', barItems: [{ label: 'AI Agents', value: '40%', h: '100%', color: 'var(--teal)' }, { label: 'Programmatic SEO', value: '37%', h: '90%', color: 'var(--teal-deep)' }, { label: 'AI Data Ops', value: '30%', h: '74%', color: 'var(--amber)' }],
+        rootCauseTag: 'topic_data \u00b7 6 prompts \u00b7 29.8% average mention', rootCauseText: 'Every prompt in AI Data Processing & Operations sits below the tracked average, from 19% on "what is the best way to process data?" to 40% on bulk processing. This is not six unrelated misses \u2014 it is one topic the engines do not associate with Acme.',
+        impactTag: 'Impact: Medium', impactText: 'Topic-level weakness compounds: engines build brand-to-category associations, so each unanswered prompt in a cluster makes the next one harder to win. A single pillar page for the topic lifts all six prompts at once.',
+        contributors: [{ label: 'Weakest topic', value: 'AI Data Ops', pct: '29.8%', sub: '6 prompts tracked' }, { label: 'Gap to best topic', value: '10.6 pts', pct: 'vs AI Agents', sub: '40.4% average' }],
+      },
+      {
+        id: 'ins_19', articleAction: 'draft', severity: 'High', severityBg: 'var(--neg-bg)', severityColor: 'var(--neg)', timeAgo: '1d',
+        title: 'AthenaHQ leads Acme on four of five AEO metrics',
+        statValue: '4 of 5', statDelta: 'metrics where AthenaHQ is ahead \u2014 sentiment is the only lead', statDeltaColor: 'var(--neg)',
+        chartType: 'hbar', hbarItems: [{ label: 'Mention rate \u00b7 57 v 64', value: '-7', pct: '89%', color: 'var(--neg)' }, { label: 'Citation rate \u00b7 46 v 51', value: '-5', pct: '90%', color: 'var(--neg)' }, { label: 'Share of voice \u00b7 22 v 24', value: '-2', pct: '92%', color: 'var(--amber)' }, { label: 'Sentiment \u00b7 82 v 79', value: '+3', pct: '100%', color: 'var(--teal)' }],
+        rootCauseTag: 'Second place on mention, citation, share of voice and position', rootCauseText: 'AthenaHQ is ahead on mention rate (64 v 57), citation rate (51 v 46), share of voice (24 v 22) and average position (2.1 v 2.5). Acme leads only on sentiment, 82 to 79 \u2014 audiences prefer Acme where they encounter it, but they encounter it less often.',
+        impactTag: 'Impact: High', impactText: 'Sentiment is the hardest metric to move and the one Acme already owns; the other four are volume problems, which respond to coverage. The strategic read is that Acme has the better reputation and the weaker distribution.',
+        contributors: [{ label: 'Metrics behind', value: '4 of 5', pct: 'vs AthenaHQ', sub: 'mention, citation, SoV, position' }, { label: 'Only lead', value: 'Sentiment 82', pct: '+3', sub: 'highest of four brands' }],
+      },
+      {
+        id: 'ins_20', articleAction: 'update', severity: 'High', severityBg: 'var(--neg-bg)', severityColor: 'var(--neg)', timeAgo: '14h',
+        title: '/blog/mobile-usability-2026 fails URL inspection outright',
+        statValue: 'FAIL', statDelta: 'inspection verdict \u00b7 4,100 clicks at risk', statDeltaColor: 'var(--neg)',
+        chartType: 'bar', barItems: [{ label: 'search-console-api', value: 'PASS', h: '100%', color: 'var(--teal)' }, { label: 'url-inspection', value: 'PASS', h: '100%', color: 'var(--teal)' }, { label: '/pricing', value: 'PARTIAL', h: '55%', color: 'var(--amber)' }, { label: 'mobile-usability', value: 'FAIL', h: '15%', color: 'var(--neg)' }],
+        rootCauseTag: 'FAIL verdict \u00b7 inspected 2 days ago', rootCauseText: 'This is the only outright FAIL in the inspection set. The page still reports 4,100 clicks at 4.3% CTR and position 9.2 in Search Console, which means the historical ranking is still earning traffic while the current version cannot be validated \u2014 that traffic will decay.',
+        impactTag: 'Impact: High', impactText: 'A failing page keeps its rankings only until the next recrawl. With 4,100 clicks still flowing through it, this is live traffic on a countdown, and it is a technical fix rather than a content one.',
+        contributors: [{ label: 'Inspection verdict', value: 'FAIL', pct: '2 days ago', sub: 'only FAIL on the property' }, { label: 'Traffic at risk', value: '4,100 clicks', pct: '4.3% CTR', sub: 'position 9.2' }],
       },
     ];
     const severityOrder = { High: 0, Medium: 1, Low: 2 };
@@ -4794,12 +4866,12 @@ class Component extends DCLogic {
     ];
 
     const kpiDefs = [
-      { key: 'visibility_score', label: 'Visibility', value: '34%', trend: '+3.2 pts vs prior', trendColor: 'var(--pos)', definition: 'Overall visibility across tracked prompts, weighted by mention rate, position, and share of voice.' },
-      { key: 'mention_rate', label: 'Mention rate', value: '58%', trend: '-2.4 pts vs prior', trendColor: 'var(--neg)', definition: 'Answers mentioning your brand divided by total answers (0-100%). Higher values mean greater visibility.' },
-      { key: 'share_of_voice', label: 'Share of voice', value: '21%', trend: '+1.1 pts vs prior', trendColor: 'var(--pos)', definition: 'Answers mentioning your brand divided by answers mentioning your brand OR competitors (0-100%). Higher values mean you dominate the conversation relative to competitors.' },
+      { key: 'visibility_score', label: 'Visibility', value: '35%', trend: '+3.2 pts vs prior', trendColor: 'var(--pos)', definition: 'Overall visibility across tracked prompts, weighted by mention rate, position, and share of voice.' },
+      { key: 'mention_rate', label: 'Mention rate', value: '57%', trend: '-2.4 pts vs prior', trendColor: 'var(--neg)', definition: 'Answers mentioning your brand divided by total answers (0-100%). Higher values mean greater visibility.' },
+      { key: 'share_of_voice', label: 'Share of voice', value: '22%', trend: '+1.1 pts vs prior', trendColor: 'var(--pos)', definition: 'Answers mentioning your brand divided by answers mentioning your brand OR competitors (0-100%). Higher values mean you dominate the conversation relative to competitors.' },
       { key: 'citation_rate', label: 'Citation rate', value: '46%', trend: '+5.8 pts vs prior', trendColor: 'var(--pos)', definition: 'Answers citing your domain divided by total answers with at least one citation (0-100%). Higher values indicate greater authority. Multiple URLs from the same domain count as one.' },
       { key: 'sentiment', label: 'Sentiment', value: '82', trend: '+4 pts vs prior', trendColor: 'var(--pos)', definition: 'Positive mentions plus half of neutral mentions, divided by total brand mentions (0-100). Higher values indicate better sentiment in how AI platforms portray your brand.' },
-      { key: 'avg_position', label: 'Avg. position', value: '2.4', trend: 'Steady', trendColor: 'var(--steel)', definition: 'Average position where your brand is mentioned in AI responses (1 = first mention, 2 = second, etc.). Lower values indicate earlier, more prominent mentions.' },
+      { key: 'avg_position', label: 'Avg. position', value: '2.5', trend: 'Steady', trendColor: 'var(--steel)', definition: 'Average position where your brand is mentioned in AI responses (1 = first mention, 2 = second, etc.). Lower values indicate earlier, more prominent mentions.' },
     ];
     const kpis = kpiDefs.map((k, i) => ({
       ...k,
@@ -4819,7 +4891,7 @@ class Component extends DCLogic {
     const engineRows = engineData.map(r => ({ ...r, color: ENGINE_COLORS[r.engine], visBarWidth: r.visibility_score }));
 
     const brandMetricsData = [
-      { name: 'Acme', mentionRate: 58, citationRate: 46, shareOfVoice: 21, sentiment: 82, avgPosition: 2.4, isYou: true },
+      { name: 'Acme', mentionRate: 57, citationRate: 46, shareOfVoice: 22, sentiment: 82, avgPosition: 2.5, isYou: true },
       { name: 'AthenaHQ', mentionRate: 64, citationRate: 51, shareOfVoice: 24, sentiment: 79, avgPosition: 2.1, isYou: false },
       { name: 'Profound', mentionRate: 49, citationRate: 39, shareOfVoice: 17, sentiment: 76, avgPosition: 3.0, isYou: false },
       { name: 'Peec AI', mentionRate: 41, citationRate: 33, shareOfVoice: 14, sentiment: 74, avgPosition: 3.6, isYou: false },
@@ -4855,7 +4927,7 @@ class Component extends DCLogic {
     const dash = { as: '\u2014', traffic: '\u2014', keywords: '\u2014', backlinks: '\u2014', mentionRate: '\u2014', citationRate: '\u2014', shareOfVoice: '\u2014', sentiment: '\u2014', avgPosition: '\u2014', sharedKwAvgPos: '\u2014' };
     const competitorSearchQ = (s.competitorSearchQuery || '').trim().toLowerCase();
     const consolidatedCompetitors = [
-      { domain: 'Acme (you)', isYou: true, ...{ as: 47, traffic: '24.6K', keywords: '3,842', backlinks: '12,842', mentionRate: '58%', citationRate: '46%', shareOfVoice: '21%', sentiment: '82', avgPosition: '2.4', sharedKwAvgPos: sharedKwAvg.you }, sharedKwCount: this.sharedKeywords.length, onRemove: null },
+      { domain: 'Acme (you)', isYou: true, ...{ as: 47, traffic: '24.6K', keywords: '3,842', backlinks: '12,842', mentionRate: '57%', citationRate: '46%', shareOfVoice: '22%', sentiment: '82', avgPosition: '2.5', sharedKwAvgPos: sharedKwAvg.you }, sharedKwCount: this.sharedKeywords.length, onRemove: null },
       ...s.brandCompetitors.map(bc => ({
         domain: bc.domain, isYou: false,
         ...(metricsByDomain[bc.domain] || dash),
@@ -5130,6 +5202,24 @@ class Component extends DCLogic {
       articleTitle: insightDraftInsight.isReco ? insightDraftInsight.title.replace('Recommended ', '').replace(/^\w/, c => c.toUpperCase()) : insightDraftInsight.title.split(':').pop().trim(),
       draftParagraphs: (() => {
         const articleBodies = {
+          ins_13: [
+            'Remediation brief \u2014 revenue per conversion',
+            'Acquisition is healthy: users are up 12.4%, sessions 8.1%, engagement 3.1 points and conversion volume 9.6%. Revenue is down 2.8% over the same period, which means revenue per conversion fell roughly 11%.',
+            'The question to answer first is mix: are the additional conversions arriving on lower-tier plans, on discounted terms, or from segments with a lower average contract value? Segment conversions by plan and by landing page before changing anything upstream.',
+            'Until that is resolved, AEO reporting will keep showing gains that finance does not recognise \u2014 which puts the programme\u2019s budget at risk regardless of how the visibility metrics look.',
+          ],
+          ins_14: [
+            'Remediation brief \u2014 sitemap indexation',
+            'docs-sitemap.xml has never been processed. All 88 URLs it declares are absent from the index, so no engine can crawl them for citations. Confirm the sitemap returns 200, is referenced in robots.txt, and contains no URLs blocked by noindex or canonical conflicts, then resubmit.',
+            'news-sitemap.xml is indexing 21 of 56 URLs and reporting 2 errors; blog-sitemap.xml is missing 63 URLs with 3 warnings. Together with docs, that is 136 submitted URLs the engines cannot reach.',
+            'This is the cheapest lift on the board because the content already exists \u2014 nothing needs to be written, only made reachable.',
+          ],
+          ins_15: [
+            'Outreach brief \u2014 backlink profile',
+            'seoforums.net supplies 156 of the tracked backlinks at AS 38, more than searchengineland (84), reddit (41) and moz (29) combined. A profile weighted that heavily toward one low-authority forum is both fragile and a pattern ranking systems discount.',
+            'g2.com is the inverse problem: AS 91, the strongest referring domain in the set, but every link is Nofollow, so none of that authority passes through.',
+            'Priority is to convert the g2.com relationship to followed links or a cited data reference, then broaden the mid-authority tier so no single domain dominates the profile.',
+          ],
           ins_2: [
             'Acme gives teams a single place to see how their brand shows up across ChatGPT, Perplexity, Google AI Overviews, Microsoft Copilot, and Claude — and, just as importantly, what it costs to get there.',
             'Pricing starts with a Starter plan built for teams tracking a single brand and a handful of competitors, scales to a Growth plan with expanded prompt and keyword tracking, and tops out with an Enterprise plan that adds custom reporting, SSO, and dedicated support.',
@@ -5143,7 +5233,7 @@ class Component extends DCLogic {
             'In practice, that means GEO content leans harder on clear, quotable claims, structured data, and directly answering the question a prompt is likely to ask — while still benefiting from the technical foundations good SEO already provides.',
           ],
           ins_8: [
-            'Right now, a majority of Acme\u2019s AI citations come from a single engine — Google AI Overviews — which means a single algorithm change there has an outsized effect on overall visibility.',
+            'Right now 61% of Acme\u2019s AI citations come from just two engines — ChatGPT at 34% and Perplexity at 27% — so a ranking change at either has an outsized effect on overall visibility.',
             'ChatGPT and Claude, by contrast, are under-indexed relative to their share of AI search usage, suggesting Acme\u2019s content isn\u2019t yet formatted in a way those engines favor when selecting sources.',
             'This piece breaks down what each major AI engine tends to prioritize when citing sources, and what a more balanced, multi-engine content strategy looks like in practice.',
           ],
@@ -5196,6 +5286,16 @@ class Component extends DCLogic {
         ins_7: [
           { label: 'Updated section', detail: 'Softened absolute claims in the Acceldata case study and added a specific, sourced outcome metric to reinforce credibility.' },
           { label: 'Added', detail: 'A short customer-quote callout to shift sentiment back toward positive framing in AI-generated summaries.' },
+          { label: 'Why', detail: insightDraftInsight.rootCauseText },
+        ],
+        ins_16: [
+          { label: 'Updated section', detail: 'Refresh /features/rank-tracker and /guide/seo-vs-geo against the queries they currently rank 12th and 15th for, leading each page with a direct answer to the head term.' },
+          { label: 'Added', detail: 'Internal links from the two highest-authority pages on the property, plus an FAQ block targeting the adjacent long-tail both keywords already surface for.' },
+          { label: 'Why', detail: insightDraftInsight.rootCauseText },
+        ],
+        ins_2: [
+          { label: 'Updated section', detail: 'Rewrite /pricing to resolve its PARTIAL index status first \u2014 audit the canonical, robots directives and render-blocking behaviour, then request reindexing.' },
+          { label: 'Added', detail: 'A plan-comparison table and a direct-answer summary naming what each tier costs and includes, formatted for extraction so engines have something quotable to cite.' },
           { label: 'Why', detail: insightDraftInsight.rootCauseText },
         ],
         ins_9: [

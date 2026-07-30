@@ -31,9 +31,10 @@ npm run shots          # same, plus screenshots into dist/shots/
 surrounding `<html>`/`<head>`/`<body>`. `dist/pepper-project.standalone.html` is a complete document for
 opening directly in a browser.
 
-`tools/verify.mjs` runs 39 checks: every tab and drawer renders with no page errors, no unresolved `{{ }}`
-bindings and no `undefined`/`NaN` leaking into the UI; one targeted regression per fixed bug; and no
-horizontal page scroll at 1440 / 900 / 480 px.
+`tools/verify.mjs` runs 53 checks: every tab and drawer renders with no page errors, no unresolved `{{ }}`
+bindings and no `undefined`/`NaN` leaking into the UI; one targeted regression per fixed bug; no horizontal page
+scroll at 1440 / 900 / 480 px, tables that fill their container at 1920 px, and cross-tab consistency
+between the insight copy and the underlying tables.
 
 ## Provenance
 
@@ -90,6 +91,38 @@ replacing the off-palette pinks and blues. The sidebar and grids collapse below 
 
 The Brand Guidelines tab is now a living style guide — swatches, type ramp and elevation samples render from
 the same tokens the rest of the app uses, so it cannot drift from the system it documents.
+
+### Insights: made consistent, then extended
+
+The insight cards are hand-written copy over generated data, so several quoted figures had drifted from the
+tables they describe. The headline KPIs turned out to be sound — each is the engine table weighted by
+citation share — but four cards were not:
+
+- **`ins_8`** claimed 71% of citations came from a single engine. The largest share in the table is ChatGPT
+  at 34%. Reframed to the real concentration: ChatGPT + Perplexity carry 61%.
+- **`ins_10`** quoted "52% combined on ChatGPT + Perplexity" (it is 61%) over a bar set that disagreed with
+  the engine table. Both now read from the table, and the card leads with the sharper fact — Claude scores
+  Acme's sentiment highest (85) while citing it least (8%).
+- **`ins_2`** asserted Acme had no pricing page. `/pricing` exists: PARTIAL index status, position 18.4,
+  1.9% CTR. Rewritten as a fix-and-strengthen job and switched from "draft" to "update".
+- **`ins_9`** blamed stale content for slipping citations on `/features/atlas`. URL Inspection reports the
+  page crawled but *not indexed* — that is the cause; age is the symptom.
+- **`ins_11`** listed searchengineland, reddit and g2 as "unlinked mentions" while the Backlinks tab shows
+  all three already linking. Repointed at domains absent from that table.
+
+Metrics nudged so the weighted arithmetic is exact rather than approximate: Visibility 34→35%,
+Mention rate 58→57%, Share of voice 21→22%, Avg. position 2.4→2.5, applied consistently across the KPI row,
+the brand comparison and the competitor table. Two citation rows gained the `change_vs_previous` values
+their insight cards already quoted.
+
+Eight cards added for metric domains that had no coverage at all — revenue, indexation, backlinks, keyword
+positions, page-level citation concentration, topic-level performance, competitive standing, and a failing
+URL inspection. Twenty cards total.
+
+`tools/verify.mjs` now enforces the consistency rather than trusting it: it reads the engine table out of
+the DOM, recomputes each headline KPI as a citation-share-weighted mean, rejects any insight claiming a
+single-engine share above the table maximum, and fails if a domain described as an unlinked mention appears
+in Backlinks.
 
 ### Renamed
 
