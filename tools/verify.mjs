@@ -199,6 +199,29 @@ async function domHealth(page) {
   await page.close();
 }
 
+// ────────── 2a. the sidebar nav must never scroll horizontally
+// overflow-y:auto makes overflow-x compute to auto, so once a vertical
+// scrollbar claims its gutter the full-width children overflow by exactly that
+// width and a stray horizontal bar appears along the bottom of the sidebar.
+for (const height of [900, 620, 560, 460]) {
+  const { page } = await newPage(1440, height);
+  const nav = await page.evaluate(() => {
+    const n = document.querySelector('.nav');
+    // Simulate a classic (non-overlay) scrollbar claiming its gutter.
+    const shrunk = n.clientWidth - 10;
+    const widest = Math.max(...[...n.children].map(c => c.scrollWidth));
+    return { overflowX: getComputedStyle(n).overflowX,
+             hOverflow: n.scrollWidth - n.clientWidth,
+             vScrolls: n.scrollHeight > n.clientHeight,
+             widestChild: widest, gutterWidth: shrunk };
+  });
+  check(nav.overflowX === 'hidden',
+        `sidebar nav suppresses horizontal scroll at ${height}px`, `overflow-x: ${nav.overflowX}`);
+  check(nav.hOverflow <= 0,
+        `sidebar nav has no horizontal overflow at ${height}px`, `${nav.hOverflow}px`);
+  await page.close();
+}
+
 // ────────── 2b. cross-tab consistency: insight claims must match the tables
 // Insight copy is hand-written but the tables are the source of truth, so every
 // figure an insight quotes has to be reproducible from a dataset.
