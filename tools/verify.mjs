@@ -199,7 +199,36 @@ async function domHealth(page) {
   await page.close();
 }
 
-// ─────────────────────────────────────────────────── 3. responsive
+// ────────────────────────────── 3a. wide viewports: tables must fill their card
+// An all-fixed-px grid leaves the remainder unallocated on a wide screen, which
+// reads as a dead gutter down the right of the table.
+{
+  const { page } = await newPage(1920, 1080);
+  for (const tab of ['Pages', 'Keywords', 'Competitors', 'Prompts']) {
+    await page.click(`.nav-item:has-text("${tab}")`);
+    await page.waitForTimeout(500);
+    const worst = await page.evaluate(() => {
+      let max = 0, which = '';
+      for (const head of document.querySelectorAll('.thead')) {
+        const cols = getComputedStyle(head).gridTemplateColumns.split(' ')
+          .map(v => parseFloat(v)).filter(Number.isFinite);
+        if (!cols.length) continue;
+        const gap = parseFloat(getComputedStyle(head).columnGap) || 0;
+        const style = getComputedStyle(head);
+        const inner = head.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+        const used = cols.reduce((a, b) => a + b, 0) + gap * (cols.length - 1);
+        const slack = inner - used;
+        if (slack > max) { max = slack; which = head.innerText.slice(0, 40).replace(/\n/g, '/'); }
+      }
+      return { max: Math.round(max), which };
+    });
+    check(worst.max <= 24, `table fills its container at 1920px: ${tab}`,
+          worst.max ? `${worst.max}px unallocated — ${worst.which}` : '');
+  }
+  await page.close();
+}
+
+// ─────────────────────────────────────────────────── 3b. responsive
 for (const width of [1440, 900, 480]) {
   const { page, errors } = await newPage(width, 900);
   await page.click('.nav-item:has-text("Performance")');

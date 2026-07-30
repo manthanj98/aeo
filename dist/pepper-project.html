@@ -3507,17 +3507,17 @@ a:hover { color: var(--ink); }
                 </sc-raw-select>
               </div>
             </div>
-            <div style="display:grid;grid-template-columns:40px 230px 100px 70px 62px 84px 62px 70px 70px 62px 54px;gap:16px;padding:0 4px 8px;min-width:1090px">
+            <div style="display:grid;grid-template-columns:40px minmax(230px,2.2fr) minmax(100px,1fr) minmax(70px,0.8fr) minmax(62px,0.75fr) minmax(84px,1fr) minmax(62px,0.7fr) minmax(70px,0.85fr) minmax(70px,0.9fr) minmax(62px,0.8fr) minmax(54px,0.7fr);gap:16px;padding:0 4px 8px;min-width:1090px">
               <div style="grid-column:span 2"></div>
               <div style="grid-column:span 2;font-size:11px;font-weight:700;color:var(--pos);text-transform:uppercase;letter-spacing:0.04em;border-bottom:2px solid var(--teal-deep);padding-bottom:6px;text-align:center">AEO Health</div>
               <div style="grid-column:span 3;font-size:11px;font-weight:700;color:var(--info);text-transform:uppercase;letter-spacing:0.04em;border-bottom:2px solid var(--navy-2);padding-bottom:6px;text-align:center">Site Engagement</div>
               <div style="grid-column:span 4;font-size:11px;font-weight:700;color:var(--info);text-transform:uppercase;letter-spacing:0.04em;border-bottom:2px solid var(--info-line);padding-bottom:6px;text-align:center">Search Performance</div>
             </div>
-            <div class="thead" style="display:grid;grid-template-columns:40px 230px 100px 70px 62px 84px 62px 70px 70px 62px 54px;gap:16px;padding:0 4px 12px;white-space:nowrap;min-width:1090px;text-align:center">
+            <div class="thead" style="display:grid;grid-template-columns:40px minmax(230px,2.2fr) minmax(100px,1fr) minmax(70px,0.8fr) minmax(62px,0.75fr) minmax(84px,1fr) minmax(62px,0.7fr) minmax(70px,0.85fr) minmax(70px,0.9fr) minmax(62px,0.8fr) minmax(54px,0.7fr);gap:16px;padding:0 4px 12px;white-space:nowrap;min-width:1090px;text-align:center">
               <div></div><div style="text-align:left">URL</div><div>Citations</div><div>Avg pos</div><div>Traffic</div><div>Engagement</div><div>Conv.</div><div>Avg pos</div><div>Impr.</div><div>Clicks</div><div>CTR</div>
             </div>
             <sc-for list="{{ citations }}" as="c" hint-placeholder-count="5">
-              <div class="trow" style="display:grid;grid-template-columns:40px 230px 100px 70px 62px 84px 62px 70px 70px 62px 54px;gap:16px;padding:18px 4px;align-items:start;min-width:1090px;text-align:center">
+              <div class="trow" style="display:grid;grid-template-columns:40px minmax(230px,2.2fr) minmax(100px,1fr) minmax(70px,0.8fr) minmax(62px,0.75fr) minmax(84px,1fr) minmax(62px,0.7fr) minmax(70px,0.85fr) minmax(70px,0.9fr) minmax(62px,0.8fr) minmax(54px,0.7fr);gap:16px;padding:18px 4px;align-items:start;min-width:1090px;text-align:center">
                 <div sc-camel-on-click="{{ c.onDetailedView }}" title="Show detailed overview" style="cursor:pointer;color:var(--muted);padding:4px 6px;display:inline-flex">
                   <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                 </div>
