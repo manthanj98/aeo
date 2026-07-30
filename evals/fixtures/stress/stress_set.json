@@ -1,0 +1,176 @@
+[
+  {
+    "cycle_id": "stress_001_gsc_lag",
+    "account": "acme",
+    "period": "2026-07",
+    "note": "Google Search Console is 3 days behind. The narrative quotes a citation rate the snapshot does not support -- the classic failure when a generator runs against partially loaded data.",
+    "panel_k": 3,
+    "snapshot": {
+      "metrics": {
+        "citation_rate": {"value": 9.8, "unit": "%"},
+        "mention_rate": {"value": 28.4, "unit": "%"},
+        "impressions": {"value": 18200, "unit": "count"},
+        "clicks": {"value": 940, "unit": "count"},
+        "ctr": {"value": 5.2, "unit": "%"}
+      },
+      "aliases": {
+        "citation rate": ["citation_rate"],
+        "mention rate": ["mention_rate"],
+        "impressions": ["impressions"],
+        "clicks": ["clicks"],
+        "click-through rate": ["ctr"]
+      },
+      "entities": {
+        "client": "Acme",
+        "brands": ["AthenaHQ"],
+        "engines": ["ChatGPT", "Perplexity"],
+        "urls": ["www.acme.com/features/atlas"]
+      }
+    },
+    "human_findings": [
+      {"id": "f1", "text": "Search figures are incomplete for the period and should be caveated", "labeler_a": "material", "labeler_b": "material"},
+      {"id": "f2", "text": "Citation rate down against the prior period", "labeler_a": "material", "labeler_b": "material"}
+    ],
+    "atlas_insights": [
+      {"id": "i1", "rank": 1, "matched_finding": "f2", "supported": true, "text": "Citation rate declining"},
+      {"id": "i2", "rank": 2, "matched_finding": null, "supported": false, "text": "Impressions collapsed 64% week over week"},
+      {"id": "i3", "rank": 3, "matched_finding": null, "supported": false, "text": "Engine reliance shifting to Perplexity"}
+    ],
+    "narrative": "Acme's citation rate reached 14.2% this period with mention rate at 28.4%. Search delivered 940 clicks from 18,200 impressions, a click-through rate of 5.2%.",
+    "judged": {
+      "causal_claims": [
+        {"text": "impressions collapsed week over week", "supported": false},
+        {"text": "engine reliance is shifting to Perplexity", "supported": false}
+      ],
+      "voice_score": 0.72
+    }
+  },
+  {
+    "cycle_id": "stress_002_hallucinated_entities",
+    "account": "northwind",
+    "period": "2026-07",
+    "note": "Two entities that do not exist in this client's data: a competitor Northwind does not track, and a URL that is not in the citation set. Zero-tolerance gate.",
+    "panel_k": 2,
+    "snapshot": {
+      "metrics": {
+        "citation_rate": {"value": 7.3, "unit": "%"},
+        "mention_rate": {"value": 19.5, "unit": "%"},
+        "share_of_voice": {"value": 5.1, "unit": "%"}
+      },
+      "aliases": {
+        "citation rate": ["citation_rate"],
+        "mention rate": ["mention_rate"],
+        "share of voice": ["share_of_voice"]
+      },
+      "entities": {
+        "client": "Northwind",
+        "brands": ["Profound"],
+        "engines": ["ChatGPT"],
+        "urls": ["www.northwind.com/guide/geo-vs-seo-explained"]
+      }
+    },
+    "human_findings": [
+      {"id": "f1", "text": "Share of voice slipping against Profound", "labeler_a": "material", "labeler_b": "material"},
+      {"id": "f2", "text": "Coverage concentrated in one engine", "labeler_a": "material", "labeler_b": "material"}
+    ],
+    "atlas_insights": [
+      {"id": "i1", "rank": 1, "matched_finding": "f1", "supported": true, "text": "Share of voice slipping"},
+      {"id": "i2", "rank": 2, "matched_finding": "f2", "supported": true, "text": "Single-engine concentration"}
+    ],
+    "narrative": "Generative engine optimization (GEO) coverage is under pressure. Northwind's citation rate is 7.3% with mention rate at 19.5%, and share of voice sits at 5.1%. Profound and Scrunch AI both gained ground, and www.northwind.com/blog/ai-search-2027 is now the most-cited asset.",
+    "judged": {
+      "causal_claims": [
+        {"text": "Scrunch AI gained ground on Northwind", "supported": false}
+      ],
+      "voice_score": 0.68
+    }
+  },
+  {
+    "cycle_id": "stress_003_brand_rules",
+    "account": "vertex",
+    "period": "2026-07",
+    "note": "Numbers are all correct. The formatting is not: an unrounded percentage, an undirected point delta, a placeholder string, and an acronym used before it is expanded. Every one of these is a rule the product already stores on its Brand Guidelines page.",
+    "panel_k": 2,
+    "snapshot": {
+      "metrics": {
+        "citation_rate": {"value": 16.0, "unit": "%"},
+        "citation_rate_delta": {"value": 2.0, "unit": "pts"},
+        "mention_rate": {"value": 41.0, "unit": "%"}
+      },
+      "aliases": {
+        "citation rate": ["citation_rate", "citation_rate_delta"],
+        "mention rate": ["mention_rate"]
+      },
+      "entities": {
+        "client": "Vertex",
+        "brands": ["AthenaHQ"],
+        "engines": ["ChatGPT"],
+        "urls": ["www.vertex.com/blog-post/citation-rate-benchmarks"]
+      }
+    },
+    "human_findings": [
+      {"id": "f1", "text": "Citation rate improved", "labeler_a": "material", "labeler_b": "material"},
+      {"id": "f2", "text": "Benchmark post still under-cited", "labeler_a": "material", "labeler_b": "material"}
+    ],
+    "atlas_insights": [
+      {"id": "i1", "rank": 1, "matched_finding": "f1", "supported": true, "text": "Citation rate improved"},
+      {"id": "i2", "rank": 2, "matched_finding": "f2", "supported": true, "text": "Benchmark post under-cited"}
+    ],
+    "narrative": "Vertex improved its AEO position this period. Citation rate is 16%, a move of 2.0 pts, and mention rate is 41.0%. Competitor sentiment data was N/A for this window. Answer engine optimization coverage remains concentrated on www.vertex.com/blog-post/citation-rate-benchmarks.",
+    "judged": {
+      "causal_claims": [
+        {"text": "coverage remains concentrated on the benchmark post", "supported": true}
+      ],
+      "voice_score": 0.74
+    }
+  },
+  {
+    "cycle_id": "stress_004_sparse_new_client",
+    "account": "aurora",
+    "period": "2026-07",
+    "note": "Brand-new account with almost no citation history. Atlas fills the panel anyway rather than saying there is nothing yet -- precision collapses, and it misses the one thing that actually mattered.",
+    "panel_k": 4,
+    "snapshot": {
+      "metrics": {
+        "citation_rate": {"value": 0.6, "unit": "%"},
+        "mention_rate": {"value": 2.1, "unit": "%"},
+        "share_of_voice": {"value": 0.0, "unit": "%"},
+        "impressions": {"value": 1100, "unit": "count"},
+        "clicks": {"value": 24, "unit": "count"},
+        "ctr": {"value": 2.2, "unit": "%"}
+      },
+      "aliases": {
+        "citation rate": ["citation_rate"],
+        "mention rate": ["mention_rate"],
+        "share of voice": ["share_of_voice"],
+        "impressions": ["impressions"],
+        "clicks": ["clicks"],
+        "click-through rate": ["ctr"]
+      },
+      "entities": {
+        "client": "Aurora",
+        "brands": [],
+        "engines": ["ChatGPT"],
+        "urls": ["www.aurora.com/product"]
+      }
+    },
+    "human_findings": [
+      {"id": "f1", "text": "Tracking has only 11 days of history; no trend can be read yet and the report should say so", "labeler_a": "material", "labeler_b": "material"},
+      {"id": "f2", "text": "Prompt set is too narrow to generate coverage", "labeler_a": "material", "labeler_b": "material"}
+    ],
+    "atlas_insights": [
+      {"id": "i1", "rank": 1, "matched_finding": null, "supported": false, "text": "Citation rate trending down"},
+      {"id": "i2", "rank": 2, "matched_finding": null, "supported": false, "text": "Losing share of voice to competitors"},
+      {"id": "i3", "rank": 3, "matched_finding": "f2", "supported": true, "text": "Prompt coverage is narrow"},
+      {"id": "i4", "rank": 4, "matched_finding": null, "supported": false, "text": "Sentiment declining across engines"}
+    ],
+    "narrative": "Aurora's citation rate is 0.6% with mention rate at 2.1% and share of voice at 0.0%. Coverage is trending down against competitors this period. Search contributed 24 clicks from 1,100 impressions, a click-through rate of 2.2%.",
+    "judged": {
+      "causal_claims": [
+        {"text": "coverage is trending down against competitors", "supported": false},
+        {"text": "sentiment is declining across engines", "supported": false}
+      ],
+      "voice_score": 0.7
+    }
+  }
+]

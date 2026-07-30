@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+
+# Generated panels — regenerate with evals/simulate.py. power.json is committed
+# because the design doc and the artifact quote its numbers.
+evals/data/*.csv

@@ -1,0 +1,304 @@
+[
+  {
+    "cycle_id": "gold_001",
+    "account": "acme",
+    "period": "2026-06",
+    "note": "Clean cycle. Everything Atlas surfaced was material and supported.",
+    "panel_k": 4,
+    "snapshot": {
+      "metrics": {
+        "citation_rate": {"value": 12.4, "unit": "%"},
+        "citation_rate_delta": {"value": 2.3, "unit": "pts"},
+        "mention_rate": {"value": 31.2, "unit": "%"},
+        "share_of_voice": {"value": 10.6, "unit": "%"},
+        "impressions": {"value": 52600, "unit": "count"},
+        "clicks": {"value": 3050, "unit": "count"},
+        "ctr": {"value": 5.8, "unit": "%"},
+        "avg_position": {"value": 4.4, "unit": ""}
+      },
+      "aliases": {
+        "citation rate": ["citation_rate", "citation_rate_delta"],
+        "mention rate": ["mention_rate"],
+        "share of voice": ["share_of_voice"],
+        "impressions": ["impressions"],
+        "clicks": ["clicks"],
+        "click-through rate": ["ctr"],
+        "average position": ["avg_position"]
+      },
+      "entities": {
+        "client": "Acme",
+        "brands": ["AthenaHQ", "Profound"],
+        "engines": ["ChatGPT", "Perplexity", "Google AI Overviews"],
+        "urls": ["www.acme.com/report/state-of-aeo-2026", "www.acme.com/features/atlas"]
+      }
+    },
+    "human_findings": [
+      {"id": "f1", "text": "Citation rate climbed on the back of the state-of-AEO report", "labeler_a": "material", "labeler_b": "material"},
+      {"id": "f2", "text": "Share of voice still trails AthenaHQ on comparison prompts", "labeler_a": "material", "labeler_b": "material"},
+      {"id": "f3", "text": "Search impressions and AI citations are rising together on the same page", "labeler_a": "material", "labeler_b": "material"},
+      {"id": "f4", "text": "Mention rate flat month over month", "labeler_a": "filler", "labeler_b": "filler"}
+    ],
+    "atlas_insights": [
+      {"id": "i1", "rank": 1, "matched_finding": "f1", "supported": true, "text": "Citation rate up on report content"},
+      {"id": "i2", "rank": 2, "matched_finding": "f3", "supported": true, "text": "Traffic protection opportunity on /report/state-of-aeo-2026"},
+      {"id": "i3", "rank": 3, "matched_finding": "f2", "supported": true, "text": "Competitor gap on comparison prompt cluster"},
+      {"id": "i4", "rank": 4, "matched_finding": "f4", "supported": true, "text": "Mention rate steady"}
+    ],
+    "narrative": "Answer engine optimization (AEO) visibility improved this period. Acme's citation rate reached 12.4%, up 2.3 pts on the previous period, while mention rate held at 31.2%. Share of voice against AthenaHQ and Profound sits at 10.6%. On the search side, www.acme.com/report/state-of-aeo-2026 drew 3,050 clicks from 52,600 impressions, a click-through rate of 5.8% at an average position of 4.4. ChatGPT and Perplexity accounted for most of the new citations.",
+    "judged": {
+      "causal_claims": [
+        {"text": "citation gains driven by the state-of-AEO report", "supported": true},
+        {"text": "ChatGPT and Perplexity account for most new citations", "supported": true}
+      ],
+      "voice_score": 0.95
+    }
+  },
+  {
+    "cycle_id": "gold_002",
+    "account": "northwind",
+    "period": "2026-06",
+    "note": "Atlas missed one of three material findings. This is the recall failure mode: the client does not learn something they should have.",
+    "panel_k": 3,
+    "snapshot": {
+      "metrics": {
+        "citation_rate": {"value": 8.1, "unit": "%"},
+        "mention_rate": {"value": 22.7, "unit": "%"},
+        "share_of_voice": {"value": 6.4, "unit": "%"},
+        "impressions": {"value": 31400, "unit": "count"},
+        "clicks": {"value": 1210, "unit": "count"},
+        "ctr": {"value": 3.9, "unit": "%"}
+      },
+      "aliases": {
+        "citation rate": ["citation_rate"],
+        "mention rate": ["mention_rate"],
+        "share of voice": ["share_of_voice"],
+        "impressions": ["impressions"],
+        "clicks": ["clicks"],
+        "click-through rate": ["ctr"]
+      },
+      "entities": {
+        "client": "Northwind",
+        "brands": ["Profound"],
+        "engines": ["ChatGPT", "Google AI Overviews"],
+        "urls": ["www.northwind.com/guide/geo-vs-seo-explained"]
+      }
+    },
+    "human_findings": [
+      {"id": "f1", "text": "Google AI Overviews dropped the GEO explainer from its citation set", "labeler_a": "material", "labeler_b": "material"},
+      {"id": "f2", "text": "Citation rate fell while impressions held steady", "labeler_a": "material", "labeler_b": "material"},
+      {"id": "f3", "text": "Profound gained share on pricing prompts", "labeler_a": "material", "labeler_b": "material"},
+      {"id": "f4", "text": "CTR broadly unchanged", "labeler_a": "filler", "labeler_b": "material"}
+    ],
+    "atlas_insights": [
+      {"id": "i1", "rank": 1, "matched_finding": "f1", "supported": true, "text": "AI Overviews citation lost on /guide/geo-vs-seo-explained"},
+      {"id": "i2", "rank": 2, "matched_finding": "f2", "supported": true, "text": "Citation rate declining against flat impressions"},
+      {"id": "i3", "rank": 3, "matched_finding": "f4", "supported": true, "text": "CTR stable period over period"}
+    ],
+    "narrative": "Generative engine optimization (GEO) coverage slipped this period. Northwind's citation rate fell to 8.1% and share of voice now stands at 6.4%, with mention rate at 22.7%. Google AI Overviews stopped citing www.northwind.com/guide/geo-vs-seo-explained, which had been the main source of coverage. Search held up: 1,210 clicks from 31,400 impressions, a click-through rate of 3.9%.",
+    "judged": {
+      "causal_claims": [
+        {"text": "the dropped AI Overviews citation explains the coverage decline", "supported": true}
+      ],
+      "voice_score": 0.92
+    }
+  },
+  {
+    "cycle_id": "gold_003",
+    "account": "vertex",
+    "period": "2026-06",
+    "note": "One panel slot wasted on an unsupported insight. This is the precision failure mode: the CSM has to go and check it, which is time the tool was supposed to give back.",
+    "panel_k": 4,
+    "snapshot": {
+      "metrics": {
+        "citation_rate": {"value": 15.9, "unit": "%"},
+        "citation_rate_delta": {"value": 1.1, "unit": "pts"},
+        "mention_rate": {"value": 40.3, "unit": "%"},
+        "share_of_voice": {"value": 13.7, "unit": "%"},
+        "impressions": {"value": 68200, "unit": "count"},
+        "clicks": {"value": 4410, "unit": "count"},
+        "ctr": {"value": 6.5, "unit": "%"}
+      },
+      "aliases": {
+        "citation rate": ["citation_rate", "citation_rate_delta"],
+        "mention rate": ["mention_rate"],
+        "share of voice": ["share_of_voice"],
+        "impressions": ["impressions"],
+        "clicks": ["clicks"],
+        "click-through rate": ["ctr"]
+      },
+      "entities": {
+        "client": "Vertex",
+        "brands": ["AthenaHQ", "Peec AI"],
+        "engines": ["ChatGPT", "Perplexity", "Claude"],
+        "urls": ["www.vertex.com/blog-post/citation-rate-benchmarks"]
+      }
+    },
+    "human_findings": [
+      {"id": "f1", "text": "Citation rate at a period high across three engines", "labeler_a": "material", "labeler_b": "material"},
+      {"id": "f2", "text": "Benchmark blog post is under-cited relative to its search performance", "labeler_a": "material", "labeler_b": "material"},
+      {"id": "f3", "text": "Claude is the weakest engine for coverage", "labeler_a": "material", "labeler_b": "filler"}
+    ],
+    "atlas_insights": [
+      {"id": "i1", "rank": 1, "matched_finding": "f1", "supported": true, "text": "Citation rate at a period high"},
+      {"id": "i2", "rank": 2, "matched_finding": "f2", "supported": true, "text": "AI opportunity on /blog-post/citation-rate-benchmarks"},
+      {"id": "i3", "rank": 3, "matched_finding": "f3", "supported": true, "text": "Claude under-indexed versus other engines"},
+      {"id": "i4", "rank": 4, "matched_finding": null, "supported": false, "text": "Sentiment shift detected on brand prompts"}
+    ],
+    "narrative": "Vertex had a strong period. Citation rate reached 15.9%, up 1.1 pts, and mention rate is 40.3%. Share of voice climbed to 13.7% against AthenaHQ and Peec AI. www.vertex.com/blog-post/citation-rate-benchmarks earned 4,410 clicks from 68,200 impressions at a click-through rate of 6.5%, but remains under-cited relative to that reach. ChatGPT and Perplexity lead coverage; Claude trails.",
+    "judged": {
+      "causal_claims": [
+        {"text": "the benchmark post is under-cited relative to its search reach", "supported": true},
+        {"text": "Claude trails the other engines on coverage", "supported": true}
+      ],
+      "voice_score": 0.9
+    }
+  },
+  {
+    "cycle_id": "gold_004",
+    "account": "helios",
+    "period": "2026-05",
+    "note": "Clean cycle, monthly cadence, enterprise tier.",
+    "panel_k": 3,
+    "snapshot": {
+      "metrics": {
+        "citation_rate": {"value": 19.2, "unit": "%"},
+        "citation_rate_delta": {"value": 3.4, "unit": "pts"},
+        "mention_rate": {"value": 48.6, "unit": "%"},
+        "share_of_voice": {"value": 16.5, "unit": "%"},
+        "impressions": {"value": 104300, "unit": "count"},
+        "clicks": {"value": 7820, "unit": "count"},
+        "ctr": {"value": 7.5, "unit": "%"}
+      },
+      "aliases": {
+        "citation rate": ["citation_rate", "citation_rate_delta"],
+        "mention rate": ["mention_rate"],
+        "share of voice": ["share_of_voice"],
+        "impressions": ["impressions"],
+        "clicks": ["clicks"],
+        "click-through rate": ["ctr"]
+      },
+      "entities": {
+        "client": "Helios",
+        "brands": ["Profound", "Scrunch AI"],
+        "engines": ["ChatGPT", "Perplexity", "Microsoft Co-Pilot"],
+        "urls": ["www.helios.com/features/atlas", "www.helios.com/pricing"]
+      }
+    },
+    "human_findings": [
+      {"id": "f1", "text": "Citation rate up sharply after the pricing page rewrite", "labeler_a": "material", "labeler_b": "material"},
+      {"id": "f2", "text": "Microsoft Co-Pilot is now a meaningful citation source", "labeler_a": "material", "labeler_b": "material"},
+      {"id": "f3", "text": "Scrunch AI appearing alongside Helios on comparison prompts", "labeler_a": "material", "labeler_b": "material"}
+    ],
+    "atlas_insights": [
+      {"id": "i1", "rank": 1, "matched_finding": "f1", "supported": true, "text": "Pricing page rewrite lifted citations"},
+      {"id": "i2", "rank": 2, "matched_finding": "f2", "supported": true, "text": "Microsoft Co-Pilot emerging as a citation source"},
+      {"id": "i3", "rank": 3, "matched_finding": "f3", "supported": true, "text": "Scrunch AI co-occurring on comparison prompts"}
+    ],
+    "narrative": "Helios posted the strongest period so far. Citation rate is 19.2%, up 3.4 pts, with mention rate at 48.6% and share of voice at 16.5%. The rewritten www.helios.com/pricing page is the main driver. Microsoft Co-Pilot has become a meaningful source of citations alongside ChatGPT and Perplexity. Scrunch AI and Profound continue to appear beside Helios on comparison prompts. Search delivered 7,820 clicks from 104,300 impressions, a click-through rate of 7.5%.",
+    "judged": {
+      "causal_claims": [
+        {"text": "the pricing page rewrite drove the citation increase", "supported": true},
+        {"text": "Co-Pilot has become a meaningful citation source", "supported": true}
+      ],
+      "voice_score": 0.96
+    }
+  },
+  {
+    "cycle_id": "gold_005",
+    "account": "kestrel",
+    "period": "2026-06",
+    "note": "Small account, thin panel, nothing dramatic to report. A good report here is a short one.",
+    "panel_k": 2,
+    "snapshot": {
+      "metrics": {
+        "citation_rate": {"value": 4.7, "unit": "%"},
+        "mention_rate": {"value": 11.9, "unit": "%"},
+        "share_of_voice": {"value": 3.2, "unit": "%"},
+        "impressions": {"value": 8900, "unit": "count"},
+        "clicks": {"value": 260, "unit": "count"},
+        "ctr": {"value": 2.9, "unit": "%"}
+      },
+      "aliases": {
+        "citation rate": ["citation_rate"],
+        "mention rate": ["mention_rate"],
+        "share of voice": ["share_of_voice"],
+        "impressions": ["impressions"],
+        "clicks": ["clicks"],
+        "click-through rate": ["ctr"]
+      },
+      "entities": {
+        "client": "Kestrel",
+        "brands": ["AthenaHQ"],
+        "engines": ["ChatGPT"],
+        "urls": ["www.kestrel.com/product"]
+      }
+    },
+    "human_findings": [
+      {"id": "f1", "text": "Coverage is concentrated in a single engine, which is a concentration risk", "labeler_a": "material", "labeler_b": "material"},
+      {"id": "f2", "text": "Citation rate below the tracked-account median", "labeler_a": "material", "labeler_b": "material"}
+    ],
+    "atlas_insights": [
+      {"id": "i1", "rank": 1, "matched_finding": "f1", "supported": true, "text": "Engine reliance: all coverage from one engine"},
+      {"id": "i2", "rank": 2, "matched_finding": "f2", "supported": true, "text": "Citation rate under-indexed versus benchmark"}
+    ],
+    "narrative": "Kestrel's coverage remains thin. Citation rate is 4.7% and mention rate 11.9%, with share of voice at 3.2% against AthenaHQ. All tracked citations came from ChatGPT, which is a concentration risk worth addressing before it becomes a single point of failure. Search contributed 260 clicks from 8,900 impressions, a click-through rate of 2.9%.",
+    "judged": {
+      "causal_claims": [
+        {"text": "single-engine coverage is a concentration risk", "supported": true}
+      ],
+      "voice_score": 0.91
+    }
+  },
+  {
+    "cycle_id": "gold_006",
+    "account": "meridian",
+    "period": "2026-06",
+    "note": "Atlas ranked a filler item above a material one. Recall is fine; the ranking is not, which is what nDCG is for.",
+    "panel_k": 4,
+    "snapshot": {
+      "metrics": {
+        "citation_rate": {"value": 10.8, "unit": "%"},
+        "citation_rate_delta": {"value": 0.4, "unit": "pts"},
+        "mention_rate": {"value": 27.5, "unit": "%"},
+        "share_of_voice": {"value": 9.1, "unit": "%"},
+        "impressions": {"value": 44700, "unit": "count"},
+        "clicks": {"value": 2180, "unit": "count"},
+        "ctr": {"value": 4.9, "unit": "%"}
+      },
+      "aliases": {
+        "citation rate": ["citation_rate", "citation_rate_delta"],
+        "mention rate": ["mention_rate"],
+        "share of voice": ["share_of_voice"],
+        "impressions": ["impressions"],
+        "clicks": ["clicks"],
+        "click-through rate": ["ctr"]
+      },
+      "entities": {
+        "client": "Meridian",
+        "brands": ["AthenaHQ", "Profound"],
+        "engines": ["ChatGPT", "Perplexity", "Google AI Overviews"],
+        "urls": ["www.meridian.com/report/competitor-share-of-voice"]
+      }
+    },
+    "human_findings": [
+      {"id": "f1", "text": "Competitor share-of-voice report has strong search but weak citation pickup", "labeler_a": "material", "labeler_b": "material"},
+      {"id": "f2", "text": "Perplexity coverage growing faster than ChatGPT", "labeler_a": "material", "labeler_b": "material"},
+      {"id": "f3", "text": "Citation rate broadly flat", "labeler_a": "filler", "labeler_b": "filler"},
+      {"id": "f4", "text": "Mention rate marginally down", "labeler_a": "filler", "labeler_b": "material"}
+    ],
+    "atlas_insights": [
+      {"id": "i1", "rank": 1, "matched_finding": "f3", "supported": true, "text": "Citation rate holding flat"},
+      {"id": "i2", "rank": 2, "matched_finding": "f1", "supported": true, "text": "AI opportunity on /report/competitor-share-of-voice"},
+      {"id": "i3", "rank": 3, "matched_finding": "f2", "supported": true, "text": "Perplexity outpacing ChatGPT on coverage growth"},
+      {"id": "i4", "rank": 4, "matched_finding": "f4", "supported": true, "text": "Mention rate slightly lower"}
+    ],
+    "narrative": "Meridian held position this period. Citation rate is 10.8%, up 0.4 pts, mention rate 27.5% and share of voice 9.1% against AthenaHQ and Profound. www.meridian.com/report/competitor-share-of-voice continues to perform in search, with 2,180 clicks from 44,700 impressions and a click-through rate of 4.9%, but citation pickup on it lags that reach. Perplexity coverage is growing faster than ChatGPT.",
+    "judged": {
+      "causal_claims": [
+        {"text": "citation pickup lags the page's search reach", "supported": true},
+        {"text": "Perplexity coverage is growing faster than ChatGPT", "supported": true}
+      ],
+      "voice_score": 0.93
+    }
+  }
+]

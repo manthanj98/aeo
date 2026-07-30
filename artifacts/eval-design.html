@@ -1,0 +1,1245 @@
+<title>Does Pepper Atlas actually save the four hours?</title>
+
+<style>
+/* ============================================================================
+   Pre-registration readout — Pepper Atlas CS reporting study
+
+   Palette inherited from the Pepper Atlas prototype: violet-ink ground, a gold
+   accent ramp, clay reserved for risk. The typographic idea is that every
+   figure, threshold and unit is set in the mono face — a document whose whole
+   purpose is committing to numbers in advance should read like an instrument
+   record, not like prose with numbers in it.
+   ========================================================================= */
+
+:root {
+  color-scheme: light;
+
+  --ground:     #F8F4F0;
+  --panel:      #FFFFFF;
+  --panel-2:    #FCFAF7;
+  --ink:        #1A0F2E;
+  --text:       #33244A;
+  --muted:      #6B5B7B;
+  --faint:      #9789A6;
+  --line:       #E7DFF0;
+  --line-soft:  #F1ECF6;
+
+  --gold:       #C9A961;
+  --gold-deep:  #A8893F;
+  --gold-dark:  #6E5822;
+  --gold-soft:  #F7F0DE;
+
+  --clay:       #C25A4E;
+  --clay-soft:  #FBF0EE;
+
+  --pass:       #5C481E;
+  --pass-bg:    #F5EDD9;
+  --fail:       #7E2020;
+  --fail-bg:    #FBE6E4;
+
+  /* The console keeps its own ground: --ink flips to a light value in dark
+     mode, so reusing it as a background would invert the block. */
+  --console-bg: #1A0F2E;
+  --console-fg: #E3D7F2;
+  --console-c:  #A08CBB;
+
+  /* Sequential ramp for magnitude. One hue, monotone lightness. */
+  --seq-1: #FAF4E6;
+  --seq-2: #F0E0B7;
+  --seq-3: #DFC489;
+  --seq-4: #C9A961;
+  --seq-5: #8C7133;
+  /* Text on each step, chosen per step so every cell clears contrast rather
+     than flipping at an arbitrary midpoint. */
+  --on-1: #3A2C12;
+  --on-2: #3A2C12;
+  --on-3: #3A2C12;
+  --on-4: #3A2C12;
+  --on-5: #FFFBF0;
+  --on-seq-hi: #FFFBF0;
+
+  --sans: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", "DejaVu Sans Mono", Menlo, Consolas, monospace;
+
+  --measure: 68ch;
+  --shell: 1060px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground:     #130D22;
+    --panel:      #1D1434;
+    --panel-2:    #241A3D;
+    --ink:        #F4EFFA;
+    --text:       #E2D9EF;
+    --muted:      #A597B8;
+    --faint:      #7D6E92;
+    --line:       #302447;
+    --line-soft:  #261C3C;
+
+    --gold:       #D9BC7C;
+    --gold-deep:  #C9A961;
+    --gold-dark:  #E8D097;
+    --gold-soft:  #2B2240;
+
+    --clay:       #E08C81;
+    --clay-soft:  #37232A;
+
+    --pass:       #E8D097;
+    --pass-bg:    #2B2240;
+    --fail:       #F0A39D;
+    --fail-bg:    #3A2028;
+
+    --seq-1: #221A31;
+    --seq-2: #3B3021;
+    --seq-3: #6E5822;
+    --seq-4: #A8893F;
+    --seq-5: #C9A961;
+    --on-1: #D8CDE6;
+    --on-2: #D8CDE6;
+    --on-3: #EFE4D0;
+    --on-4: #201705;
+    --on-5: #201705;
+    --on-seq-hi: #201705;
+
+    --console-bg: #0E0919;
+    --console-fg: #E3D7F2;
+    --console-c:  #A08CBB;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground:     #130D22;
+  --panel:      #1D1434;
+  --panel-2:    #241A3D;
+  --ink:        #F4EFFA;
+  --text:       #E2D9EF;
+  --muted:      #A597B8;
+  --faint:      #7D6E92;
+  --line:       #302447;
+  --line-soft:  #261C3C;
+
+  --gold:       #D9BC7C;
+  --gold-deep:  #C9A961;
+  --gold-dark:  #E8D097;
+  --gold-soft:  #2B2240;
+
+  --clay:       #E08C81;
+  --clay-soft:  #37232A;
+
+  --pass:       #E8D097;
+  --pass-bg:    #2B2240;
+  --fail:       #F0A39D;
+  --fail-bg:    #3A2028;
+
+  --seq-1: #221A31;
+  --seq-2: #3B3021;
+  --seq-3: #6E5822;
+  --seq-4: #A8893F;
+  --seq-5: #C9A961;
+  --on-1: #D8CDE6;
+  --on-2: #D8CDE6;
+  --on-3: #EFE4D0;
+  --on-4: #201705;
+  --on-5: #201705;
+  --on-seq-hi: #201705;
+
+  --console-bg: #0E0919;
+  --console-fg: #E3D7F2;
+  --console-c:  #A08CBB;
+}
+
+/* ------------------------------------------------------------------ base */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.62;
+  letter-spacing: -0.006em;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: var(--shell);
+  margin: 0 auto;
+  padding: 0 28px 96px;
+}
+
+/* Every number on the page wears the mono face. */
+.num, td .num, .fig { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+h1, h2, h3 { color: var(--ink); text-wrap: balance; margin: 0; }
+
+h1 {
+  font-size: clamp(30px, 5.2vw, 47px);
+  line-height: 1.06;
+  letter-spacing: -0.034em;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 23px;
+  line-height: 1.2;
+  letter-spacing: -0.024em;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 14.5px;
+  letter-spacing: -0.012em;
+  font-weight: 700;
+}
+
+p { margin: 0; max-width: var(--measure); }
+strong { color: var(--ink); font-weight: 660; }
+
+a { color: var(--gold-dark); text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--gold-deep); outline-offset: 3px; border-radius: 3px; }
+
+/* --------------------------------------------------------------- masthead */
+
+.masthead {
+  padding: 64px 0 40px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.masthead .standfirst {
+  font-size: 18.5px;
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+.rule-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+.rule-tag::before {
+  content: "";
+  width: 26px;
+  height: 2px;
+  background: var(--gold);
+}
+
+.keyfigs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+.keyfig {
+  background: var(--panel);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.keyfig .fig .u { font-size: 0.62em; font-weight: 600; color: var(--muted); margin-left: 1px; }
+.keyfig .fig {
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  line-height: 1.1;
+}
+.keyfig .cap {
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+/* --------------------------------------------------------------- sections */
+
+.section {
+  padding-top: 52px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 13px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 11px;
+}
+.section-head .idx {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--gold-deep);
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.lede { font-size: 16.5px; }
+
+/* Keep symbols out of the uppercase transform on eyebrow labels. */
+.lc { text-transform: none; letter-spacing: 0.04em; }
+
+/* A gold hairline rail marks anything committed before the data is seen. */
+.commit {
+  border-left: 2px solid var(--gold);
+  padding: 3px 0 3px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.commit .eyebrow { color: var(--gold-deep); }
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.panel-flush { padding: 0; overflow: hidden; }
+
+.scroll { overflow-x: auto; }
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(258px, 1fr));
+  gap: 14px;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: 14px;
+}
+
+/* ----------------------------------------------------------------- tables */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.6px;
+  line-height: 1.45;
+}
+thead th {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--faint);
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+  background: var(--panel-2);
+}
+tbody td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: top;
+}
+tbody tr:last-child td { border-bottom: 0; }
+td.tight { white-space: nowrap; }
+td.right { text-align: right; }
+th.right { text-align: right; }
+td .lab { color: var(--ink); font-weight: 620; }
+td .sub { display: block; color: var(--muted); font-size: 12.4px; margin-top: 2px; }
+
+/* ------------------------------------------------------------------ chips */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.chip-gone  { background: var(--pass-bg); color: var(--pass); border-color: var(--gold); }
+.chip-part  { background: var(--gold-soft); color: var(--gold-dark); border-color: var(--line); }
+.chip-same  { background: var(--panel-2); color: var(--muted); border-color: var(--line); }
+.chip-risk  { background: var(--clay-soft); color: var(--clay); border-color: var(--clay); }
+.chip-pass  { background: var(--pass-bg); color: var(--pass); border-color: var(--gold); }
+.chip-fail  { background: var(--fail-bg); color: var(--fail); border-color: var(--clay); }
+
+/* Status is never colour alone: each chip carries a glyph and a word. */
+.chip::before { font-size: 10px; line-height: 1; }
+.chip-gone::before { content: "\2715"; }
+.chip-part::before { content: "\25D1"; }
+.chip-same::before { content: "\003D"; }
+.chip-risk::before { content: "\2191"; }
+.chip-pass::before { content: "\2713"; }
+.chip-fail::before { content: "\2715"; }
+
+/* ------------------------------------------------------- stepped wedge */
+
+.wedge {
+  display: grid;
+  grid-template-columns: 150px repeat(5, minmax(74px, 1fr));
+  gap: 3px;
+  min-width: 620px;
+}
+.wedge .wh {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+  padding: 0 0 7px 2px;
+  align-self: end;
+}
+.wedge .wh span { display: block; letter-spacing: 0.03em; text-transform: none; color: var(--faint); }
+.wedge .wrow {
+  font-size: 12.4px;
+  color: var(--text);
+  padding-right: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.wedge .wrow b { color: var(--ink); font-weight: 640; font-size: 12.8px; }
+.wedge .wrow em {
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+.cell {
+  border-radius: 3px;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+  animation: cellIn 380ms both cubic-bezier(.22,.9,.32,1);
+}
+.cell-ctl {
+  background: var(--panel-2);
+  color: var(--faint);
+}
+.cell-run {
+  background: var(--gold-deep);
+  border-color: var(--gold-deep);
+  color: var(--on-seq-hi);
+  font-weight: 620;
+}
+.cell-cross {
+  background: var(--gold-soft);
+  border-color: var(--gold);
+  color: var(--gold-dark);
+  font-weight: 620;
+  background-image: repeating-linear-gradient(
+    135deg, transparent 0 5px, rgba(168,137,63,.22) 5px 6px);
+}
+
+@keyframes cellIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .cell { animation: none; }
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 12.3px;
+  color: var(--muted);
+  padding-top: 4px;
+}
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.swatch {
+  display: inline-block;
+  width: 13px; height: 13px; border-radius: 2px; flex-shrink: 0;
+  border: 1px solid var(--line);
+}
+.sw-ctl { background: var(--panel-2); }
+.sw-run { background: var(--gold-deep); border-color: var(--gold-deep); }
+.sw-cross {
+  background: var(--gold-soft); border-color: var(--gold);
+  background-image: repeating-linear-gradient(135deg, transparent 0 3px, rgba(168,137,63,.3) 3px 4px);
+}
+
+/* -------------------------------------------------------------- heat grid */
+
+.heat { border-collapse: separate; border-spacing: 2px; font-size: 12.5px; min-width: 560px; }
+.heat th {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+  font-weight: 600;
+  padding: 4px 6px 8px;
+  text-align: center;
+  background: none;
+  border: 0;
+}
+.heat th.rowhead, .heat td.rowhead {
+  text-align: right;
+  padding-right: 12px;
+  white-space: nowrap;
+  border: 0;
+  background: none;
+}
+.heat td.rowhead {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+.heat td.hc {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  padding: 9px 6px;
+  border-radius: 3px;
+  border: 0;
+  font-size: 12.5px;
+}
+.s1 { background: var(--seq-1); color: var(--on-1); }
+.s2 { background: var(--seq-2); color: var(--on-2); }
+.s3 { background: var(--seq-3); color: var(--on-3); }
+.s4 { background: var(--seq-4); color: var(--on-4); }
+.s5 { background: var(--seq-5); color: var(--on-5); font-weight: 620; }
+
+.heat td.mde {
+  font-family: var(--mono);
+  font-weight: 700;
+  text-align: center;
+  color: var(--ink);
+  border: 0;
+  border-left: 1px solid var(--line);
+  padding: 9px 6px 9px 14px;
+}
+.heat tr.here td.rowhead { color: var(--ink); font-weight: 700; }
+.heat tr.here td.rowhead::after {
+  content: " \25C0";
+  color: var(--gold-deep);
+  font-size: 9px;
+}
+
+/* ------------------------------------------------------------- size bars */
+
+.bars { display: flex; flex-direction: column; gap: 14px; position: relative; }
+.bar-row { display: grid; grid-template-columns: 172px 1fr 52px; align-items: center; gap: 12px; }
+.bar-row .name { font-size: 12.8px; color: var(--text); }
+.bar-track {
+  position: relative;
+  height: 24px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.bar-fill { display: block; height: 100%; border-radius: 2px 0 0 2px; }
+.bar-ok  { background: var(--gold-deep); }
+.bar-bad { background: var(--clay); }
+.bar-row .val {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  text-align: right;
+}
+.refline {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 0;
+  border-left: 2px dashed var(--ink);
+  opacity: .5;
+}
+.reflabel {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-left: 184px;
+}
+
+/* ------------------------------------------------------------- verdicts */
+
+.ladder { display: flex; flex-direction: column; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+.rung { background: var(--panel); padding: 15px 18px; display: grid; grid-template-columns: 116px 1fr; gap: 16px; align-items: start; }
+.rung .verdict {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding-top: 1px;
+}
+.v-ship { color: var(--pass); }
+.v-iter { color: var(--gold-dark); }
+.v-kill { color: var(--fail); }
+.rung .cond { font-size: 13.4px; }
+.rung .cond .worked {
+  display: block;
+  margin-top: 7px;
+  font-family: var(--mono);
+  font-size: 11.6px;
+  color: var(--muted);
+  background: var(--panel-2);
+  border-left: 2px solid var(--line);
+  padding: 7px 11px;
+  border-radius: 0 3px 3px 0;
+  white-space: pre-wrap;
+}
+
+/* --------------------------------------------------------------- console */
+
+.console {
+  background: var(--console-bg);
+  border-radius: 4px;
+  padding: 20px 22px;
+  overflow-x: auto;
+  border: 1px solid var(--console-bg);
+}
+.console pre {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 12.2px;
+  line-height: 1.72;
+  color: var(--console-fg);
+}
+.console .c { color: var(--console-c); }
+.console .g { color: #E8D097; }
+
+/* ----------------------------------------------------------------- notes */
+
+.note {
+  font-size: 13.4px;
+  color: var(--muted);
+  max-width: var(--measure);
+}
+.note b { color: var(--ink); font-weight: 640; }
+
+.callout {
+  border: 1px solid var(--gold);
+  background: var(--gold-soft);
+  border-radius: 4px;
+  padding: 15px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.callout .eyebrow { color: var(--gold-dark); }
+.callout p { font-size: 13.8px; color: var(--text); }
+
+footer {
+  margin-top: 60px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 12.6px;
+  color: var(--faint);
+}
+
+@media (max-width: 640px) {
+  .wrap { padding: 0 18px 64px; }
+  .masthead { padding: 40px 0 30px; }
+  .rung { grid-template-columns: 1fr; gap: 8px; }
+  .bar-row { grid-template-columns: 120px 1fr 46px; }
+  .reflabel { padding-left: 132px; }
+}
+</style>
+
+<div class="wrap">
+
+  <!-- ================================================== masthead -->
+  <header class="masthead">
+    <div class="eyebrow rule-tag">Pepper Atlas &middot; pre-registered study design</div>
+    <h1>Does it actually save the four hours?</h1>
+    <p class="standfirst">
+      Every CS manager spends 4+ hours a week building client reports. Atlas is the proposed fix.
+      This is the measurement, the datasets, the experiment and the decision rule that would tell
+      us whether it worked &mdash; written down before the data is seen.
+    </p>
+    <div class="keyfigs">
+      <div class="keyfig">
+        <div class="fig">4+<span class="u">h</span></div>
+        <div class="cap">per CSM per week, today</div>
+      </div>
+      <div class="keyfig">
+        <div class="fig">50%</div>
+        <div class="cap">ship bar &mdash; what turns 4+ hours into under 2</div>
+      </div>
+      <div class="keyfig">
+        <div class="fig">17%</div>
+        <div class="cap">smallest effect detectable with 15 CSMs</div>
+      </div>
+      <div class="keyfig">
+        <div class="fig">15<span class="u">wk</span></div>
+        <div class="cap">stepped wedge, 5 periods &times; 3 weeks</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================================================== 1 -->
+  <section class="section">
+    <div class="section-head">
+      <span class="idx">&sect;1</span>
+      <h2>Decompose the four hours before measuring them</h2>
+    </div>
+    <p class="lede">
+      &ldquo;Building reports&rdquo; is seven tasks, and Atlas hits them very unevenly. Measure the
+      aggregate without the split and you can celebrate a 30% saving on the tasks that were already
+      cheap.
+    </p>
+    <div class="panel panel-flush scroll">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:34px"></th>
+            <th>Task in the current workflow</th>
+            <th style="width:190px">What Atlas does to it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="num">1</td><td><span class="lab">Pull and export across five sources</span><span class="sub">GSC, GA, citation crawls, backlinks, rank tracking</span></td><td><span class="chip chip-gone">Eliminated</span></td></tr>
+          <tr><td class="num">2</td><td><span class="lab">Stitch and normalise</span><span class="sub">Date-align, dedupe, fold engine-name variants</span></td><td><span class="chip chip-gone">Eliminated</span></td></tr>
+          <tr><td class="num">3</td><td><span class="lab">Build charts and deck, apply brand formatting</span></td><td><span class="chip chip-gone">Eliminated</span></td></tr>
+          <tr><td class="num">4</td><td><span class="lab">Write the narrative: what changed and why</span></td><td><span class="chip chip-part">Partial</span></td></tr>
+          <tr><td class="num">5</td><td><span class="lab">Internal QA and review</span><span class="sub">Now reviewing AI output &mdash; new work, not removed work</span></td><td><span class="chip chip-same">Unchanged</span></td></tr>
+          <tr><td class="num">6</td><td><span class="lab">Send, schedule, follow up</span></td><td><span class="chip chip-part">Reduced</span></td></tr>
+          <tr><td class="num">7</td><td><span class="lab">Ad-hoc re-cuts and &ldquo;what does this mean?&rdquo;</span><span class="sub">A live dashboard invites questions rather than settling them</span></td><td><span class="chip chip-risk">May increase</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">
+      Rows 5 and 7 are the honest part. A tool that writes the narrative creates a new verification
+      job, and a client with a live dashboard asks more questions, not fewer. Both are
+      <b>pre-registered as things that may move the wrong way</b>, and the headline number is net of
+      them.
+    </p>
+  </section>
+
+  <!-- ================================================== 2 -->
+  <section class="section">
+    <div class="section-head">
+      <span class="idx">&sect;2</span>
+      <h2>Three instruments, and self-report is never the primary</h2>
+    </div>
+    <div class="grid-3">
+      <div class="panel">
+        <div class="eyebrow">S1 &middot; Atlas telemetry</div>
+        <h3>Ground truth, after launch</h3>
+        <p class="note">Event stream, sessions stitched on a 120&thinsp;s idle gap, each segment attributed to a <span class="num">report_cycle_id</span>.</p>
+      </div>
+      <div class="panel" style="border-color:var(--gold)">
+        <div class="eyebrow">S2 &middot; work-surface metadata</div>
+        <h3>The primary baseline instrument</h3>
+        <p class="note">Drive revision timestamps on the client&rsquo;s sheet and deck, plus email send times, resolved to edit-session minutes per cycle.</p>
+      </div>
+      <div class="panel">
+        <div class="eyebrow">S3 &middot; diary &amp; sampling</div>
+        <h3>Calibration only</h3>
+        <p class="note">A 30-second end-of-cycle form and two random pings a day, to catch work that leaves no digital trace.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <div class="eyebrow">Why S2 carries the design</div>
+      <p>
+        It exists <strong>retrospectively</strong>, so the baseline is reconstructable from the last
+        two quarters without running a study first &mdash; and it exists in <strong>both</strong>
+        periods, so the before/after comparison is not confounded by a change of instrument. That
+        second property is worth more than its precision: an instrument that only exists after
+        launch cannot measure a saving.
+      </p>
+    </div>
+    <div class="commit">
+      <div class="eyebrow">Units, fixed in advance</div>
+      <p class="note">
+        <b>Primary causal unit: the report cycle</b> (client &times; cadence) &mdash; that is what the
+        product acts on. <b>Business claim unit: the CSM-week</b> &mdash; that is what &ldquo;4+ hours
+        a week&rdquo; means. Both get reported, because they can disagree, and the disagreement is
+        the finding: a CSM whose per-cycle time halves while their book of business grows has created
+        capacity for the company without getting an hour of their own week back.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================================================== 3 -->
+  <section class="section">
+    <div class="section-head">
+      <span class="idx">&sect;3</span>
+      <h2>Datasets</h2>
+    </div>
+    <div class="panel panel-flush scroll">
+      <table>
+        <thead>
+          <tr><th style="width:52px">ID</th><th>Dataset</th><th style="width:120px" class="right">Size</th><th style="width:290px">Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="num lab">D0</td><td><span class="lab">Baseline cycle panel</span><span class="sub">Reconstructed from S2 metadata over two quarters</span></td><td class="right num tight">all cycles</td><td>Baseline distribution, ICC, power inputs</td></tr>
+          <tr><td class="num lab">D1</td><td><span class="lab">Time-and-motion shadowing</span><span class="sub">Stratified by tier / cadence / tenure, two observers</span></td><td class="right num tight">20&ndash;30</td><td>Fit the S2 &rarr; true-minutes calibration; validate the task taxonomy</td></tr>
+          <tr style="background:var(--gold-soft)"><td class="num lab">D2</td><td><span class="lab">Golden report corpus</span><span class="sub">Delivered reports <b>plus a frozen snapshot of the source data as of report time</b></span></td><td class="right num tight">60&ndash;100</td><td>Offline insight and narrative eval &mdash; <b>has to start now</b></td></tr>
+          <tr><td class="num lab">D3</td><td><span class="lab">Stress set</span><span class="sub">GSC lag, engine outage, near-zero volume, brand-new client, sign flips</span></td><td class="right num tight">~40</td><td>Regression gate on every model or prompt change</td></tr>
+          <tr><td class="num lab">D4</td><td><span class="lab">Client-side panel</span><span class="sub">Dashboard engagement and per-cycle CSAT</span></td><td class="right num tight">experiment</td><td>Detects work shifted onto the client</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">
+      <b>D2 is the one with a deadline.</b> Scoring whether an insight was derivable needs the data
+      <em>as it was</em>, and that cannot be reconstructed after the fact. Every week we wait is a
+      week of corpus we can never build.
+    </p>
+  </section>
+
+  <!-- ================================================== 4 -->
+  <section class="section">
+    <div class="section-head">
+      <span class="idx">&sect;4</span>
+      <h2>Offline gates, passed before anyone&rsquo;s time is measured</h2>
+    </div>
+    <p class="lede">
+      A missed insight is a worse report. A <em>wrong</em> insight is a slower one, because the CSM
+      has to go and check it &mdash; and a CSM who re-verifies every line has saved nothing. Recall
+      and precision fail for different reasons, so they are gated separately.
+    </p>
+    <div class="panel panel-flush scroll">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:44px"></th>
+            <th>Metric</th>
+            <th class="right" style="width:78px">Bar</th>
+            <th class="right" style="width:92px">Golden</th>
+            <th class="right" style="width:92px">Stress</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="num lab">G1</td><td><span class="lab">Recall of material findings</span><span class="sub">Both labellers agreed it mattered &mdash; protects the report</span></td><td class="right num">&ge; 0.70</td><td class="right"><span class="chip chip-pass">0.94</span></td><td class="right"><span class="chip chip-pass">0.75</span></td></tr>
+          <tr><td></td><td><span class="lab">False / trivial insight rate</span><span class="sub">Protects the four hours</span></td><td class="right num">&le; 0.15</td><td class="right"><span class="chip chip-pass">0.13</span></td><td class="right"><span class="chip chip-fail">0.35</span></td></tr>
+          <tr><td class="num lab">G2</td><td><span class="lab">Numeric claims entailed by the snapshot</span><span class="sub">Deterministic checker, no judge involved</span></td><td class="right num">&ge; 0.98</td><td class="right"><span class="chip chip-pass">1.00</span></td><td class="right"><span class="chip chip-fail">0.94</span></td></tr>
+          <tr><td></td><td><span class="lab">Causal claims entailed</span><span class="sub">Judged</span></td><td class="right num">&ge; 0.90</td><td class="right"><span class="chip chip-pass">1.00</span></td><td class="right"><span class="chip chip-fail">0.17</span></td></tr>
+          <tr><td></td><td><span class="lab">Hallucinated entity</span><span class="sub">A brand or URL absent from the client&rsquo;s own data</span></td><td class="right num">= 0</td><td class="right"><span class="chip chip-pass">0</span></td><td class="right"><span class="chip chip-fail">2</span></td></tr>
+          <tr><td class="num lab">G3</td><td><span class="lab">Brand lints</span><span class="sub">Rules the product already stores as data on its Brand Guidelines page</span></td><td class="right num">100%</td><td class="right"><span class="chip chip-pass">1.00</span></td><td class="right"><span class="chip chip-fail">0.75</span></td></tr>
+          <tr><td></td><td><span class="lab">Voice rubric</span><span class="sub">Judged</span></td><td class="right num">&ge; 0.90</td><td class="right"><span class="chip chip-pass">0.93</span></td><td class="right"><span class="chip chip-fail">0.71</span></td></tr>
+          <tr><td class="num lab">&mdash;</td><td><span class="lab">Judge vs human, Cohen&rsquo;s &kappa;</span><span class="sub">A judge nobody has validated is an opinion with a number attached</span></td><td class="right num">&ge; 0.60</td><td class="right"><span class="chip chip-pass">0.64</span></td><td class="right"><span class="chip chip-pass">0.64</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid-2">
+      <div class="panel">
+        <div class="eyebrow">Deterministic checks before judges</div>
+        <p class="note">
+          Numbers in a report are extractable and comparable against the snapshot the report came
+          from. Sending arithmetic to a language model to be graded is slower, costlier and less
+          reliable than comparing two floats. Only the irreducibly fuzzy parts go to a judge &mdash;
+          and rules the product already stores as data get enforced at 100% by a linter, with
+          nothing left to judge.
+        </p>
+      </div>
+      <div class="panel">
+        <div class="eyebrow">What the stress set is for</div>
+        <p class="note">
+          Each fixture carries one planted defect: a quoted figure the snapshot contradicts, a
+          competitor the client does not track, an unexpanded acronym, a panel of confident
+          insights about an 11-day-old account. The harness finds exactly those and blocks the
+          rollout. <b>If G1&ndash;G3 do not pass, the experiment does not start.</b>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================== 5 -->
+  <section class="section">
+    <div class="section-head">
+      <span class="idx">&sect;5</span>
+      <h2>The experiment: a stepped wedge over 15 weeks</h2>
+    </div>
+    <p class="lede">
+      CSMs are randomised to a crossover step. Everyone starts on the current workflow, everyone
+      finishes on Atlas, and every period is observed in both states.
+    </p>
+    <div class="panel">
+      <div class="scroll">
+        <div class="wedge">
+          <div class="wh"></div>
+          <div class="wh">P0<span>wk 1&ndash;3</span></div>
+          <div class="wh">P1<span>wk 4&ndash;6</span></div>
+          <div class="wh">P2<span>wk 7&ndash;9</span></div>
+          <div class="wh">P3<span>wk 10&ndash;12</span></div>
+          <div class="wh">P4<span>wk 13&ndash;15</span></div>
+
+          <div class="wrow"><b>Sequence 1</b><em>4 CSMs</em></div>
+          <div class="cell cell-ctl"  style="animation-delay:20ms">control</div>
+          <div class="cell cell-cross" style="animation-delay:60ms">cross</div>
+          <div class="cell cell-run"  style="animation-delay:100ms">atlas</div>
+          <div class="cell cell-run"  style="animation-delay:140ms">atlas</div>
+          <div class="cell cell-run"  style="animation-delay:180ms">atlas</div>
+
+          <div class="wrow"><b>Sequence 2</b><em>4 CSMs</em></div>
+          <div class="cell cell-ctl"  style="animation-delay:60ms">control</div>
+          <div class="cell cell-ctl"  style="animation-delay:100ms">control</div>
+          <div class="cell cell-cross" style="animation-delay:140ms">cross</div>
+          <div class="cell cell-run"  style="animation-delay:180ms">atlas</div>
+          <div class="cell cell-run"  style="animation-delay:220ms">atlas</div>
+
+          <div class="wrow"><b>Sequence 3</b><em>4 CSMs</em></div>
+          <div class="cell cell-ctl"  style="animation-delay:100ms">control</div>
+          <div class="cell cell-ctl"  style="animation-delay:140ms">control</div>
+          <div class="cell cell-ctl"  style="animation-delay:180ms">control</div>
+          <div class="cell cell-cross" style="animation-delay:220ms">cross</div>
+          <div class="cell cell-run"  style="animation-delay:260ms">atlas</div>
+
+          <div class="wrow"><b>Sequence 4</b><em>3 CSMs</em></div>
+          <div class="cell cell-ctl"  style="animation-delay:140ms">control</div>
+          <div class="cell cell-ctl"  style="animation-delay:180ms">control</div>
+          <div class="cell cell-ctl"  style="animation-delay:220ms">control</div>
+          <div class="cell cell-ctl"  style="animation-delay:260ms">control</div>
+          <div class="cell cell-cross" style="animation-delay:300ms">cross</div>
+        </div>
+      </div>
+      <div class="legend">
+        <span><i class="swatch sw-ctl"></i> Current workflow</span>
+        <span><i class="swatch sw-cross"></i> Crossover period &mdash; first cycle excluded from the headline</span>
+        <span><i class="swatch sw-run"></i> Atlas</span>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="panel">
+        <div class="eyebrow">Why not a parallel A/B</div>
+        <p class="note">
+          A CS team is 10&ndash;25 people. At that size a between-person comparison is badly
+          underpowered; within-person contrasts recover most of it. Everyone gets the tool
+          eventually, so there is no months-long control group watching colleagues use the new
+          thing. And a staged rollout is what would happen anyway.
+        </p>
+      </div>
+      <div class="panel">
+        <div class="eyebrow">What it costs, and the fix</div>
+        <p class="note">
+          Treatment is confounded with calendar time by construction &mdash; later periods have more
+          treated CSMs. <b>Period fixed effects handle it; that is the stepped-wedge estimator.</b>
+          Randomise CSMs and not accounts: a CSM cannot be half-treated, and the outcome is CSM time.
+        </p>
+      </div>
+    </div>
+    <div class="commit">
+      <div class="eyebrow">Committed in advance</div>
+      <p class="note">
+        Each CSM&rsquo;s <b>first post-crossover cycle is excluded</b> from the primary estimate and
+        reported on its own line. The first report built on a new tool is slower; folding it in
+        either flatters or sinks the number depending on when you stop measuring. Control is
+        enforced by feature flag and control-arm logins are <b>verified to be zero, not assumed</b>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================================================== 6 -->
+  <section class="section">
+    <div class="section-head">
+      <span class="idx">&sect;6</span>
+      <h2>The headline test permutes the schedule, it does not trust a standard error</h2>
+    </div>
+    <p class="lede">
+      With roughly 15 clusters, cluster-robust standard errors over-reject. Rather than assert that,
+      the design measures it: 300 simulated studies with a true effect of <em>exactly zero</em>, each
+      analysed both ways.
+    </p>
+    <div class="panel">
+      <div class="eyebrow">False positives when the true effect is zero <span class="lc">&middot; &alpha; = 0.05</span></div>
+      <div class="bars">
+        <div class="bar-row">
+          <span class="name">CR1 cluster-robust Wald</span>
+          <span class="bar-track">
+            <span class="bar-fill bar-bad" style="width:76.7%"></span>
+            <span class="refline" style="left:50%"></span>
+          </span>
+          <span class="val">7.7%</span>
+        </div>
+        <div class="bar-row">
+          <span class="name">Randomisation inference</span>
+          <span class="bar-track">
+            <span class="bar-fill bar-ok" style="width:53.3%"></span>
+            <span class="refline" style="left:50%"></span>
+          </span>
+          <span class="val">5.3%</span>
+        </div>
+        <div class="reflabel">dashed line = the 5.0% a calibrated test should produce &middot; axis 0&ndash;10%</div>
+      </div>
+    </div>
+    <p class="note">
+      CR1 finds half again as many effects as it should when there is nothing there. Permuting the
+      observed crossover schedule across CSMs reproduces the actual randomisation and is exact under
+      the sharp null, so <b>that is the headline p-value</b>. CR1 is still printed, as a cross-check.
+    </p>
+    <div class="callout">
+      <div class="eyebrow">And the obvious analysis is not good enough either</div>
+      <p>
+        On simulated data with a <strong>known 35% effect</strong> planted, at the realistic team size
+        of 15, the naive pre/post comparison of means recovers 32.5% with a mean absolute error of
+        <span class="num">0.055</span>; the fixed-effect estimator recovers 34.3% with an MAE of
+        <span class="num">0.029</span>. On a panel with a <strong>true effect of exactly zero</strong>,
+        the naive weekly comparison reads as <strong>32% worse</strong> &mdash; purely because
+        late-crossover CSMs and later calendar periods are not the same thing.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================================================== 7 -->
+  <section class="section">
+    <div class="section-head">
+      <span class="idx">&sect;7</span>
+      <h2>Power, simulated rather than assumed</h2>
+    </div>
+    <p class="lede">
+      There is no clean closed form for a stepped wedge with unbalanced clusters, a skewed outcome
+      and an exclusion rule, so the power calculation is the data-generating process itself: 250
+      simulated studies per cell.
+    </p>
+    <div class="panel">
+      <div class="eyebrow">Probability of detecting a real saving <span class="lc">&middot; &alpha; = 0.05</span></div>
+      <div class="scroll">
+        <table class="heat">
+          <thead>
+            <tr>
+              <th class="rowhead">CSMs</th>
+              <th>10%</th><th>15%</th><th>20%</th><th>30%</th><th>40%</th><th>50%</th>
+              <th style="padding-left:14px">MDE @ 80%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rowhead">10</td>
+              <td class="hc s1">0.27</td><td class="hc s2">0.51</td><td class="hc s4">0.80</td>
+              <td class="hc s5">1.00</td><td class="hc s5">1.00</td><td class="hc s5">1.00</td>
+              <td class="mde">20%</td>
+            </tr>
+            <tr class="here">
+              <td class="rowhead">15</td>
+              <td class="hc s1">0.40</td><td class="hc s3">0.72</td><td class="hc s4">0.94</td>
+              <td class="hc s5">1.00</td><td class="hc s5">1.00</td><td class="hc s5">1.00</td>
+              <td class="mde">17%</td>
+            </tr>
+            <tr>
+              <td class="rowhead">20</td>
+              <td class="hc s2">0.46</td><td class="hc s4">0.86</td><td class="hc s5">0.98</td>
+              <td class="hc s5">1.00</td><td class="hc s5">1.00</td><td class="hc s5">1.00</td>
+              <td class="mde">14%</td>
+            </tr>
+            <tr>
+              <td class="rowhead">25</td>
+              <td class="hc s3">0.58</td><td class="hc s4">0.91</td><td class="hc s5">1.00</td>
+              <td class="hc s5">1.00</td><td class="hc s5">1.00</td><td class="hc s5">1.00</td>
+              <td class="mde">13%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">
+        A team of 15 detects a 17% saving, and the ship bar is 50%. The risk is not missing a real
+        win &mdash; it is noise manufacturing a fake one, which is what &sect;6 is about.
+      </p>
+    </div>
+    <div class="panel">
+      <div class="eyebrow">Better measurement is cheaper than more people &middot; team held at 15</div>
+      <div class="scroll">
+        <table class="heat">
+          <thead>
+            <tr>
+              <th class="rowhead">sd(log&nbsp;min)</th>
+              <th>10%</th><th>15%</th><th>20%</th><th>30%</th>
+              <th style="padding-left:14px">MDE @ 80%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rowhead">0.65 loose</td>
+              <td class="hc s1">0.28</td><td class="hc s2">0.54</td><td class="hc s3">0.78</td><td class="hc s5">1.00</td>
+              <td class="mde">21%</td>
+            </tr>
+            <tr>
+              <td class="rowhead">0.50 assumed</td>
+              <td class="hc s1">0.40</td><td class="hc s3">0.72</td><td class="hc s4">0.94</td><td class="hc s5">1.00</td>
+              <td class="mde">17%</td>
+            </tr>
+            <tr class="here">
+              <td class="rowhead">0.35 calibrated</td>
+              <td class="hc s3">0.62</td><td class="hc s5">0.95</td><td class="hc s5">1.00</td><td class="hc s5">1.00</td>
+              <td class="mde">13%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">
+        Tightening the instrument from <span class="num">0.65</span> to <span class="num">0.35</span>
+        buys more than growing the team from 15 to 25. That is a week of work on the S2 calibration
+        against a hiring round &mdash; <b>the highest-leverage thing to do before the study starts</b>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================================================== 8 -->
+  <section class="section">
+    <div class="section-head">
+      <span class="idx">&sect;8</span>
+      <h2>The decision rule, written down first</h2>
+    </div>
+    <p class="lede">
+      50% is not a round number picked for looks: it is what turns &ldquo;4+ hours a week&rdquo; into
+      &ldquo;under 2&rdquo;.
+    </p>
+    <div class="ladder">
+      <div class="rung">
+        <div class="verdict v-ship">SHIP</div>
+        <div class="cond">
+          &ge;&nbsp;50% reduction in minutes per cycle, <strong>and</strong> a 90% CI lower bound
+          &ge;&nbsp;35%, <strong>and</strong> &ge;&nbsp;40% reduction in hours per CSM-week,
+          <strong>and</strong> no guardrail breach.
+          <span class="worked">minutes/cycle down 56.6% (bar 50%)
+90% CI lower bound 52.2% (bar 35%)
+hours/CSM-week down 59.5%: 5.2 h -> 2.1 h</span>
+        </div>
+      </div>
+      <div class="rung">
+        <div class="verdict v-iter">ITERATE</div>
+        <div class="cond">
+          20&ndash;50% reduction, or the reduction lands but the interval is wide or the weekly
+          saving is absorbed by a growing book of business.
+          <span class="worked">minutes/cycle down 32.9%, inside the iterate band
+90% CI lower bound 26.1% below the 35% bar
+hours/CSM-week only down 37.3% (5.2 h -> 3.3 h)
+  -- per-cycle savings partly absorbed by account load</span>
+        </div>
+      </div>
+      <div class="rung">
+        <div class="verdict v-kill">KILL / RETHINK</div>
+        <div class="cond">
+          &lt;&nbsp;20% reduction, or any guardrail breach. A CSAT breach overrides any size of time
+          saving &mdash; a faster report nobody trusts is not a saving.
+          <span class="worked">CSAT guardrail breached (-0.43 &lt; -0.20)
+  -- a faster report nobody trusts is not a saving</span>
+        </div>
+      </div>
+    </div>
+    <div class="commit">
+      <div class="eyebrow">Also pre-registered: where did the time go</div>
+      <p class="note">
+        Freed hours are attributed to more accounts, to strategic work, or to nothing, via the diary
+        instrument and accounts-per-CSM. Without this, <b>&ldquo;saved 4 hours&rdquo; is a claim no
+        observation could contradict.</b> The weekly bar is deliberately looser than the per-cycle
+        bar, because time being refilled with more accounts is a real and expected outcome &mdash; it
+        should read as ITERATE, not get quietly reported as success.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================================================== 9 -->
+  <section class="section">
+    <div class="section-head">
+      <span class="idx">&sect;9</span>
+      <h2>Threats, each with the thing that answers it</h2>
+    </div>
+    <div class="panel panel-flush scroll">
+      <table>
+        <thead><tr><th style="width:270px">Threat</th><th>Mitigation</th></tr></thead>
+        <tbody>
+          <tr style="background:var(--clay-soft)"><td><span class="lab">Work shifted onto the client</span></td><td>D4 &mdash; client-side engagement and CSAT. <b>The single most likely way this claim turns out false</b></td></tr>
+          <tr style="background:var(--clay-soft)"><td><span class="lab">Work shifted to analysts or design</span></td><td>Measure their hours too, on the same instruments</td></tr>
+          <tr><td><span class="lab">Novelty effect</span></td><td>Weeks 1&ndash;3 / 4&ndash;6 / 7+ estimated as separate coefficients against a shared control. A durable saving is flat, and the analysis prints this every run</td></tr>
+          <tr><td><span class="lab">Hawthorne</span></td><td>The wedge observes everyone throughout, treated and not</td></tr>
+          <tr><td><span class="lab">Self-selection</span></td><td>Randomise. No volunteers, no early-access list</td></tr>
+          <tr><td><span class="lab">Instrument changed between periods</span></td><td>S2 spans both &mdash; the reason it is the baseline instrument</td></tr>
+          <tr><td><span class="lab">Parkinson&rsquo;s law: reports quietly grow</span></td><td>Covariate-adjust on report scope &mdash; charts, pages, custom cuts</td></tr>
+          <tr><td><span class="lab">Learning curve</span></td><td>First post-crossover cycle excluded, and reported separately</td></tr>
+          <tr><td><span class="lab">Seasonality and QBR spikes</span></td><td>Period fixed effects plus a quarter-boundary indicator</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================================================== 10 -->
+  <section class="section">
+    <div class="section-head">
+      <span class="idx">&sect;10</span>
+      <h2>Sequence</h2>
+    </div>
+    <div class="panel panel-flush scroll">
+      <table>
+        <thead><tr><th style="width:120px">When</th><th>What</th></tr></thead>
+        <tbody>
+          <tr><td class="num tight lab">Now</td><td>Start the D2 golden corpus with frozen input snapshots. It cannot be built retroactively</td></tr>
+          <tr><td class="num tight lab">Weeks 1&ndash;2</td><td>Reconstruct D0 from S2 metadata, run D1 shadowing, fit the calibration, re-run the power analysis on real variance</td></tr>
+          <tr><td class="num tight lab">Weeks 2&ndash;4</td><td>Label D2, build D3, run the offline gates. <b>If G1&ndash;G3 do not pass, the rollout does not start</b></td></tr>
+          <tr><td class="num tight lab">Weeks 5&ndash;19</td><td>The stepped wedge &mdash; five steps of three weeks</td></tr>
+          <tr><td class="num tight lab">Week 20</td><td>Analysis exactly as specified, verdict from the table in &sect;8</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================================================== reproduce -->
+  <section class="section">
+    <div class="section-head">
+      <span class="idx">&sect;&mdash;</span>
+      <h2>Every number here is reproducible</h2>
+    </div>
+    <p class="lede">
+      Standard library only, Python 3.9+, nothing to install. The estimator is verified by planting
+      known effects and checking they come back out &mdash; and by planting none and checking that
+      none is found.
+    </p>
+    <div class="console">
+<pre><span class="c"># 51 tests: recovers a planted 35%, refuses to invent one, gates fire</span>
+python3 evals/test_evals.py
+
+<span class="c"># the pre-registered analysis, end to end</span>
+python3 evals/simulate.py <span class="g">--effect 0.35</span>
+python3 evals/analysis.py
+
+<span class="c"># the power tables in &sect;7 and the size check in &sect;6</span>
+python3 evals/power.py <span class="g">--size-check</span>
+
+<span class="c"># the quality gates: golden clears, stress blocks and says why</span>
+python3 evals/offline_eval.py <span class="g">--set golden</span>
+python3 evals/offline_eval.py <span class="g">--set stress</span></pre>
+    </div>
+  </section>
+
+  <footer>
+    <div class="eyebrow rule-tag">Pepper Atlas &middot; CS reporting eval</div>
+    <div>
+      Pre-registered design. Figures generated from <span class="num">evals/</span>; the full
+      write-up is in <span class="num">docs/eval-design.md</span>.
+    </div>
+  </footer>
+
+</div>
