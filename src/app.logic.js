@@ -339,9 +339,6 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state;
 
-    const execTabDefs = [
-      { key: 'exec', label: 'Executive Summary' },
-    ];
     const tabDefs = [
       { key: 'overview', label: 'Performance' },
       { key: 'insights', label: 'Insights' },
@@ -568,13 +565,7 @@ class Component extends DCLogic {
       bg: s.activeTab === t.key ? 'rgba(255,255,255,0.08)' : 'transparent',
       dot: s.activeTab === t.key ? 'var(--navy-2)' : 'rgba(242,241,236,0.25)',
     }));
-    const execTabs = execTabDefs.map(x => ({
-      label: x.label, badge: false, onClick: () => this.setTab(x.key),
-      color: s.activeTab === x.key ? '#fff' : 'rgba(242,241,236,0.65)',
-      bg: s.activeTab === x.key ? 'rgba(255,255,255,0.08)' : 'transparent',
-      dot: s.activeTab === x.key ? 'var(--teal)' : 'rgba(242,241,236,0.25)',
-    }));
-    const allTabDefs = [...execTabDefs, ...tabDefs, ...seoTabDefs, ...gscTabDefs, ...brandTabDefs];
+    const allTabDefs = [...tabDefs, ...seoTabDefs, ...gscTabDefs, ...brandTabDefs];
     const activeTabDef = allTabDefs.find(t => t.key === s.activeTab);
     const activeTabLabel = activeTabDef ? activeTabDef.label : 'Overview';
 
@@ -1124,83 +1115,6 @@ class Component extends DCLogic {
     } : null;
     if (insightDraftPanel) insightDraftPanel.isDraftMode = !insightDraftPanel.isUpdate;
 
-    // ── Executive summary ─────────────────────────────────────────────────
-    // Everything here is computed from the datasets the other tabs render, so
-    // the summary cannot drift from the detail it summarises.
-    const totalCitations = this.citationsData.reduce((a, c) => a + c.citations_count, 0);
-    const citesGaining = this.citationsData.filter(c => (c.change_vs_previous || '').startsWith('+'));
-    const citesFalling = this.citationsData.filter(c => (c.change_vs_previous || '').startsWith('-'));
-    const topCitedPage = this.citationsData.reduce((a, b) => b.citations_count > a.citations_count ? b : a);
-    const notIndexed = this.sitemaps.reduce((a, sm) => {
-      const sub = parseInt(String(sm.submitted).replace(/,/g, ''), 10) || 0;
-      const idx = parseInt(String(sm.indexed).replace(/,/g, ''), 10) || 0;
-      return a + Math.max(0, sub - idx);
-    }, 0);
-
-    // Where Acme stands against the strongest competitor on each metric.
-    const acmeRow = brandMetricsData.find(b => b.isYou);
-    const rivalRows = brandMetricsData.filter(b => !b.isYou);
-    const execStanding = [
-      ['Mention rate', 'mentionRate', false, '%'],
-      ['Citation rate', 'citationRate', false, '%'],
-      ['Share of voice', 'shareOfVoice', false, '%'],
-      ['Sentiment', 'sentiment', false, ''],
-      ['Avg. position', 'avgPosition', true, ''],
-    ].map(([label, key, lowerIsBetter, unit]) => {
-      const best = rivalRows.reduce((a, b) => (lowerIsBetter ? b[key] < a[key] : b[key] > a[key]) ? b : a);
-      const ahead = lowerIsBetter ? acmeRow[key] <= best[key] : acmeRow[key] >= best[key];
-      const ratio = lowerIsBetter ? best[key] / acmeRow[key] : acmeRow[key] / best[key];
-      return {
-        label,
-        acmeValue: acmeRow[key] + unit,
-        bestValue: best[key] + unit,
-        bestName: best.name,
-        verdict: ahead ? 'Leading' : 'Behind',
-        pillClass: ahead ? 'pill pill-teal' : 'pill pill-neg',
-        barPct: Math.round(Math.min(1, ratio) * 100) + '%',
-        barColor: ahead ? 'var(--teal)' : 'var(--amber)',
-      };
-    });
-    const leadCount = execStanding.filter(x => x.verdict === 'Leading').length;
-    const behindCount = execStanding.length - leadCount;
-
-    // Ranked actions: the High-severity findings, in the order the feed shows.
-    const execPriorities = insights
-      .filter(i => !i.isReco && i.severity === 'High')
-      .slice(0, 4)
-      .map((i, idx) => ({
-        rank: String(idx + 1).padStart(2, '0'),
-        title: i.title,
-        detail: i.rootCauseTag,
-        onOpen: () => this.setState({ activeTab: 'insights', insightDetailId: i.id }),
-      }));
-
-    const execWins = [
-      { label: 'Citation volume', value: String(totalCitations), sub: citesGaining.length + ' of ' + this.citationsData.length + ' tracked pages gaining' },
-      { label: 'Sentiment', value: String(acmeRow.sentiment), sub: 'highest of the four tracked brands' },
-      { label: 'Conversions', value: '1,842', sub: '+9.6% vs prior period' },
-    ];
-    const execRisks = [
-      { label: 'Revenue', value: '-2.8%', sub: 'falling while conversions rise 9.6%' },
-      { label: 'Unindexed URLs', value: String(notIndexed), sub: 'submitted but absent from the index' },
-      { label: 'Declining pages', value: String(citesFalling.length), sub: 'losing citation share this period' },
-    ];
-
-    const execSummary = {
-      period: 'Last 180 days',
-      headline: behindCount > leadCount
-        ? 'Acme is winning on reputation and losing on reach.'
-        : 'Acme is holding its position across the tracked set.',
-      standfirst: 'Sentiment is the strongest metric in the set and the only one where Acme leads its closest '
-        + 'competitor. The other four are volume problems \u2014 and the largest single constraint is technical, not editorial: '
-        + notIndexed + ' submitted URLs are not in the index at all, so no engine can cite them.',
-      citations: String(totalCitations),
-      topPagePct: Math.round(topCitedPage.citations_count / totalCitations * 100) + '%',
-      topPageUrl: topCitedPage.url.replace('www.acme.com', ''),
-      leadCount: String(leadCount),
-      behindCount: String(behindCount),
-      highCount: String(insights.filter(i => !i.isReco && i.severity === 'High').length),
-    };
 
 
     const copilotSuggestions = s.copilotSuggestions.map(sug => ({
@@ -1222,9 +1136,7 @@ class Component extends DCLogic {
     }));
 
     return {
-      tabs, activeTabLabel, seoTabs, gscTabs, brandTabs, execTabs,
-      isExec: s.activeTab === 'exec',
-      execSummary, execStanding, execPriorities, execWins, execRisks,
+      tabs, activeTabLabel, seoTabs, gscTabs, brandTabs,
       isBrandKeywords: s.activeTab === 'brand_keywords',
       isBrandCompetitors: s.activeTab === 'brand_competitors',
       isBrandGuidelines: s.activeTab === 'brand_guidelines',

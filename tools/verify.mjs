@@ -268,8 +268,8 @@ for (const height of [900, 620, 560, 460]) {
   check(bogus.length === 0, 'no insight claims a single-engine share above the table maximum',
         bogus.join(', '));
 
-  // The unindexed-URL count is quoted on both the Executive Summary and an
-  // insight card; both must equal the shortfall computed from the Sitemaps tab.
+  // The unindexed-URL count quoted in the insight feed must equal the
+  // shortfall computed from the Sitemaps tab.
   await page.click('.nav-item:has-text("Sitemaps")');
   await page.waitForTimeout(500);
   const shortfall = await page.evaluate(() => [...document.querySelectorAll('.trow')]
@@ -279,7 +279,7 @@ for (const height of [900, 620, 560, 460]) {
       const idx = Number(m[1].replace(/,/g, '')), sub = Number(m[2].replace(/,/g, ''));
       return total + Math.max(0, sub - idx);
     }, 0));
-  for (const [tab, sel] of [['Executive Summary', '.app'], ['Insights', '.app']]) {
+  for (const [tab, sel] of [['Insights', '.app']]) {
     await page.click(`.nav-item:has-text("${tab}")`);
     await page.waitForTimeout(600);
     const quoted = await page.evaluate(s => {
