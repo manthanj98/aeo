@@ -1,6 +1,9 @@
 __pycache__/
 *.pyc
 
+# Only needed to regenerate docs/atlas-eval-brief.docx (npm i docx --no-save).
+node_modules/
+
 # Generated panels — regenerate with evals/simulate.py. power.json is committed
 # because the design doc and the artifact quote its numbers.
 evals/data/*.csv
