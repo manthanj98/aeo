@@ -96,7 +96,7 @@ the same tokens the rest of the app uses, so it cannot drift from the system it 
 
 The insight cards are hand-written copy over generated data, so several quoted figures had drifted from the
 tables they describe. The headline KPIs turned out to be sound — each is the engine table weighted by
-citation share — but four cards were not:
+citation share — but five cards were not:
 
 - **`ins_8`** claimed 71% of citations came from a single engine. The largest share in the table is ChatGPT
   at 34%. Reframed to the real concentration: ChatGPT + Perplexity carry 61%.
