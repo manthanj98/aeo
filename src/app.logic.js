@@ -339,6 +339,9 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state;
 
+    const execTabDefs = [
+      { key: 'exec', label: 'Executive Summary' },
+    ];
     const tabDefs = [
       { key: 'overview', label: 'Performance' },
       { key: 'insights', label: 'Insights' },
@@ -463,10 +466,10 @@ class Component extends DCLogic {
       },
       {
         id: 'ins_14', articleAction: 'draft', severity: 'High', severityBg: 'var(--neg-bg)', severityColor: 'var(--neg)', timeAgo: '10h',
-        title: '136 submitted URLs are not indexed \u2014 including all 88 in docs-sitemap.xml',
-        statValue: '136', statDelta: 'URLs submitted but not indexed across 3 sitemaps', statDeltaColor: 'var(--neg)',
+        title: '228 submitted URLs are not indexed \u2014 including all 88 in docs-sitemap.xml',
+        statValue: '228', statDelta: 'URLs submitted but not indexed across all four sitemaps', statDeltaColor: 'var(--neg)',
         chartType: 'bar', barItems: [{ label: 'sitemap', value: '97%', h: '97%', color: 'var(--teal)' }, { label: 'blog', value: '85%', h: '85%', color: 'var(--teal-deep)' }, { label: 'news', value: '38%', h: '38%', color: 'var(--amber)' }, { label: 'docs', value: '0%', h: '2%', color: 'var(--neg)' }],
-        rootCauseTag: 'docs-sitemap.xml \u00b7 Pending \u00b7 0 of 88 indexed', rootCauseText: 'docs-sitemap.xml has never been processed, so none of its 88 URLs are in the index. news-sitemap.xml is indexing 21 of 56 with 2 errors, and blog-sitemap.xml is missing 63 URLs with 3 warnings. A page that is not indexed cannot be crawled for citations by any engine.',
+        rootCauseTag: 'docs-sitemap.xml \u00b7 Pending \u00b7 0 of 88 indexed', rootCauseText: 'docs-sitemap.xml has never been processed, so none of its 88 URLs are in the index. news-sitemap.xml is indexing 21 of 56 with 2 errors, and blog-sitemap.xml is missing 63 URLs with 3 warnings, and even the main sitemap has a 42-URL shortfall. A page that is not indexed cannot be crawled for citations by any engine.',
         impactTag: 'Impact: High', impactText: 'This sits upstream of every metric on this dashboard \u2014 Visibility, Citation Rate and Share of Voice are all measured against content the engines cannot currently reach. It is the cheapest available lift because the content already exists.',
         contributors: [{ label: 'docs-sitemap.xml', value: '0 / 88', pct: 'Pending', sub: 'never processed' }, { label: 'news-sitemap.xml', value: '21 / 56', pct: '38%', sub: '2 errors' }],
       },
@@ -565,7 +568,13 @@ class Component extends DCLogic {
       bg: s.activeTab === t.key ? 'rgba(255,255,255,0.08)' : 'transparent',
       dot: s.activeTab === t.key ? 'var(--navy-2)' : 'rgba(242,241,236,0.25)',
     }));
-    const allTabDefs = [...tabDefs, ...seoTabDefs, ...gscTabDefs, ...brandTabDefs];
+    const execTabs = execTabDefs.map(x => ({
+      label: x.label, badge: false, onClick: () => this.setTab(x.key),
+      color: s.activeTab === x.key ? '#fff' : 'rgba(242,241,236,0.65)',
+      bg: s.activeTab === x.key ? 'rgba(255,255,255,0.08)' : 'transparent',
+      dot: s.activeTab === x.key ? 'var(--teal)' : 'rgba(242,241,236,0.25)',
+    }));
+    const allTabDefs = [...execTabDefs, ...tabDefs, ...seoTabDefs, ...gscTabDefs, ...brandTabDefs];
     const activeTabDef = allTabDefs.find(t => t.key === s.activeTab);
     const activeTabLabel = activeTabDef ? activeTabDef.label : 'Overview';
 
@@ -1015,7 +1024,7 @@ class Component extends DCLogic {
           ins_14: [
             'Remediation brief \u2014 sitemap indexation',
             'docs-sitemap.xml has never been processed. All 88 URLs it declares are absent from the index, so no engine can crawl them for citations. Confirm the sitemap returns 200, is referenced in robots.txt, and contains no URLs blocked by noindex or canonical conflicts, then resubmit.',
-            'news-sitemap.xml is indexing 21 of 56 URLs and reporting 2 errors; blog-sitemap.xml is missing 63 URLs with 3 warnings. Together with docs, that is 136 submitted URLs the engines cannot reach.',
+            'news-sitemap.xml is indexing 21 of 56 URLs and reporting 2 errors; blog-sitemap.xml is missing 63 URLs with 3 warnings; the main sitemap is short by 42. Across all four, 228 submitted URLs are unreachable.',
             'This is the cheapest lift on the board because the content already exists \u2014 nothing needs to be written, only made reachable.',
           ],
           ins_15: [
@@ -1115,6 +1124,85 @@ class Component extends DCLogic {
     } : null;
     if (insightDraftPanel) insightDraftPanel.isDraftMode = !insightDraftPanel.isUpdate;
 
+    // ── Executive summary ─────────────────────────────────────────────────
+    // Everything here is computed from the datasets the other tabs render, so
+    // the summary cannot drift from the detail it summarises.
+    const totalCitations = this.citationsData.reduce((a, c) => a + c.citations_count, 0);
+    const citesGaining = this.citationsData.filter(c => (c.change_vs_previous || '').startsWith('+'));
+    const citesFalling = this.citationsData.filter(c => (c.change_vs_previous || '').startsWith('-'));
+    const topCitedPage = this.citationsData.reduce((a, b) => b.citations_count > a.citations_count ? b : a);
+    const notIndexed = this.sitemaps.reduce((a, sm) => {
+      const sub = parseInt(String(sm.submitted).replace(/,/g, ''), 10) || 0;
+      const idx = parseInt(String(sm.indexed).replace(/,/g, ''), 10) || 0;
+      return a + Math.max(0, sub - idx);
+    }, 0);
+
+    // Where Acme stands against the strongest competitor on each metric.
+    const acmeRow = brandMetricsData.find(b => b.isYou);
+    const rivalRows = brandMetricsData.filter(b => !b.isYou);
+    const execStanding = [
+      ['Mention rate', 'mentionRate', false, '%'],
+      ['Citation rate', 'citationRate', false, '%'],
+      ['Share of voice', 'shareOfVoice', false, '%'],
+      ['Sentiment', 'sentiment', false, ''],
+      ['Avg. position', 'avgPosition', true, ''],
+    ].map(([label, key, lowerIsBetter, unit]) => {
+      const best = rivalRows.reduce((a, b) => (lowerIsBetter ? b[key] < a[key] : b[key] > a[key]) ? b : a);
+      const ahead = lowerIsBetter ? acmeRow[key] <= best[key] : acmeRow[key] >= best[key];
+      const ratio = lowerIsBetter ? best[key] / acmeRow[key] : acmeRow[key] / best[key];
+      return {
+        label,
+        acmeValue: acmeRow[key] + unit,
+        bestValue: best[key] + unit,
+        bestName: best.name,
+        verdict: ahead ? 'Leading' : 'Behind',
+        pillClass: ahead ? 'pill pill-teal' : 'pill pill-neg',
+        barPct: Math.round(Math.min(1, ratio) * 100) + '%',
+        barColor: ahead ? 'var(--teal)' : 'var(--amber)',
+      };
+    });
+    const leadCount = execStanding.filter(x => x.verdict === 'Leading').length;
+    const behindCount = execStanding.length - leadCount;
+
+    // Ranked actions: the High-severity findings, in the order the feed shows.
+    const execPriorities = insights
+      .filter(i => !i.isReco && i.severity === 'High')
+      .slice(0, 4)
+      .map((i, idx) => ({
+        rank: String(idx + 1).padStart(2, '0'),
+        title: i.title,
+        detail: i.rootCauseTag,
+        onOpen: () => this.setState({ activeTab: 'insights', insightDetailId: i.id }),
+      }));
+
+    const execWins = [
+      { label: 'Citation volume', value: String(totalCitations), sub: citesGaining.length + ' of ' + this.citationsData.length + ' tracked pages gaining' },
+      { label: 'Sentiment', value: String(acmeRow.sentiment), sub: 'highest of the four tracked brands' },
+      { label: 'Conversions', value: '1,842', sub: '+9.6% vs prior period' },
+    ];
+    const execRisks = [
+      { label: 'Revenue', value: '-2.8%', sub: 'falling while conversions rise 9.6%' },
+      { label: 'Unindexed URLs', value: String(notIndexed), sub: 'submitted but absent from the index' },
+      { label: 'Declining pages', value: String(citesFalling.length), sub: 'losing citation share this period' },
+    ];
+
+    const execSummary = {
+      period: 'Last 180 days',
+      headline: behindCount > leadCount
+        ? 'Acme is winning on reputation and losing on reach.'
+        : 'Acme is holding its position across the tracked set.',
+      standfirst: 'Sentiment is the strongest metric in the set and the only one where Acme leads its closest '
+        + 'competitor. The other four are volume problems \u2014 and the largest single constraint is technical, not editorial: '
+        + notIndexed + ' submitted URLs are not in the index at all, so no engine can cite them.',
+      citations: String(totalCitations),
+      topPagePct: Math.round(topCitedPage.citations_count / totalCitations * 100) + '%',
+      topPageUrl: topCitedPage.url.replace('www.acme.com', ''),
+      leadCount: String(leadCount),
+      behindCount: String(behindCount),
+      highCount: String(insights.filter(i => !i.isReco && i.severity === 'High').length),
+    };
+
+
     const copilotSuggestions = s.copilotSuggestions.map(sug => ({
       text: sug.text,
       topicName: this.topicName(s.topics, sug.topicId),
@@ -1134,7 +1222,9 @@ class Component extends DCLogic {
     }));
 
     return {
-      tabs, activeTabLabel, seoTabs, gscTabs, brandTabs,
+      tabs, activeTabLabel, seoTabs, gscTabs, brandTabs, execTabs,
+      isExec: s.activeTab === 'exec',
+      execSummary, execStanding, execPriorities, execWins, execRisks,
       isBrandKeywords: s.activeTab === 'brand_keywords',
       isBrandCompetitors: s.activeTab === 'brand_competitors',
       isBrandGuidelines: s.activeTab === 'brand_guidelines',

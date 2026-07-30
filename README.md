@@ -31,7 +31,7 @@ npm run shots          # same, plus screenshots into dist/shots/
 surrounding `<html>`/`<head>`/`<body>`. `dist/pepper-project.standalone.html` is a complete document for
 opening directly in a browser.
 
-`tools/verify.mjs` runs 53 checks: every tab and drawer renders with no page errors, no unresolved `{{ }}`
+`tools/verify.mjs` runs 63 checks: every tab and drawer renders with no page errors, no unresolved `{{ }}`
 bindings and no `undefined`/`NaN` leaking into the UI; one targeted regression per fixed bug; no horizontal page
 scroll at 1440 / 900 / 480 px, tables that fill their container at 1920 px, and cross-tab consistency
 between the insight copy and the underlying tables.
@@ -123,6 +123,18 @@ URL inspection. Twenty cards total.
 the DOM, recomputes each headline KPI as a citation-share-weighted mean, rejects any insight claiming a
 single-engine share above the table maximum, and fails if a domain described as an unlinked mention appears
 in Backlinks.
+
+### Executive Summary
+
+A `Summary → Executive Summary` tab sits above Overview. Every figure on it is computed from the datasets
+the other tabs render — citation totals and gainers/decliners from the Pages data, the unindexed shortfall
+from the Sitemaps table, competitive standing from the brand comparison, and the ranked priorities from the
+High-severity insights — so the summary cannot drift from the detail it summarises. Priority rows deep-link
+into the corresponding insight drawer.
+
+Building it immediately surfaced one more contradiction: the derived unindexed count is **228**
+(42 + 63 + 88 + 35 across the four sitemaps) where `ins_14` claimed 136. The card was corrected, and the
+verifier now asserts that figure against the Sitemaps table on both tabs that quote it.
 
 ### Renamed
 

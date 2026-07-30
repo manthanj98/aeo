@@ -268,6 +268,30 @@ for (const height of [900, 620, 560, 460]) {
   check(bogus.length === 0, 'no insight claims a single-engine share above the table maximum',
         bogus.join(', '));
 
+  // The unindexed-URL count is quoted on both the Executive Summary and an
+  // insight card; both must equal the shortfall computed from the Sitemaps tab.
+  await page.click('.nav-item:has-text("Sitemaps")');
+  await page.waitForTimeout(500);
+  const shortfall = await page.evaluate(() => [...document.querySelectorAll('.trow')]
+    .reduce((total, r) => {
+      const m = r.innerText.match(/([\d,]+)\s*\/\s*([\d,]+)/);
+      if (!m) return total;
+      const idx = Number(m[1].replace(/,/g, '')), sub = Number(m[2].replace(/,/g, ''));
+      return total + Math.max(0, sub - idx);
+    }, 0));
+  for (const [tab, sel] of [['Executive Summary', '.app'], ['Insights', '.app']]) {
+    await page.click(`.nav-item:has-text("${tab}")`);
+    await page.waitForTimeout(600);
+    const quoted = await page.evaluate(s => {
+      const txt = document.querySelector(s).innerText;
+      return [...txt.matchAll(/([\d,]+)\s+(?:submitted )?URLs? (?:are |submitted but )?(?:not|absent)/gi)]
+        .map(m => Number(m[1].replace(/,/g, '')));
+    }, sel);
+    const wrong = quoted.filter(v => v !== shortfall);
+    check(wrong.length === 0, `unindexed-URL count matches the Sitemaps table on ${tab}`,
+          wrong.length ? `quoted ${wrong.join('/')} vs table ${shortfall}` : `${shortfall} confirmed`);
+  }
+
   // Domains described as "unlinked mentions" must not already be in Backlinks.
   // Scoped to the card making the claim — other cards discuss linked domains
   // legitimately, so a page-wide search would false-positive on those.

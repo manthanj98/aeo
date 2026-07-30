@@ -472,3 +472,51 @@ a:hover { color: var(--ink); }
   .kpi-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
   .section-title { font-size: 17px; }
 }
+
+/* --------------------------------------------------- executive summary */
+
+.exec-hero { padding: 26px 28px; }
+.exec-headline {
+  margin: 0; font-size: 27px; font-weight: 800; line-height: 1.2; letter-spacing: -.028em;
+  max-width: 22ch;
+  background: linear-gradient(135deg, #fff 30%, var(--teal-light) 120%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.exec-hero-stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px; margin-top: 24px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--r-lg); overflow: hidden;
+}
+.exec-hero-stats > div { background: rgba(26,15,46,.46); padding: 14px 16px; }
+.exec-hero-num { font-size: 22px; font-weight: 800; letter-spacing: -.02em; color: var(--teal-light); }
+.exec-hero-cap {
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  letter-spacing: .13em; text-transform: uppercase; color: #C9BBD9; margin-top: 6px;
+}
+
+.exec-line { display: flex; align-items: baseline; gap: 12px; }
+.exec-line-val { font-size: 19px; font-weight: 800; letter-spacing: -.02em; min-width: 74px; }
+.exec-line-label { font-size: 13px; font-weight: 600; color: var(--ink); }
+.exec-line-sub { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+
+.exec-bar { height: 7px; border-radius: 4px; background: var(--line); overflow: hidden; min-width: 60px; }
+.exec-bar span { display: block; height: 100%; border-radius: 4px; }
+
+.exec-priority {
+  display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center;
+  padding: 15px 18px; cursor: pointer;
+}
+.exec-priority:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--teal); }
+.exec-priority-title { font-size: 13.5px; font-weight: 700; color: var(--ink); line-height: 1.4; }
+.exec-priority-go {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--teal-deep); white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .exec-headline { font-size: 21px; }
+  .exec-priority { grid-template-columns: auto 1fr; }
+  .exec-priority-go { display: none; }
+}
