@@ -1,0 +1,839 @@
+{
+  "_provenance": {
+    "source": "prototype/pepperproject.standalone.html",
+    "note": "Literal tables extracted verbatim from `class Component extends DCLogic` (lines 4202-5459). Values carried over unchanged. Fields the prototype does not define but the agent's detection rules need are marked `synthetic: true` on the row that carries them; see README.md 'Dataset provenance'.",
+    "extracted_lines": {
+      "engines": "engineData, ~4818",
+      "brand_metrics": "brandMetricsData, ~4828",
+      "prompts": "trackedPrompts, ~4333",
+      "sample_answers": "allPrompts, ~4383",
+      "pages": "citationsData, ~4392",
+      "backlinks": "backlinkDomains, ~4429",
+      "topics": "state.topics, ~4326",
+      "keywords": "state.brandKeywords, ~4318",
+      "competitor_domains": "state.brandCompetitors, ~4308",
+      "brand_guidelines": "state.recommendedGuidelines, ~4448"
+    }
+  },
+  "brand": {
+    "name": "Acme",
+    "domain": "acme.com",
+    "period_label": "Jun 2026",
+    "prior_period_label": "May 2026",
+    "competitor_domains": [
+      "athenahq.ai",
+      "tryprofound.com",
+      "peec.ai",
+      "conductor.com",
+      "semrush.com",
+      "brightedge.com",
+      "scrunchai.com",
+      "airops.com"
+    ],
+    "keywords": [
+      "ai visibility tracking",
+      "best aeo tools 2026",
+      "acme ai visibility",
+      "generative engine optimization",
+      "ai search rank tracker",
+      "chatgpt brand monitoring",
+      "llm citation tracking",
+      "ai overview optimization"
+    ]
+  },
+  "topics": [
+    {
+      "id": "topic_agents",
+      "name": "AI Agents & Workflow Automation"
+    },
+    {
+      "id": "topic_seo",
+      "name": "Programmatic SEO & Content Scale"
+    },
+    {
+      "id": "topic_data",
+      "name": "AI Data Processing & Operations"
+    },
+    {
+      "id": "topic_brand",
+      "name": "Brand & Company Info"
+    },
+    {
+      "id": "topic_pricing",
+      "name": "Pricing & Competitive Positioning"
+    }
+  ],
+  "engines": [
+    {
+      "name": "ChatGPT",
+      "visibility_score": 41,
+      "mention_rate": 64,
+      "share_of_voice": 26,
+      "citation_rate": 52,
+      "sentiment_score": 84,
+      "avg_position": 2.1,
+      "citation_share": 34,
+      "color": "#C9A961"
+    },
+    {
+      "name": "Perplexity",
+      "visibility_score": 38,
+      "mention_rate": 59,
+      "share_of_voice": 23,
+      "citation_rate": 49,
+      "sentiment_score": 80,
+      "avg_position": 2.3,
+      "citation_share": 27,
+      "color": "#4A2C7A"
+    },
+    {
+      "name": "Google AI Overviews",
+      "visibility_score": 29,
+      "mention_rate": 52,
+      "share_of_voice": 18,
+      "citation_rate": 41,
+      "sentiment_score": 78,
+      "avg_position": 2.8,
+      "citation_share": 18,
+      "color": "#A8893F"
+    },
+    {
+      "name": "Microsoft Co-Pilot",
+      "visibility_score": 27,
+      "mention_rate": 49,
+      "share_of_voice": 17,
+      "citation_rate": 38,
+      "sentiment_score": 81,
+      "avg_position": 3.0,
+      "citation_share": 13,
+      "color": "#D4756B"
+    },
+    {
+      "name": "Claude",
+      "visibility_score": 24,
+      "mention_rate": 45,
+      "share_of_voice": 15,
+      "citation_rate": 36,
+      "sentiment_score": 85,
+      "avg_position": 3.3,
+      "citation_share": 8,
+      "color": "#1A0F2E"
+    }
+  ],
+  "regions": [
+    {
+      "code": "na",
+      "name": "United States",
+      "weight": 0.6
+    },
+    {
+      "code": "emea",
+      "name": "EMEA",
+      "weight": 0.26
+    },
+    {
+      "code": "apac",
+      "name": "APAC",
+      "weight": 0.14
+    }
+  ],
+  "brand_metrics": [
+    {
+      "name": "Acme",
+      "mention_rate": 58,
+      "citation_rate": 46,
+      "share_of_voice": 21,
+      "sentiment": 82,
+      "avg_position": 2.4,
+      "is_you": true
+    },
+    {
+      "name": "AthenaHQ",
+      "mention_rate": 64,
+      "citation_rate": 51,
+      "share_of_voice": 24,
+      "sentiment": 79,
+      "avg_position": 2.1,
+      "is_you": false
+    },
+    {
+      "name": "Profound",
+      "mention_rate": 49,
+      "citation_rate": 39,
+      "share_of_voice": 17,
+      "sentiment": 76,
+      "avg_position": 3.0,
+      "is_you": false
+    },
+    {
+      "name": "Peec AI",
+      "mention_rate": 41,
+      "citation_rate": 33,
+      "share_of_voice": 14,
+      "sentiment": 74,
+      "avg_position": 3.6,
+      "is_you": false
+    }
+  ],
+  "prompts": [
+    {
+      "prompt_id": "pt_1",
+      "topic_id": "topic_agents",
+      "text": "How do I build custom AI agents?",
+      "prompt_type": "Category Related",
+      "volume": 2400,
+      "mention_rate": 38.0,
+      "mention_trend": -3.9,
+      "citation_rate": 20.9,
+      "citation_trend": -2.2,
+      "positive_rate": 72.0
+    },
+    {
+      "prompt_id": "pt_2",
+      "topic_id": "topic_agents",
+      "text": "Can AI workflows automate customer support tasks?",
+      "prompt_type": "Category Related",
+      "volume": 1800,
+      "mention_rate": 41.0,
+      "mention_trend": -2.6,
+      "citation_rate": 24.6,
+      "citation_trend": -1.1,
+      "positive_rate": 68.0
+    },
+    {
+      "prompt_id": "pt_3",
+      "topic_id": "topic_agents",
+      "text": "How to integrate LLMs into business workflows?",
+      "prompt_type": "Category Related",
+      "volume": 3100,
+      "mention_rate": 29.0,
+      "mention_trend": -1.3,
+      "citation_rate": 18.9,
+      "citation_trend": 0.0,
+      "positive_rate": 61.0
+    },
+    {
+      "prompt_id": "pt_4",
+      "topic_id": "topic_agents",
+      "text": "What are the best workflow automation practices?",
+      "prompt_type": "Category Related",
+      "volume": 2900,
+      "mention_rate": 33.0,
+      "mention_trend": 0.0,
+      "citation_rate": 23.1,
+      "citation_trend": 1.1,
+      "positive_rate": 75.0
+    },
+    {
+      "prompt_id": "pt_5",
+      "topic_id": "topic_brand",
+      "text": "What is Acme and how does it work?",
+      "prompt_type": "Brand Related",
+      "volume": 880,
+      "mention_rate": 91.0,
+      "mention_trend": 1.3,
+      "citation_rate": 68.3,
+      "citation_trend": 2.2,
+      "positive_rate": 94.0
+    },
+    {
+      "prompt_id": "pt_6",
+      "topic_id": "topic_agents",
+      "text": "Top tools for building multi-agent AI workflows?",
+      "prompt_type": "Category Related",
+      "volume": 2200,
+      "mention_rate": 46.0,
+      "mention_trend": 2.6,
+      "citation_rate": 25.3,
+      "citation_trend": -2.2,
+      "positive_rate": 70.0
+    },
+    {
+      "prompt_id": "pt_7",
+      "topic_id": "topic_agents",
+      "text": "Which AI workflow builder has best integrations?",
+      "prompt_type": "Category Related",
+      "volume": 1500,
+      "mention_rate": 52.0,
+      "mention_trend": 3.9,
+      "citation_rate": 31.2,
+      "citation_trend": -1.1,
+      "positive_rate": 64.0
+    },
+    {
+      "prompt_id": "pt_8",
+      "topic_id": "topic_agents",
+      "text": "Compare leading enterprise AI automation platforms.",
+      "prompt_type": "Category Related",
+      "volume": 2700,
+      "mention_rate": 44.0,
+      "mention_trend": -3.9,
+      "citation_rate": 28.6,
+      "citation_trend": 0.0,
+      "positive_rate": 58.0
+    },
+    {
+      "prompt_id": "pt_9",
+      "topic_id": "topic_pricing",
+      "text": "Is Acme worth it for content scaling?",
+      "prompt_type": "Brand Related",
+      "volume": 640,
+      "mention_rate": 88.0,
+      "mention_trend": -2.6,
+      "citation_rate": 61.6,
+      "citation_trend": 1.1,
+      "positive_rate": 91.0
+    },
+    {
+      "prompt_id": "pt_10",
+      "topic_id": "topic_seo",
+      "text": "Can AI tools automate programmatic SEO campaigns?",
+      "prompt_type": "Category Related",
+      "volume": 1900,
+      "mention_rate": 36.0,
+      "mention_trend": -1.3,
+      "citation_rate": 27.0,
+      "citation_trend": 2.2,
+      "positive_rate": 66.0
+    },
+    {
+      "prompt_id": "pt_11",
+      "topic_id": "topic_seo",
+      "text": "How to create SEO optimized blog posts?",
+      "prompt_type": "Category Related",
+      "volume": 4300,
+      "mention_rate": 24.0,
+      "mention_trend": 0.0,
+      "citation_rate": 13.2,
+      "citation_trend": -2.2,
+      "positive_rate": 63.0
+    },
+    {
+      "prompt_id": "pt_12",
+      "topic_id": "topic_seo",
+      "text": "How to build an AI SEO strategy?",
+      "prompt_type": "Category Related",
+      "volume": 2600,
+      "mention_rate": 31.0,
+      "mention_trend": 1.3,
+      "citation_rate": 18.6,
+      "citation_trend": -1.1,
+      "positive_rate": 69.0
+    },
+    {
+      "prompt_id": "pt_13",
+      "topic_id": "topic_pricing",
+      "text": "How does Acme pricing compare to competitors?",
+      "prompt_type": "Brand Related",
+      "volume": 720,
+      "mention_rate": 100.0,
+      "mention_trend": 2.6,
+      "citation_rate": 65.0,
+      "citation_trend": 0.0,
+      "positive_rate": 100.0
+    },
+    {
+      "prompt_id": "pt_14",
+      "topic_id": "topic_seo",
+      "text": "Top platforms for AI-driven content scaling.",
+      "prompt_type": "Category Related",
+      "volume": 1700,
+      "mention_rate": 55.0,
+      "mention_trend": 3.9,
+      "citation_rate": 38.5,
+      "citation_trend": 1.1,
+      "positive_rate": 100.0
+    },
+    {
+      "prompt_id": "pt_15",
+      "topic_id": "topic_data",
+      "text": "How to extract structured data using LLMs?",
+      "prompt_type": "Category Related",
+      "volume": 1300,
+      "mention_rate": 27.0,
+      "mention_trend": -3.9,
+      "citation_rate": 20.3,
+      "citation_trend": 2.2,
+      "positive_rate": 57.0
+    },
+    {
+      "prompt_id": "pt_16",
+      "topic_id": "topic_data",
+      "text": "Can AI automate bulk data classification?",
+      "prompt_type": "Category Related",
+      "volume": 1100,
+      "mention_rate": 34.0,
+      "mention_trend": -2.6,
+      "citation_rate": 18.7,
+      "citation_trend": -2.2,
+      "positive_rate": 62.0
+    },
+    {
+      "prompt_id": "pt_17",
+      "topic_id": "topic_data",
+      "text": "How to clean unstructured data with AI?",
+      "prompt_type": "Category Related",
+      "volume": 950,
+      "mention_rate": 22.0,
+      "mention_trend": -1.3,
+      "citation_rate": 13.2,
+      "citation_trend": -1.1,
+      "positive_rate": 55.0
+    },
+    {
+      "prompt_id": "pt_18",
+      "topic_id": "topic_data",
+      "text": "What is the best way to process data?",
+      "prompt_type": "Category Related",
+      "volume": 3600,
+      "mention_rate": 19.0,
+      "mention_trend": 0.0,
+      "citation_rate": 12.4,
+      "citation_trend": 0.0,
+      "positive_rate": 60.0
+    },
+    {
+      "prompt_id": "pt_19",
+      "topic_id": "topic_data",
+      "text": "Best AI tools for bulk data processing.",
+      "prompt_type": "Category Related",
+      "volume": 2000,
+      "mention_rate": 40.0,
+      "mention_trend": 1.3,
+      "citation_rate": 28.0,
+      "citation_trend": 1.1,
+      "positive_rate": 73.0
+    },
+    {
+      "prompt_id": "pt_20",
+      "topic_id": "topic_data",
+      "text": "Top-rated LLM data extraction platforms.",
+      "prompt_type": "Category Related",
+      "volume": 1400,
+      "mention_rate": 37.0,
+      "mention_trend": 2.6,
+      "citation_rate": 27.8,
+      "citation_trend": 2.2,
+      "positive_rate": 65.0
+    }
+  ],
+  "pricing_prompt_ids": [
+    "pt_9",
+    "pt_13"
+  ],
+  "sample_answers": [
+    {
+      "prompt_text": "best AEO and GEO visibility tracking tools",
+      "engine": "ChatGPT",
+      "mentioned": true,
+      "position": 2,
+      "sentiment": "Positive",
+      "date": "2026-06-24",
+      "excerpt": "Acme offers a toolkit that tracks brand visibility across major AI engines...",
+      "citation_count": 2,
+      "competitor_brands": [
+        "AthenaHQ",
+        "Profound"
+      ]
+    },
+    {
+      "prompt_text": "how to monitor brand mentions in ChatGPT answers",
+      "engine": "Perplexity",
+      "mentioned": true,
+      "position": 1,
+      "sentiment": "Positive",
+      "date": "2026-06-21",
+      "excerpt": "Tools like Acme and Profound let you track how often your brand appears...",
+      "citation_count": 1,
+      "competitor_brands": [
+        "Profound"
+      ]
+    },
+    {
+      "prompt_text": "alternatives to traditional SEO software",
+      "engine": "Google AI Overviews",
+      "mentioned": false,
+      "position": null,
+      "sentiment": "Neutral",
+      "date": "2026-06-18",
+      "excerpt": "Common tools mentioned include Conductor, Brightedge, and Semrush for keyword and backlink analysis...",
+      "citation_count": 0,
+      "competitor_brands": [
+        "Conductor",
+        "Brightedge",
+        "Semrush"
+      ]
+    },
+    {
+      "prompt_text": "is Acme good for enterprise AEO",
+      "engine": "ChatGPT",
+      "mentioned": true,
+      "position": 1,
+      "sentiment": "Positive",
+      "date": "2026-06-15",
+      "excerpt": "Acme is widely used by enterprise teams for keyword research, site audits, and now AI visibility tracking...",
+      "citation_count": 3,
+      "competitor_brands": []
+    },
+    {
+      "prompt_text": "best rank tracking software comparison",
+      "engine": "Microsoft Co-Pilot",
+      "mentioned": true,
+      "position": 3,
+      "sentiment": "Neutral",
+      "date": "2026-06-11",
+      "excerpt": "Popular options include Acme, Scrunch AI, and airOps, each with different strengths in reporting...",
+      "citation_count": 1,
+      "competitor_brands": [
+        "Scrunch AI",
+        "airOps"
+      ]
+    },
+    {
+      "prompt_text": "how does Claude decide which brands to cite",
+      "engine": "Claude",
+      "mentioned": true,
+      "position": 2,
+      "sentiment": "Positive",
+      "date": "2026-06-08",
+      "excerpt": "Claude tends to cite Acme and AthenaHQ when asked about AEO tracking platforms...",
+      "citation_count": 2,
+      "competitor_brands": [
+        "AthenaHQ"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "url": "www.acme.com/blog-post/athena-vs-semrush",
+      "top_prompt": "best AEO and GEO visibility tracking tools",
+      "citations_count": 142,
+      "avg_citation_position": 1.8,
+      "change_vs_previous_pct": 18,
+      "avg_pos_delta_pct": 14,
+      "engines": [
+        "ChatGPT",
+        "Perplexity",
+        "Microsoft Co-Pilot"
+      ],
+      "months_since_update": 1,
+      "synthetic_fields": [
+        "months_since_update"
+      ]
+    },
+    {
+      "url": "www.acme.com/case-study/acceldata",
+      "top_prompt": "how does acceldata improve ai search rankings",
+      "citations_count": 96,
+      "avg_citation_position": 2.3,
+      "change_vs_previous_pct": 9,
+      "engines": [
+        "ChatGPT",
+        "Google AI Overviews"
+      ],
+      "months_since_update": 2,
+      "sentiment_delta_pct": -6,
+      "synthetic_fields": [
+        "months_since_update",
+        "change_vs_previous_pct",
+        "sentiment_delta_pct"
+      ]
+    },
+    {
+      "url": "www.acme.com/features/atlas",
+      "top_prompt": "brand visibility monitoring tools",
+      "citations_count": 74,
+      "avg_citation_position": 3.1,
+      "change_vs_previous_pct": -16,
+      "engines": [
+        "Perplexity"
+      ],
+      "months_since_update": 7,
+      "avg_citation_position_6mo_ago": 2.4,
+      "synthetic_fields": [
+        "months_since_update",
+        "avg_citation_position_6mo_ago"
+      ]
+    },
+    {
+      "url": "www.acme.com/report/state-of-aeo-2026",
+      "top_prompt": "state of AEO and GEO industry trends 2026",
+      "citations_count": 51,
+      "avg_citation_position": 2.7,
+      "change_vs_previous_pct": 11,
+      "engines": [
+        "ChatGPT",
+        "Microsoft Co-Pilot"
+      ],
+      "months_since_update": 1,
+      "synthetic_fields": [
+        "months_since_update",
+        "change_vs_previous_pct"
+      ]
+    },
+    {
+      "url": "www.acme.com/guide/geo-vs-seo-explained",
+      "top_prompt": "difference between geo and seo strategy",
+      "citations_count": 44,
+      "avg_citation_position": 3.4,
+      "change_vs_previous_pct": 17,
+      "engines": [
+        "ChatGPT",
+        "Claude"
+      ],
+      "months_since_update": 3,
+      "synthetic_fields": [
+        "months_since_update"
+      ]
+    },
+    {
+      "url": "www.acme.com/blog-post/how-ai-overviews-work",
+      "top_prompt": "how does google ai overview pick sources",
+      "citations_count": 39,
+      "avg_citation_position": 2.9,
+      "change_vs_previous_pct": -11,
+      "engines": [
+        "Google AI Overviews"
+      ],
+      "months_since_update": 4,
+      "synthetic_fields": [
+        "months_since_update",
+        "change_vs_previous_pct"
+      ]
+    },
+    {
+      "url": "www.acme.com/case-study/northwind-retail",
+      "top_prompt": "ecommerce brand visibility case study",
+      "citations_count": 33,
+      "avg_citation_position": 4.1,
+      "change_vs_previous_pct": 19,
+      "engines": [
+        "Perplexity",
+        "ChatGPT"
+      ],
+      "months_since_update": 2,
+      "synthetic_fields": [
+        "months_since_update"
+      ]
+    },
+    {
+      "url": "www.acme.com/features/prompt-tracking",
+      "top_prompt": "track brand mentions across ai prompts",
+      "citations_count": 28,
+      "avg_citation_position": 3.6,
+      "change_vs_previous_pct": 4,
+      "engines": [
+        "Claude",
+        "Microsoft Co-Pilot"
+      ],
+      "months_since_update": 3,
+      "synthetic_fields": [
+        "months_since_update",
+        "change_vs_previous_pct"
+      ]
+    },
+    {
+      "url": "www.acme.com/blog-post/citation-rate-benchmarks",
+      "top_prompt": "average citation rate by industry",
+      "citations_count": 21,
+      "avg_citation_position": 4.8,
+      "change_vs_previous_pct": -15,
+      "engines": [
+        "ChatGPT"
+      ],
+      "months_since_update": 5,
+      "synthetic_fields": [
+        "months_since_update"
+      ]
+    },
+    {
+      "url": "www.acme.com/report/competitor-share-of-voice",
+      "top_prompt": "share of voice vs competitors in ai search",
+      "citations_count": 17,
+      "avg_citation_position": 5.2,
+      "change_vs_previous_pct": 2,
+      "engines": [
+        "Perplexity",
+        "Google AI Overviews"
+      ],
+      "months_since_update": 2,
+      "synthetic_fields": [
+        "months_since_update",
+        "change_vs_previous_pct"
+      ]
+    }
+  ],
+  "search_console": [
+    {
+      "url": "www.acme.com/blog-post/athena-vs-semrush",
+      "impressions": 31400,
+      "clicks": 2857,
+      "ctr_pct": 9.1,
+      "position": 3.2,
+      "impressions_change_pct": 12,
+      "synthetic": true
+    },
+    {
+      "url": "www.acme.com/case-study/acceldata",
+      "impressions": 14200,
+      "clicks": 1150,
+      "ctr_pct": 8.1,
+      "position": 4.4,
+      "impressions_change_pct": 6,
+      "synthetic": true
+    },
+    {
+      "url": "www.acme.com/features/atlas",
+      "impressions": 12600,
+      "clicks": 1058,
+      "ctr_pct": 8.4,
+      "position": 4.1,
+      "impressions_change_pct": -3,
+      "synthetic": true
+    },
+    {
+      "url": "www.acme.com/report/state-of-aeo-2026",
+      "impressions": 18900,
+      "clicks": 1644,
+      "ctr_pct": 8.7,
+      "position": 3.8,
+      "impressions_change_pct": 19,
+      "synthetic": true
+    },
+    {
+      "url": "www.acme.com/guide/geo-vs-seo-explained",
+      "impressions": 9700,
+      "clicks": 776,
+      "ctr_pct": 8.0,
+      "position": 5.1,
+      "impressions_change_pct": 4,
+      "synthetic": true
+    },
+    {
+      "url": "www.acme.com/blog-post/how-ai-overviews-work",
+      "impressions": 8300,
+      "clicks": 622,
+      "ctr_pct": 7.5,
+      "position": 5.6,
+      "impressions_change_pct": -2,
+      "synthetic": true
+    },
+    {
+      "url": "www.acme.com/case-study/northwind-retail",
+      "impressions": 6100,
+      "clicks": 470,
+      "ctr_pct": 7.7,
+      "position": 6.0,
+      "impressions_change_pct": 8,
+      "synthetic": true
+    },
+    {
+      "url": "www.acme.com/features/prompt-tracking",
+      "impressions": 5400,
+      "clicks": 400,
+      "ctr_pct": 7.4,
+      "position": 6.3,
+      "impressions_change_pct": 1,
+      "synthetic": true
+    },
+    {
+      "url": "www.acme.com/blog-post/citation-rate-benchmarks",
+      "impressions": 22300,
+      "clicks": 1026,
+      "ctr_pct": 4.6,
+      "position": 7.9,
+      "impressions_change_pct": 7,
+      "synthetic": false,
+      "_note": "impressions and CTR stated verbatim in prototype insight ins_4"
+    },
+    {
+      "url": "www.acme.com/report/competitor-share-of-voice",
+      "impressions": 19700,
+      "clicks": 867,
+      "ctr_pct": 4.4,
+      "position": 8.4,
+      "impressions_change_pct": 5,
+      "synthetic": false,
+      "_note": "impressions and CTR stated verbatim in prototype insight ins_5"
+    }
+  ],
+  "backlinks": [
+    {
+      "domain": "searchengineland.com",
+      "authority_score": 71,
+      "count": 84,
+      "link_type": "Dofollow",
+      "first_seen": "Jan 2024",
+      "unlinked_mentions": 1,
+      "synthetic_fields": [
+        "unlinked_mentions"
+      ]
+    },
+    {
+      "domain": "reddit.com/r/SEO",
+      "authority_score": 94,
+      "count": 41,
+      "link_type": "Mixed",
+      "first_seen": "Mar 2025",
+      "unlinked_mentions": 1,
+      "community_threads": 12,
+      "synthetic_fields": [
+        "unlinked_mentions",
+        "community_threads"
+      ]
+    },
+    {
+      "domain": "moz.com/blog",
+      "authority_score": 68,
+      "count": 29,
+      "link_type": "Dofollow",
+      "first_seen": "Nov 2024",
+      "unlinked_mentions": 0,
+      "synthetic_fields": [
+        "unlinked_mentions"
+      ]
+    },
+    {
+      "domain": "g2.com",
+      "authority_score": 91,
+      "count": 22,
+      "link_type": "Nofollow",
+      "first_seen": "Feb 2025",
+      "unlinked_mentions": 1,
+      "synthetic_fields": [
+        "unlinked_mentions"
+      ]
+    },
+    {
+      "domain": "seoforums.net",
+      "authority_score": 38,
+      "count": 156,
+      "link_type": "Dofollow",
+      "first_seen": "Aug 2023",
+      "unlinked_mentions": 0,
+      "synthetic_fields": [
+        "unlinked_mentions"
+      ]
+    }
+  ],
+  "brand_guidelines": [
+    "Always spell out acronyms (AEO, GEO) on first use per document.",
+    "Round percentages to one decimal place in customer-facing reports."
+  ],
+  "materialization": {
+    "_note": "Parameters for tools/materialize.py, which expands these aggregate tables into the answer-level `answers[]` fact table that metrics.py computes from. runs_per_prompt is split across engines in proportion to citation_share/citation_rate -- see engine_run_counts().",
+    "seed": 20260630,
+    "has_citations_probability": 0.82,
+    "competitor_brand_pool": [
+      "AthenaHQ",
+      "Profound",
+      "Peec AI",
+      "Scrunch AI",
+      "airOps",
+      "Conductor",
+      "Brightedge",
+      "Semrush"
+    ],
+    "runs_per_prompt": 100
+  }
+}
