@@ -28,6 +28,28 @@ def _ok(payload: Any) -> dict:
     return {"content": [{"type": "text", "text": json.dumps(payload, indent=1)}]}
 
 
+def _rows(rows: list, total: int, extra: dict | None = None) -> dict:
+    """Return a row list, disclosing when a limit truncated it.
+
+    A bare truncated list reads as the whole set, and a model will summarize it as
+    such. Observed in testing: asked for the mention-rate range across a prompt class,
+    the agent reported the max of a limited page (47.0%) as the max of the class
+    (54.0%). Saying so explicitly — and carrying aggregates that survive truncation —
+    is what stops a partial view from becoming a wrong claim.
+    """
+    payload: dict[str, Any] = {"rows": rows, "returned": len(rows), "total": total}
+    if len(rows) < total:
+        payload["truncated"] = True
+        payload["note"] = (
+            f"Showing {len(rows)} of {total} rows. Any range, maximum, minimum, or "
+            f"count you state must come from the aggregates in this response or from a "
+            f"call without a limit — not from these rows alone."
+        )
+    if extra:
+        payload.update(extra)
+    return _ok(payload)
+
+
 def _err(message: str) -> dict:
     return {"content": [{"type": "text", "text": f"error: {message}"}], "is_error": True}
 
@@ -101,16 +123,18 @@ async def list_insights(args: dict) -> dict:
     action = (args.get("action") or "").strip().lower()
     if action in {"update", "draft"}:
         rows = [i for i in rows if i.action == action]
+    total = len(rows)
     limit = args.get("limit") or 0
     if isinstance(limit, int) and limit > 0:
         rows = rows[:limit]
-    return _ok([
-        {"id": i.id, "title": i.title, "severity": i.severity, "score": i.score,
-         "rule": i.rule, "action": i.action, "target_url": i.target_url,
-         "stat_value": i.stat_value, "stat_delta": i.stat_delta,
-         "metrics_at_risk": i.metrics_at_risk}
-        for i in rows
-    ])
+    return _rows(
+        [{"id": i.id, "title": i.title, "severity": i.severity, "score": i.score,
+          "rule": i.rule, "action": i.action, "target_url": i.target_url,
+          "stat_value": i.stat_value, "stat_delta": i.stat_delta,
+          "metrics_at_risk": i.metrics_at_risk}
+         for i in rows],
+        total,
+    )
 
 
 @tool("get_insight", "Everything behind one finding: the evidence rows that triggered "
@@ -132,10 +156,11 @@ async def get_insight(args: dict) -> dict:
       {"limit": int})
 async def get_cited_pages(args: dict) -> dict:
     rows = page_citation_stats(_dataset())
+    total = len(rows)
     limit = args.get("limit") or 0
     if isinstance(limit, int) and limit > 0:
         rows = rows[:limit]
-    return _ok(rows)
+    return _rows(rows, total)
 
 
 @tool("get_prompts", "Tracked prompts with search volume, topic, mention rate and "
@@ -165,10 +190,27 @@ async def get_prompts(args: dict) -> dict:
                 1 for a in answers if not a["mentioned"] and a["competitor_brands"]),
         })
     rows.sort(key=lambda r: r["volume"], reverse=True)
+
+    # Aggregates over the full matching set, computed before any truncation, and broken
+    # out by prompt type — the range most often asked for. These survive a `limit`, so
+    # a range can be stated correctly from a partial page of rows.
+    aggregates = {}
+    for prompt_type in sorted({r["prompt_type"] for r in rows}):
+        subset = [r for r in rows if r["prompt_type"] == prompt_type]
+        aggregates[prompt_type] = {
+            "prompts": len(subset),
+            "total_volume": sum(r["volume"] for r in subset),
+            "mention_rate_min": min(r["mention_rate"] for r in subset),
+            "mention_rate_max": max(r["mention_rate"] for r in subset),
+            "citation_rate_min": min(r["citation_rate"] for r in subset),
+            "citation_rate_max": max(r["citation_rate"] for r in subset),
+        }
+
+    total = len(rows)
     limit = args.get("limit") or 0
     if isinstance(limit, int) and limit > 0:
         rows = rows[:limit]
-    return _ok(rows)
+    return _rows(rows, total, {"aggregates_by_prompt_type": aggregates})
 
 
 @tool("get_answer_examples", "Individual AI answers, for grounding a claim in what "
@@ -188,16 +230,18 @@ async def get_answer_examples(args: dict) -> dict:
     if isinstance(args.get("brand_cited"), bool):
         rows = [a for a in rows if a["brand_cited"] is args["brand_cited"]]
 
+    total = len(rows)
     limit = args.get("limit") or 12
     rows = rows[: max(1, min(int(limit), 40))]
-    return _ok([
-        {"answer_id": a["answer_id"], "prompt": dataset.prompt_text(a["prompt_id"]),
-         "engine": a["engine"], "region": dataset.region_name(a["region"]),
-         "date": a["date"], "mentioned": a["mentioned"], "position": a["position"],
-         "sentiment": a["sentiment"], "brand_cited": a["brand_cited"],
-         "cited_url": a["cited_url"], "competitor_brands": a["competitor_brands"]}
-        for a in rows
-    ])
+    return _rows(
+        [{"answer_id": a["answer_id"], "prompt": dataset.prompt_text(a["prompt_id"]),
+          "engine": a["engine"], "region": dataset.region_name(a["region"]),
+          "date": a["date"], "mentioned": a["mentioned"], "position": a["position"],
+          "sentiment": a["sentiment"], "brand_cited": a["brand_cited"],
+          "cited_url": a["cited_url"], "competitor_brands": a["competitor_brands"]}
+         for a in rows],
+        total,
+    )
 
 
 TOOLS = (
