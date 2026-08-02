@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Atlas Reports — PRD &amp; Evaluation Plan</title>
+<style>
+  :root {
+    --paper:#EFF2EF; --sheet:#FFFFFF;
+    --ink:#131A17; --ink-2:#57665F; --ink-3:#87948E;
+    --rule:#DEE4E0; --rule-strong:#BAC5BF;
+    --accent:#0B6B5C; --accent-deep:#084C42; --accent-soft:#E3EFEA;
+    --signal:#9C4A16; --signal-soft:#F7EADF;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --serif: "Iowan Old Style", Charter, Georgia, "Times New Roman", serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper:#0E1311; --sheet:#161C19;
+      --ink:#E7EDE9; --ink-2:#9DACA5; --ink-3:#72837C;
+      --rule:#27312C; --rule-strong:#3B4842;
+      --accent:#5ACBB0; --accent-deep:#8FE0CC; --accent-soft:#15302A;
+      --signal:#E0975C; --signal-soft:#2E2015;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:#0E1311; --sheet:#161C19;
+    --ink:#E7EDE9; --ink-2:#9DACA5; --ink-3:#72837C;
+    --rule:#27312C; --rule-strong:#3B4842;
+    --accent:#5ACBB0; --accent-deep:#8FE0CC; --accent-soft:#15302A;
+    --signal:#E0975C; --signal-soft:#2E2015;
+  }
+  :root[data-theme="light"] {
+    --paper:#EFF2EF; --sheet:#FFFFFF;
+    --ink:#131A17; --ink-2:#57665F; --ink-3:#87948E;
+    --rule:#DEE4E0; --rule-strong:#BAC5BF;
+    --accent:#0B6B5C; --accent-deep:#084C42; --accent-soft:#E3EFEA;
+    --signal:#9C4A16; --signal-soft:#F7EADF;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--serif); font-size: 10.9px; line-height: 1.32;
+  }
+  .stack { display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 22px 16px 48px; }
+  .sheet {
+    width: 816px; max-width: 100%; min-height: 1056px;
+    background: var(--sheet); padding: 32px 42px 22px;
+    display: flex; flex-direction: column;
+    box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 12px 32px rgba(9,26,21,.10);
+    border: 1px solid var(--rule);
+  }
+
+  .runhead, .runfoot {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--mono); font-size: 8.4px; letter-spacing: .11em;
+    text-transform: uppercase; color: var(--ink-3);
+  }
+  .runhead { padding-bottom: 5px; border-bottom: 1.5px solid var(--ink); margin-bottom: 10px; }
+  .runfoot { padding-top: 6px; border-top: 1px solid var(--rule); margin-top: auto; }
+  .runhead strong { color: var(--ink); font-weight: 600; }
+  .folio { color: var(--accent); font-weight: 600; }
+
+  .masthead { margin-bottom: 11px; }
+  .kicker {
+    font-family: var(--mono); font-size: 8.6px; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+  }
+  h1 {
+    font-family: var(--sans); font-weight: 700; font-size: 24px; line-height: 1.05;
+    letter-spacing: -.028em; margin: 0 0 7px; text-wrap: balance;
+  }
+  .standfirst { font-size: 11.4px; line-height: 1.42; color: var(--ink-2); max-width: 62ch; margin: 0 0 11px; }
+  .standfirst em { color: var(--ink); font-style: normal; background: linear-gradient(transparent 68%, var(--accent-soft) 68%, var(--accent-soft) 97%, transparent 97%); }
+
+  .meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .meta div { background: var(--sheet); padding: 5px 8px; }
+  .meta dt { font-family: var(--mono); font-size: 7.6px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 2px; }
+  .meta dd { margin: 0; font-family: var(--sans); font-size: 9.5px; font-weight: 550; line-height: 1.25; }
+  .meta dd.live { color: var(--accent); }
+
+  .sec { display: grid; grid-template-columns: 96px 1fr; gap: 0 16px; padding-top: 5px; margin-top: 5px; border-top: 1px solid var(--rule); }
+  .sec:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+  .rail { font-family: var(--mono); font-size: 8.4px; line-height: 1.4; color: var(--ink-3); }
+  .rail .num { display: block; font-size: 13px; font-weight: 600; letter-spacing: -.02em; color: var(--accent); margin-bottom: 1px; }
+  .rail .lbl { display: block; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-2); }
+  .rail .note {
+    display: block; margin-top: 5px; font-family: var(--serif); font-size: 8.8px;
+    letter-spacing: 0; text-transform: none; line-height: 1.36; color: var(--ink-3);
+    border-left: 2px solid var(--rule-strong); padding-left: 6px;
+  }
+  .rail, .main { min-width: 0; }
+  .main > :first-child { margin-top: 0; }
+  .main > :last-child { margin-bottom: 0; }
+
+  h2 { font-family: var(--sans); font-size: 12.6px; font-weight: 660; letter-spacing: -.018em; margin: 0 0 5px; text-wrap: balance; }
+  h3 { font-family: var(--mono); font-size: 8.4px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 4px; }
+  p { margin: 0 0 5px; }
+  .lead { color: var(--ink-2); }
+  ul, ol { margin: 0 0 5px; padding-left: 14px; }
+  li { margin-bottom: 2px; }
+  li::marker { color: var(--accent); }
+
+  code, .id {
+    font-family: var(--mono); font-size: .86em; letter-spacing: -.01em;
+    background: var(--accent-soft); color: var(--accent-deep);
+    padding: .5px 3px; border-radius: 2px; white-space: nowrap;
+  }
+
+  .tw { overflow-x: auto; margin: 5px 0; }
+  table { border-collapse: collapse; width: 100%; font-family: var(--sans); font-size: 9.1px; }
+  th {
+    font-family: var(--mono); font-size: 7.7px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--ink-2); text-align: left;
+    padding: 3px 6px 2.5px; border-bottom: 1.4px solid var(--ink); white-space: nowrap;
+  }
+  td { padding: 2px 6px; border-bottom: 1px solid var(--rule); vertical-align: top; line-height: 1.25; font-variant-numeric: tabular-nums; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.k { font-family: var(--mono); font-size: 8px; color: var(--accent-deep); white-space: nowrap; }
+
+  .pri { font-family: var(--mono); font-size: 7.6px; font-weight: 600; letter-spacing: .05em; padding: 1px 3.5px; border-radius: 2px; border: 1px solid currentColor; }
+  .p0 { color: var(--signal); background: var(--signal-soft); }
+  .p1 { color: var(--accent-deep); background: var(--accent-soft); }
+  .p2 { color: var(--ink-3); background: transparent; }
+
+  .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 7px 0; }
+  .step { border-top: 2px solid var(--accent); padding-top: 5px; }
+  .step b { display: block; font-family: var(--mono); font-size: 7.7px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; font-weight: 600; }
+  .step span { display: block; font-family: var(--sans); font-size: 8.8px; line-height: 1.3; color: var(--ink-2); }
+  .step span em { font-style: normal; color: var(--ink); font-weight: 600; }
+
+  .call { border-left: 3px solid var(--signal); background: var(--signal-soft); padding: 5px 8px; margin: 5px 0; }
+  .call b { display: block; font-family: var(--mono); font-size: 7.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--signal); margin-bottom: 2px; }
+  .call p { margin: 0; font-size: 9.9px; line-height: 1.36; }
+  .gate { border-left-color: var(--accent); background: var(--accent-soft); }
+  .gate b { color: var(--accent-deep); }
+
+  .cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+  .cols2 ul { max-width: none; }
+  .fin { font-family: var(--mono); font-size: 7.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+
+  a { color: var(--accent-deep); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  @media (max-width: 700px) {
+    body { font-size: 14px; line-height: 1.5; }
+    .sheet { padding: 24px 18px 20px; min-height: 0; }
+    .sec { grid-template-columns: 1fr; gap: 5px; }
+    .runhead, .runfoot { flex-direction: column; align-items: flex-start; gap: 3px; }
+    .rail { display: flex; align-items: baseline; gap: 8px; font-size: 10px; }
+    .rail .num { margin: 0; font-size: 14px; }
+    .rail .note { display: none; }
+    .meta { grid-template-columns: 1fr 1fr; }
+    .meta dd { font-size: 11.5px; }
+    .flow { grid-template-columns: 1fr; }
+    .cols2 { grid-template-columns: 1fr; }
+    table { font-size: 11.5px; }
+    th { font-size: 9px; }
+    .call p, .step span { font-size: 12px; }
+    h1 { font-size: 25px; }
+    h2 { font-size: 15px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+  @media print {
+    :root {
+      --paper:#FFFFFF; --sheet:#FFFFFF;
+      --ink:#131A17; --ink-2:#57665F; --ink-3:#87948E;
+      --rule:#DEE4E0; --rule-strong:#BAC5BF;
+      --accent:#0B6B5C; --accent-deep:#084C42; --accent-soft:#E3EFEA;
+      --signal:#9C4A16; --signal-soft:#F7EADF;
+    }
+    @page { size: Letter; margin: 0; }
+    .stack { gap: 0; padding: 0; }
+    .sheet { box-shadow: none; border: none; width: 100%; break-after: page; }
+    .sheet:last-child { break-after: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="stack">
+
+<!-- ═══════════════════════ SHEET 1 ═══════════════════════ -->
+<article class="sheet">
+  <header class="runhead">
+    <span><strong>Atlas Reports</strong> · PRD &amp; Eval Plan</span>
+    <span>Product Requirements — I <span class="folio">01 / 03</span></span>
+  </header>
+
+  <div class="masthead">
+    <div class="kicker">Pepper Atlas · Customer Success · Product Requirements Document</div>
+    <h1>Atlas Reports: agent-drafted client reporting</h1>
+    <p class="standfirst">Every CS manager loses <em>4+ hours a week</em> stitching seven data sources into spreadsheets and decks. Atlas Reports turns that into a draft waiting in their inbox: the analyst keeps judgment and approval, and gives up the assembly.</p>
+    <dl class="meta">
+      <div><dt>Status</dt><dd class="live">Draft v0.9 — for review</dd></div>
+      <div><dt>Author</dt><dd>Manthan</dd></div>
+      <div><dt>Date</dt><dd>2 Aug 2026</dd></div>
+      <div><dt>Target</dt><dd>Beta wk 6 · GA wk 14</dd></div>
+      <div><dt>Reviewers</dt><dd>CS Lead · Eng · Design · Data</dd></div>
+      <div><dt>Surface</dt><dd>Pepper Atlas, in-product</dd></div>
+      <div><dt>Sources</dt><dd>7 (GSC, GA4, Semrush, GEO, 3× CMS)</dd></div>
+      <div><dt>Companion</dt><dd>Sheet 03 — Eval plan</dd></div>
+    </dl>
+  </div>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">01</span><span class="lbl">Problem</span>
+      <span class="note">Costs here are modelled, not measured. Sheet 03 replaces them with an instrumented baseline before any target is committed.</span>
+    </div>
+    <div class="main">
+      <h2>The report is cheap. Assembling it is not.</h2>
+      <p>A recurring client report is the same nine moves every time: pull GSC, GA4, Semrush, GEO, check what shipped in the CMS, paste into a sheet, compute deltas, write the narrative, format the deck. Eight are mechanical. The ninth — deciding what mattered and what the client should do — is the only part a client pays for, and it is what gets squeezed when the first eight run long.</p>
+      <ul>
+        <li><strong>Capacity.</strong> At an assumed 12 CSMs × 4h, reporting burns ~48 h/week — about 1.2 FTE of margin, and a hard ceiling on accounts per CSM.</li>
+        <li><strong>Consistency.</strong> Every CSM's spreadsheet is a private fork; two clients on one plan get different metrics and different definitions of "traffic".</li>
+        <li><strong>Latency.</strong> Reports arrive on a calendar, not on an event — a ranking collapse surfaces at month-end, weeks after it was actionable.</li>
+      </ul>
+      <p class="lead">Atlas already holds the connections and the data. The gap is that nothing turns access into a client-ready artifact without a human doing data entry.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">02</span><span class="lbl">Users</span>
+      <span class="note">The CS Manager is the only user v1 optimises for. The other two are constraints on the design.</span>
+    </div>
+    <div class="main">
+      <div class="tw"><table>
+        <thead><tr><th style="width:19%">Who</th><th style="width:40%">Job to be done</th><th>What "good" feels like</th></tr></thead>
+        <tbody>
+          <tr><td><strong>CS Manager</strong> <span class="fin">Primary</span></td><td>"Send a report that shows we're earning the retainer — without losing a morning to it."</td><td>Opens a draft that is already right; spends the saved time on the two paragraphs of judgment.</td></tr>
+          <tr><td><strong>CS Lead</strong> <span class="fin">Secondary</span></td><td>"Know every account got a report, on time, at a standard I'd defend."</td><td>One view of cadence coverage and draft quality — no chasing.</td></tr>
+          <tr><td><strong>Client</strong> <span class="fin">Recipient</span></td><td>"Tell me what changed, why, and what you're doing next."</td><td>A short narrative with numbers they can click into; follow-ups answered same-day.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">03</span><span class="lbl">Goals</span>
+      <span class="note">Non-goals are commitments — each is a place we chose not to spend v1.</span>
+    </div>
+    <div class="main">
+      <div class="cols2">
+        <div>
+          <h3>Goals</h3>
+          <ul>
+            <li>Cut analyst time per report by <strong>≥ 50%</strong>; ambition 80%.</li>
+            <li>Make every number in a client report <strong>traceable to a source query</strong>.</li>
+            <li>One metric definition per concept, across all clients.</li>
+            <li>Turn CSM edits into a training signal, not lost work.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Non-goals (v1)</h3>
+          <ul>
+            <li><strong>No auto-send.</strong> A human approves every report a client sees.</li>
+            <li>No client-facing chat — Q&amp;A is CSM-facing first.</li>
+            <li>No deck export: web report, emailed summary, PDF.</li>
+            <li>No forecasting or budget recommendations.</li>
+            <li>Auth, billing, dashboard chrome — assumed to exist.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">04</span><span class="lbl">Solution shape</span>
+      <span class="note">Stages 1–3 are deterministic code. Only stage 4 is a model, and it may speak only about findings stage 3 produced.</span>
+    </div>
+    <div class="main">
+      <h2>A pipeline with a model in exactly one place</h2>
+      <div class="flow">
+        <div class="step"><b>1 · Collect</b><span><em>Pinned pull</em> from bound sources on an as-of date, per-source coverage recorded.</span></div>
+        <div class="step"><b>2 · Normalise</b><span><em>One fact table</em> — entity × metric × period × source. Everything downstream reads only this.</span></div>
+        <div class="step"><b>3 · Detect</b><span><em>Rules, not vibes.</em> Deltas, rank moves, AI-citation gain/loss, publish→impact, each with effect size.</span></div>
+        <div class="step"><b>4 · Narrate</b><span><em>Grounded LLM</em> writes from findings only. Every sentence carries the metric IDs it used.</span></div>
+        <div class="step"><b>5 · Review</b><span><em>Human gate.</em> CSM edits in Report Studio, approves, sends. Edits are logged.</span></div>
+      </div>
+      <p>The split matters more than any single stage. Arithmetic done by a language model is unverifiable and occasionally wrong in ways nobody sees until a client catches it; arithmetic done in stages 2–3 is unit-testable and cheap. The model gets the narrow job it is genuinely good at — choosing which of forty true findings are the four worth a client's attention, and saying them in the account's voice.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">05</span><span class="lbl">Data</span>
+      <span class="note">Black-box endpoints per the brief. Breadth is a cost — each source adds a section a CSM must review. Out of v1: backlink graphs, technical crawl, site audit; they answer engineering questions, not the retainer question.</span>
+    </div>
+    <div class="main">
+      <div class="tw"><table>
+        <thead><tr><th style="width:14%">Source</th><th style="width:40%">What we take</th><th>Why it earns its place</th></tr></thead>
+        <tbody>
+          <tr><td class="k">GSC</td><td>Query + page clicks, impressions, CTR, avg. position</td><td>The performance spine; the only source with query-level intent.</td></tr>
+          <tr><td class="k">GA4</td><td>Sessions, engaged sessions, conversions by landing page and channel</td><td>Turns visibility into outcomes the client's CFO recognises.</td></tr>
+          <tr><td class="k">Semrush</td><td>Competitor ranks, share of voice, keyword difficulty</td><td>Answers "is this us, or the category?" — the question every delta invites.</td></tr>
+          <tr><td class="k">GEO</td><td>AI answer presence, citation share, prompt coverage</td><td>Why clients buy Atlas over a rank tracker. Highest-signal section of the report.</td></tr>
+          <tr><td class="k">CMS ×3</td><td>Publish/update events, URL, content ID <span class="fin">WordPress · Webflow · Contentful</span></td><td>Turns "traffic rose" into "traffic rose after we shipped these four pages" — the thread CSMs write by hand today.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <footer class="runfoot"><span>Pepper Atlas · Internal · Draft v0.9</span><span>Continued — Requirements &amp; UX ▸</span></footer>
+</article>
+
+<!-- ═══════════════════════ SHEET 2 ═══════════════════════ -->
+<article class="sheet">
+  <header class="runhead">
+    <span><strong>Atlas Reports</strong> · PRD &amp; Eval Plan</span>
+    <span>Product Requirements — II <span class="folio">02 / 03</span></span>
+  </header>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">06</span><span class="lbl">UX flow</span>
+      <span class="note">Times are relative to the client's scheduled send. The 72-hour lead converts "write a report" into "review a draft". Report Studio is the load-bearing screen: if a CSM cannot verify a claim in one click, they will re-derive it in a spreadsheet, and the four hours come straight back.</span>
+    </div>
+    <div class="main">
+      <h2>Who sees what, when</h2>
+      <div class="tw"><table>
+        <thead><tr><th style="width:11%">When</th><th style="width:14%">Who</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr><td class="k">T−72h</td><td>System</td><td>Pipeline runs on the pinned as-of date; a source below its coverage threshold is flagged, never silently dropped.</td></tr>
+          <tr><td class="k">T−72h</td><td>CS Manager</td><td>Notification: <em>"Acme draft ready — 3 findings need your call."</em> Not "a report is ready" — the ambiguous items are named up front.</td></tr>
+          <tr><td class="k">−72 → −24h</td><td>CS Manager</td><td><strong>Report Studio.</strong> Canvas left, evidence panel right; clicking any number reveals its source, query, period and as-of date. Inline edit, regenerate a section, add a note — every edit captured with a reason tag.</td></tr>
+          <tr><td class="k">T−24h</td><td>CS Manager</td><td>Approve → schedules send. Or edit-and-approve, or reject with a reason — which routes into the eval set on Sheet 03.</td></tr>
+          <tr><td class="k">T−0</td><td>Client</td><td>Email summary — three findings, one recommendation — linking to the hosted report and a PDF.</td></tr>
+          <tr><td class="k">T+</td><td>CS Manager</td><td>Client asks a follow-up. <strong>Ask-the-Report</strong> answers from the same fact table; the CSM sends, edits, or ignores it.</td></tr>
+          <tr><td class="k">Weekly</td><td>CS Lead</td><td>Coverage console: cadence adherence, acceptance rate, most-edited sections.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">07</span><span class="lbl">Requirements</span>
+      <span class="note"><span class="pri p0">P0</span> beta blocker &nbsp;<span class="pri p1">P1</span> fast-follow &nbsp;<span class="pri p2">P2</span> later</span>
+    </div>
+    <div class="main">
+      <div class="tw"><table>
+        <thead><tr><th style="width:7%">ID</th><th style="width:21%">Requirement</th><th>Detail</th><th style="width:6%">Pri</th></tr></thead>
+        <tbody>
+          <tr><td class="k">FR-1</td><td>Report Profile</td><td>Per client: brand, competitors (≤5), KPIs, cadence, template, tone, recipients, goals. Set once, versioned.</td><td><span class="pri p0">P0</span></td></tr>
+          <tr><td class="k">FR-2</td><td>Source binding &amp; health</td><td>Bind sources per client; surface last-sync and coverage %. Degradation is stated in the report, never imputed.</td><td><span class="pri p0">P0</span></td></tr>
+          <tr><td class="k">FR-3</td><td>Metric layer</td><td>Single fact model with as-of pinning; re-running a past period reproduces identical numbers.</td><td><span class="pri p0">P0</span></td></tr>
+          <tr><td class="k">FR-4</td><td>Finding detection</td><td>Rules emit candidates with effect size, direction, period and confidence — ranked, not filtered, before the model sees them.</td><td><span class="pri p0">P0</span></td></tr>
+          <tr><td class="k">FR-5</td><td>Grounded narrative</td><td>LLM writes only from candidate findings; each sentence carries metric IDs. An ungroundable sentence is not emitted.</td><td><span class="pri p0">P0</span></td></tr>
+          <tr><td class="k">FR-6</td><td>Report Studio</td><td>Evidence panel, inline edit, section regenerate, manual note, version history.</td><td><span class="pri p0">P0</span></td></tr>
+          <tr><td class="k">FR-7</td><td>Approval &amp; delivery</td><td>Approve → schedule → email, hosted link, PDF. No path to a client that skips approval.</td><td><span class="pri p0">P0</span></td></tr>
+          <tr><td class="k">FR-8</td><td>Edit capture</td><td>Logged as <span class="id">(before, after, section, reason_tag)</span> — both the eval dataset and the improvement loop.</td><td><span class="pri p0">P0</span></td></tr>
+          <tr><td class="k">FR-9</td><td>Publish → impact join</td><td>Attribute movements to CMS content shipped in-window; phrasing capped at "coincided with" unless a pre-registered rule fires.</td><td><span class="pri p1">P1</span></td></tr>
+          <tr><td class="k">FR-10</td><td>Templates</td><td>Monthly Performance, AI Visibility, QBR — with client-level overrides.</td><td><span class="pri p1">P1</span></td></tr>
+          <tr><td class="k">FR-11</td><td>Ask-the-Report</td><td>Grounded Q&amp;A over the same fact table, CSM-facing, under the FR-5 contract.</td><td><span class="pri p1">P1</span></td></tr>
+          <tr><td class="k">FR-12</td><td>Lead console</td><td>Cadence coverage, acceptance rate, overdue drafts, top edit reasons.</td><td><span class="pri p2">P2</span></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">08</span><span class="lbl">Grounding</span>
+      <span class="note">A spec, not a guideline — Sheet 03 tests each clause directly.</span>
+    </div>
+    <div class="main">
+      <div class="call gate">
+        <b>Non-negotiable — the five clauses</b>
+        <p><strong>1.</strong> No number reaches prose unless it resolves to a metric ID in the fact table. &nbsp;<strong>2.</strong> Missing data is disclosed, never imputed — <em>"Semrush ranks unavailable 12–14 Jul; excluded from the weekly average."</em> &nbsp;<strong>3.</strong> Every report prints its as-of date, and a re-run of that period is identical. &nbsp;<strong>4.</strong> Causal language is gated; the default phrasing is correlational. &nbsp;<strong>5.</strong> A human approves before a client sees it.</p>
+      </div>
+      <p>Clause 3 exists because GSC restates recent days for roughly 48–72 hours: without pinned as-of semantics, the same "last month" report yields different numbers on Tuesday than on Thursday.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">09</span><span class="lbl">Gaps</span>
+      <span class="note">Per the brief: what I'd add to the available surface, and the specific thing each unblocks.</span>
+    </div>
+    <div class="main">
+      <div class="tw"><table>
+        <thead><tr><th style="width:23%">What I'd add</th><th style="width:41%">Why</th><th>Unblocks</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Content ID ↔ URL map</strong></td><td>The CMSes key on content IDs; GSC and GA4 key on URLs. Without a durable join, publish→impact is string-matching on slugs.</td><td>FR-9</td></tr>
+          <tr><td><strong>Client goal object</strong></td><td>"Traffic +12%" is data; "+12%, four points ahead of the Q4 commitment" is the sentence that renews a retainer.</td><td>Narrative quality</td></tr>
+          <tr><td><strong>As-of / snapshot reads</strong></td><td>Reproducibility and offline replay both need "the data as it stood on date D", not "the data now".</td><td>FR-3, eval L2</td></tr>
+          <tr><td><strong>Conversion value</strong></td><td>Sessions are a proxy; revenue or lead value makes the report legible to the client's finance team.</td><td>QBR template</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">10</span><span class="lbl">Rollout</span>
+      <span class="note">Sequenced so the measurement instrumentation lands before the thing it measures.</span>
+    </div>
+    <div class="main">
+      <div class="tw"><table>
+        <thead><tr><th style="width:10%">Weeks</th><th style="width:28%">Milestone</th><th>Exit criterion</th></tr></thead>
+        <tbody>
+          <tr><td class="k">0–2</td><td>Baseline instrumentation</td><td>Two weeks of measured CSM time-per-report. No build starts until it exists.</td></tr>
+          <tr><td class="k">1–4</td><td>Metric layer + detection</td><td>FR-2/3/4 pass eval level L0; the 60-report golden set is frozen.</td></tr>
+          <tr><td class="k">4–6</td><td>Narrative + Report Studio</td><td>L1 fidelity ≥ 99.5%; shadow reports running on 12 live accounts.</td></tr>
+          <tr><td class="k">6–14</td><td>Stepped-wedge beta</td><td>The live experiment reaches its pre-registered stopping point (§16).</td></tr>
+          <tr><td class="k">14+</td><td>General availability</td><td>Ship gate (§16) met. FR-9/10/11 follow.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <footer class="runfoot"><span>Pepper Atlas · Internal · Draft v0.9</span><span>Continued — Evaluation &amp; experiment ▸</span></footer>
+</article>
+
+<!-- ═══════════════════════ SHEET 3 ═══════════════════════ -->
+<article class="sheet">
+  <header class="runhead">
+    <span><strong>Atlas Reports</strong> · PRD &amp; Eval Plan</span>
+    <span>Evaluation &amp; Experiment Design <span class="folio">03 / 03</span></span>
+  </header>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">11</span><span class="lbl">The question</span>
+      <span class="note">Two questions, not one. Time saved alone is gameable: a tool that emits a plausible report in nine seconds saves four hours and destroys client trust in a quarter.</span>
+    </div>
+    <div class="main">
+      <h2>Did it save the four hours — without costing us the report?</h2>
+      <div class="call gate">
+        <b>Hypothesis</b>
+        <p><strong>H1.</strong> Atlas Reports cuts median CSM time per approved report by ≥ 50% versus the measured baseline. &nbsp;<strong>H2.</strong> It does so with no degradation in report accuracy, client engagement, or CSAT.</p>
+      </div>
+      <p><strong>Baseline first.</strong> "4+ hours a week" is the stated problem, not a measurement. Weeks 0–2 run an instrumented baseline — in-app timers plus a one-minute weekly diary — establishing minutes-per-report, its variance, and its split across the nine steps. Every target below is expressed against that number.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">12</span><span class="lbl">Eval ladder</span>
+      <span class="note">Each level is cheap enough to run at its stated cadence. An eval that runs only before launch is documentation.</span>
+    </div>
+    <div class="main">
+      <div class="tw"><table>
+        <thead><tr><th style="width:6%">Lvl</th><th style="width:17%">What it tests</th><th>Method</th><th style="width:16%">Cadence</th></tr></thead>
+        <tbody>
+          <tr><td class="k">L0</td><td>Metric &amp; detection math</td><td>Fixture unit tests per endpoint: deltas, WoW/MoM, position change, share of voice, citation gain/loss. Plus adversarial fixtures — missing source, zero denominator, restated GSC window.</td><td>Every commit; blocks merge</td></tr>
+          <tr><td class="k">L1</td><td>Narrative grounding</td><td>200 generated claims across 20 report contexts; a checker parses each sentence's metric IDs and recomputes the value. Two failure classes counted separately: <em>ungrounded</em> and <em>mismatched</em>.</td><td>Nightly + pre-release</td></tr>
+          <tr><td class="k">L2</td><td>Whole-report quality</td><td>60 golden reports, blind pairwise against the human-built report for the same client-period, order randomised. Scored 1–5 on accuracy, completeness, insight, actionability, tone-fit.</td><td>Pre-release + monthly</td></tr>
+          <tr><td class="k">L3</td><td>Whether it saves the time</td><td>Stepped-wedge field experiment across the CS team (§15).</td><td>Once, 8 weeks</td></tr>
+        </tbody>
+      </table></div>
+      <p><strong>On the L2 judge.</strong> Two CS raters and an LLM judge score all 60. The judge is trusted for monthly regression <em>only</em> where it reaches Spearman ρ ≥ 0.7 against them — realistically accuracy and completeness, not insight. Human scoring stays mandatory for the release gate.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">13</span><span class="lbl">Dataset</span>
+      <span class="note">The golden set is the durable asset: a week of CS time that outlives every model we swap in.</span>
+    </div>
+    <div class="main">
+      <div class="tw"><table>
+        <thead><tr><th style="width:15%">Facet</th><th>The 60-report golden set</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Composition</strong></td><td>12 clients × 5 historical periods, stratified for what breaks things: 2 enterprise + 2 SMB, 2 with a partial source set, 2 mid-period CMS replatforms, 1 with flat metrics (the hardest narrative to write), 1 with a real incident.</td></tr>
+          <tr><td><strong>Construction</strong></td><td>Freeze a source snapshot as of each period's send date, pair it with the report the CSM sent, and have the owning CSM annotate the 3–5 findings that mattered <em>plus anything the original missed</em>. That last part lets L2 score completeness, not similarity — matching a mediocre report is not the bar.</td></tr>
+          <tr><td><strong>Growth</strong></td><td>Every rejected draft and high-severity edit from FR-8 becomes a case: +10/month, with a quarterly review retiring those the system now passes trivially.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">14</span><span class="lbl">Metrics</span>
+      <span class="note">One north star; drivers explain it; guardrails can veto it. Edit distance is a proxy — FR-8 reason tags separate <em>wrong</em> from <em>not how I'd say it</em>, and only the first counts against a gate.</span>
+    </div>
+    <div class="main">
+      <div class="tw"><table>
+        <thead><tr><th style="width:10%">Tier</th><th style="width:25%">Metric</th><th style="width:28%">Instrument</th><th>Target</th></tr></thead>
+        <tbody>
+          <tr><td class="k">North star</td><td><strong>CSM minutes per approved report</strong></td><td>In-app session timer + weekly diary</td><td>≥ 50% below baseline; stretch 80%</td></tr>
+          <tr><td class="k">Driver</td><td>Draft acceptance rate</td><td>Approved with &lt; 10% token edit distance</td><td>≥ 70% by week 8</td></tr>
+          <tr><td class="k">Driver</td><td>Time to first draft, p90</td><td>Pipeline telemetry</td><td>≤ 4 min</td></tr>
+          <tr><td class="k">Quality gate</td><td>Numeric fidelity</td><td>L1 automated citation checker</td><td>100% grounded · ≥ 99.5% exact</td></tr>
+          <tr><td class="k">Quality gate</td><td>Unsupported claim rate</td><td>L2 human audit, full golden set</td><td>&lt; 1 per 20 reports</td></tr>
+          <tr><td class="k">Guardrail</td><td>Client-flagged errors</td><td>CS ticket tag <span class="id">report_error</span></td><td>No increase vs. baseline</td></tr>
+          <tr><td class="k">Guardrail</td><td>Report open &amp; click rate</td><td>Email telemetry</td><td>No drop &gt; 5 pp</td></tr>
+          <tr><td class="k">Guardrail</td><td>Client CSAT, single item</td><td>Post-report survey, quarterly</td><td>No decrease</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">15</span><span class="lbl">Experiment</span>
+      <span class="note">Randomising by client would leak: a CSM who gets faster on one account gets faster on all of them. Contamination — control CSMs hearing about the tool — is tracked weekly and treated as bias toward the null.</span>
+    </div>
+    <div class="main">
+      <h2>Stepped-wedge, clustered on the CS manager</h2>
+      <ul>
+        <li><strong>Design —</strong> 8 weeks, 4 cohorts of CSMs crossing over every 2 weeks in randomised order. Everyone ends up treated: that protects adoption, gives a within-subject contrast, and separates the effect from seasonality and the month-end peak.</li>
+        <li><strong>Outcome —</strong> minutes per approved report, via a pre-registered mixed-effects model <span class="id">minutes ~ treated + week + (1|csm)</span>, α = 0.05 two-sided, reported as an effect with its 95% CI rather than a bare <em>p</em>.</li>
+        <li><strong>Power —</strong> at between-CSM SD ≈ 25 min and ICC ≈ 0.25, ~14 CSMs × 8 weekly observations gives &gt; 80% power for a 25-minute reduction. <strong>Under 10 CSMs the wedge is underpowered</strong> — fall back to a within-subject interrupted time series, ≥ 6 pre and ≥ 6 post weeks each.</li>
+        </ul>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">16</span><span class="lbl">Decision</span>
+      <span class="note">Written before the data arrives, so the result is read rather than negotiated.</span>
+    </div>
+    <div class="main">
+      <div class="tw"><table>
+        <thead><tr><th style="width:11%">Verdict</th><th>Pre-registered condition</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Ship</strong></td><td>Time reduction ≥ 50% with CI lower bound &gt; 25%; every quality gate met; no guardrail breach; L2 overall ≥ human baseline − 0.3, accuracy ≥ 4.5/5.</td></tr>
+          <tr><td><strong>Hold</strong></td><td>Any quality gate missed, whatever the time saving. A wrong number in front of a client is the one failure that does not average out.</td></tr>
+          <tr><td><strong>Rethink</strong></td><td>By week 8, acceptance &lt; 40% and edit distance not trending down — the insight layer has not earned trust. Fall back to <em>assembly-only</em>: the pipeline builds the data sections, the CSM writes the narrative. That still removes eight of the nine steps.</td></tr>
+        </tbody>
+      </table></div>
+      <p class="lead"><span class="fin">Known limit</span> — eight weeks measures time and quality, never retention or account growth. Those need a year and more accounts than we have, and are tracked as observational lagging indicators, not evidence of causation.</p>
+    </div>
+  </section>
+
+  <footer class="runfoot"><span>Pepper Atlas · Internal · Draft v0.9</span><span>End of document · 03 / 03</span></footer>
+</article>
+
+</div>
+</body>
+</html>
