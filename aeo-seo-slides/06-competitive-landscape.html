@@ -40,7 +40,7 @@ body{font-family:var(--font-sans);background:var(--cloud);color:var(--ink);-webk
 .badge .meta{margin-top:3px;font-size:10px;color:#C0B2D4}
 
 .body{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:22px;padding:16px 46px 0;min-height:0}
-.camp{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;padding:14px 16px 12px;
+.camp{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;padding:16px 18px 13px;
   background:linear-gradient(160deg,#FCFAF5,#fff);min-height:0}
 .camp.aeo{border-color:var(--gold);background:linear-gradient(160deg,#FFFDF7,#fff);box-shadow:0 8px 22px rgba(201,169,97,.14)}
 .chead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
@@ -49,29 +49,19 @@ body{font-family:var(--font-sans);background:var(--cloud);color:var(--ink);-webk
 .cname{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--steel)}
 .camp.aeo .cname{color:var(--gold-deep)}
 .ccount{font-size:12px;font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums}
-.cdesc{font-size:10.5px;line-height:1.4;color:var(--steel);margin-top:7px}
+.cdesc{font-size:11px;line-height:1.45;color:var(--steel);margin-top:9px}
 .cdesc b{color:var(--ink);font-weight:700}
 
-ul{list-style:none;margin-top:6px}
-li{display:flex;align-items:center;gap:11px;padding:3.8px 0;border-bottom:1px solid var(--line)}
+ul{list-style:none;margin-top:9px}
+li{display:flex;align-items:center;gap:12px;padding:7px 0;border-bottom:1px solid var(--line)}
 li:last-child{border-bottom:none}
-.lg{width:21px;height:21px;flex:none;object-fit:contain;border-radius:4px;background:#fff}
-.vn{flex:1;font-size:13.6px;font-weight:500;line-height:1.2;color:var(--steel)}
+.lg{width:23px;height:23px;flex:none;object-fit:contain;border-radius:4px;background:#fff}
+.vn{flex:1;font-size:15px;font-weight:500;line-height:1.2;color:var(--steel)}
 li.on .vn{font-weight:700;color:var(--ink)}
 .tick{width:15px;flex:none;display:flex;align-items:center;justify-content:center;color:var(--gold-deep)}
 .legend-note{margin-top:auto;padding-top:8px;font-family:var(--font-mono);font-size:8.8px;letter-spacing:.09em;
   text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px}
 .legend-note .tk{color:var(--gold-deep)}
-
-.lens{flex:none;margin:12px 46px 0;padding:11px 15px;border-radius:13px;position:relative;overflow:hidden;
-  background:radial-gradient(circle at 90% 20%,rgba(212,117,107,.26),transparent 30%),
-             linear-gradient(120deg,var(--ink),var(--navy-2),#5C4A30);color:#fff}
-.lens-head{position:relative;z-index:1;font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--gold-light);margin-bottom:9px}
-.lenses{position:relative;z-index:1;display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
-.lensbox{border:1px solid rgba(255,255,255,.20);background:rgba(255,255,255,.08);border-radius:9px;padding:7px 10px}
-.lensbox h5{font-size:11.2px;font-weight:700;letter-spacing:-.012em;color:#fff;margin-bottom:3px}
-.lensbox p{font-size:9.5px;line-height:1.34;color:#CFC3DE}
 
 .footer{flex:none;display:flex;justify-content:space-between;align-items:center;margin:0 46px;padding:9px 0 12px;
   border-top:1px solid var(--line);font-family:var(--font-mono);font-size:9.5px;letter-spacing:.07em;color:var(--muted)}
@@ -139,19 +129,8 @@ li.on .vn{font-weight:700;color:var(--ink)}
 
   </div>
 
-  <div class="lens">
-    <div class="lens-head">The lens I compared them on</div>
-    <div class="lenses">
-      <div class="lensbox"><h5>Prompt coverage</h5><p>Which engines and how many real prompts are tracked, and how often.</p></div>
-      <div class="lensbox"><h5>Share of Voice</h5><p>Mentions and citations measured per prompt against named competitors.</p></div>
-      <div class="lensbox"><h5>Source attribution</h5><p>Whether the cited URL and off-site surface behind a mention is exposed.</p></div>
-      <div class="lensbox"><h5>Off-site reach</h5><p>Coverage of Reddit, YouTube and the community surfaces answers draw on.</p></div>
-      <div class="lensbox"><h5>Action loop</h5><p>Whether a visibility gap turns into a content or PR brief, not just a chart.</p></div>
-    </div>
-  </div>
-
   <div class="footer">
-    <span>SOURCE: OWN VENDOR REVIEW &middot; SEO / AEO COMPETITIVE LANDSCAPE &middot; CAMP FRAMING AND COMPARISON LENS ARE MY OWN READ</span>
+    <span>SOURCE: OWN VENDOR REVIEW &middot; SEO / AEO COMPETITIVE LANDSCAPE &middot; CAMP FRAMING IS MY OWN READ</span>
     <span>AEO / SEO MARKET READ</span>
   </div>
 
