@@ -48,12 +48,12 @@ body{font-family:var(--font-sans);background:var(--cloud);color:var(--ink);-webk
 .metric .sub{margin-top:3px;font-size:9.5px;color:#AA9BBD;font-family:var(--font-mono);letter-spacing:.06em}
 
 .body{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;padding:20px 46px 2px;min-height:0}
-.col{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:13px;padding:14px 16px;background:#fff}
+.col{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:13px;padding:13px 15px;background:#fff}
 .col.accent{border-color:var(--gold);background:linear-gradient(160deg,#FFFDF7,#fff)}
 .col .h{font-size:12.6px;font-weight:800;letter-spacing:-.015em;color:var(--ink)}
-.col .cap{font-size:10px;color:var(--muted);margin-top:2px;margin-bottom:11px;line-height:1.35}
+.col .cap{font-size:9.6px;color:var(--muted);margin-top:2px;margin-bottom:9px;line-height:1.32}
 
-.bars{display:flex;flex-direction:column;gap:6.5px}
+.bars{display:flex;flex-direction:column;gap:5px}
 .bar-row{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--steel)}
 .bar-label{display:block;width:92px;text-align:right;font-family:var(--font-mono);font-size:9.4px;letter-spacing:.02em;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -70,7 +70,7 @@ body{font-family:var(--font-sans);background:var(--cloud);color:var(--ink);-webk
 .sov-box .r{font-family:var(--font-mono);font-size:8.8px;font-weight:700;letter-spacing:.1em;color:var(--steel)}
 .sov-box .v{font-size:18px;font-weight:800;letter-spacing:-.025em;color:var(--ink);margin-top:3px}
 
-.note{margin-top:auto;padding-top:12px;font-size:10.8px;line-height:1.45;color:var(--steel);border-top:1px dashed var(--line)}
+.note{margin-top:auto;padding-top:10px;font-size:10.4px;line-height:1.42;color:var(--steel);border-top:1px dashed var(--line)}
 .note b{color:var(--gold-deep);font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
   display:block;margin-bottom:4px}
 
@@ -153,16 +153,18 @@ body{font-family:var(--font-sans);background:var(--cloud);color:var(--ink);-webk
         <div class="bar-row"><span class="bar-label">/products</span><span class="bar-track"><span class="bar-fill" style="width:37%"></span></span><span class="bar-val">13.79%</span></div>
       </div>
 
-      <div class="h" style="margin-top:16px">Source diversity across models</div>
-      <div class="cap">Mean number of distinct domains each model cites in a single response</div>
+      <div class="h" style="margin-top:13px">Source diversity across models</div>
+      <div class="cap">Mean number of distinct domains each engine cites in a single response. Engine names per the report; the 5.77 engine is icon-only in the source.</div>
       <div class="bars">
-        <div class="bar-row"><span class="bar-label">Model 1</span><span class="bar-track"><span class="bar-fill amb" style="width:100%"></span></span><span class="bar-val">26.99</span></div>
-        <div class="bar-row"><span class="bar-label">Model 2</span><span class="bar-track"><span class="bar-fill amb" style="width:70%"></span></span><span class="bar-val">18.86</span></div>
-        <div class="bar-row"><span class="bar-label">Model 3</span><span class="bar-track"><span class="bar-fill alt" style="width:41%"></span></span><span class="bar-val">11.16</span></div>
-        <div class="bar-row"><span class="bar-label">Model 4</span><span class="bar-track"><span class="bar-fill alt" style="width:32%"></span></span><span class="bar-val">8.74</span></div>
-        <div class="bar-row"><span class="bar-label">Model 5</span><span class="bar-track"><span class="bar-fill alt" style="width:30%"></span></span><span class="bar-val">8.23</span></div>
+        <div class="bar-row"><span class="bar-label">Grok</span><span class="bar-track"><span class="bar-fill amb" style="width:100%"></span></span><span class="bar-val">26.99</span></div>
+        <div class="bar-row"><span class="bar-label">ChatGPT</span><span class="bar-track"><span class="bar-fill amb" style="width:70%"></span></span><span class="bar-val">18.86</span></div>
+        <div class="bar-row"><span class="bar-label">AI Mode</span><span class="bar-track"><span class="bar-fill" style="width:41%"></span></span><span class="bar-val">11.16</span></div>
+        <div class="bar-row"><span class="bar-label">AI Overview</span><span class="bar-track"><span class="bar-fill alt" style="width:32%"></span></span><span class="bar-val">8.74</span></div>
+        <div class="bar-row"><span class="bar-label">Perplexity</span><span class="bar-track"><span class="bar-fill alt" style="width:31%"></span></span><span class="bar-val">8.23</span></div>
+        <div class="bar-row"><span class="bar-label">Gemini</span><span class="bar-track"><span class="bar-fill alt" style="width:23%"></span></span><span class="bar-val">6.14</span></div>
+        <div class="bar-row"><span class="bar-label">Copilot</span><span class="bar-track"><span class="bar-fill alt" style="width:21%"></span></span><span class="bar-val">5.77</span></div>
       </div>
-      <div class="note"><b>Read</b>The blog is the front door, not the homepage. Gated or unstructured content is invisible to the crawl that matters.</div>
+      <div class="note"><b>Read</b>The blog is the front door, not the homepage. And Grok cites 4.4× as many domains as Copilot — engine mix decides how wide your citation surface has to be.</div>
     </div>
 
     <div class="col">
