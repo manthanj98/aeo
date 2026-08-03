@@ -9,91 +9,96 @@
   --ink:#1A0F2E;--navy:#2D1B4E;--navy-2:#4A2C7A;
   --gold:#C9A961;--gold-deep:#A8893F;--gold-light:#E8D097;--gold-soft:#F5EDD9;
   --amber:#D4756B;--amber-light:#E89B92;
-  --cloud:#F8F4F0;--paper:#FFFFFF;--text:#3D2A52;--steel:#6B5B7B;--muted:#8B7A9B;--line:#ECE5F2;
+  --cream:#F5F1EC;--cloud:#FAF7F3;--paper:#FFFFFF;
+  --text:#3D2A52;--steel:#6B5B7B;--muted:#8B7A9B;--line:#EBE4F0;
   --font-sans:system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
   --font-mono:ui-monospace,'Cascadia Code','Source Code Pro',Menlo,Consolas,monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:#E7E1EC;}
-body{font-family:var(--font-sans);display:flex;align-items:center;justify-content:center;padding:16px;-webkit-font-smoothing:antialiased;letter-spacing:-.008em;}
+html,body{height:100%;background:var(--cream);}
+body{font-family:var(--font-sans);display:flex;align-items:center;justify-content:center;padding:2.2vmin;-webkit-font-smoothing:antialiased;letter-spacing:-.008em;}
 
-/* ── the slide: one fixed 16:9 canvas that always fits the viewport ── */
+/* one fixed 16:9 canvas that always fits the viewport, at any browser zoom */
 .slide{
-  width:min(100vw - 32px, (100vh - 32px) * 16 / 9);
-  aspect-ratio:16/9;
-  container-type:size;
-  background:var(--paper);
-  border-radius:1.1cqw;
-  overflow:hidden;
+  width:min(100vw - 4.4vmin, (100vh - 4.4vmin) * 16 / 9);
+  aspect-ratio:16/9;container-type:size;
+  background:var(--paper);border-radius:1cqw;overflow:hidden;
   display:flex;flex-direction:column;
-  box-shadow:0 1.8cqw 4.5cqw rgba(45,27,78,.22),0 .2cqw .6cqw rgba(45,27,78,.10);
+  box-shadow:0 2cqw 5cqw rgba(45,27,78,.16),0 .2cqw .6cqw rgba(45,27,78,.08);
 }
-.kicker{font-family:var(--font-mono);font-weight:700;text-transform:uppercase;}
+.slide::before{content:"";flex:none;height:.32cqw;background:linear-gradient(90deg,var(--gold),var(--amber-light) 55%,var(--gold));}
 
 /* ── header ── */
 .head{
-  position:relative;overflow:hidden;flex:none;
-  padding:2cqw 2.6cqw 1.7cqw;color:#fff;
-  background:radial-gradient(circle at 88% 8%,rgba(201,169,97,.40),transparent 30%),
-             radial-gradient(circle at 24% 110%,rgba(212,117,107,.24),transparent 30%),
+  position:relative;overflow:hidden;flex:none;padding:1.9cqw 2.4cqw;color:#fff;
+  background:radial-gradient(circle at 88% 6%,rgba(201,169,97,.38),transparent 32%),
+             radial-gradient(circle at 22% 115%,rgba(212,117,107,.22),transparent 32%),
              linear-gradient(135deg,var(--ink),var(--navy) 58%,var(--navy-2));
 }
-.head::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:1.9cqw 1.9cqw;opacity:.5;}
-.head-in{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-end;gap:2.4cqw;}
-.head .kicker{color:var(--gold-light);font-size:.78cqw;letter-spacing:.16em;margin-bottom:.75cqw;}
-.head h1{font-size:2.45cqw;line-height:1.08;font-weight:800;letter-spacing:-.03em;}
+.head::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:1.8cqw 1.8cqw;opacity:.5;}
+.head-in{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:2.2cqw;}
+.kicker{font-family:var(--font-mono);font-weight:700;text-transform:uppercase;font-size:.72cqw;letter-spacing:.17em;color:var(--gold-light);}
+.head h1{margin-top:.62cqw;font-size:2.16cqw;line-height:1.1;font-weight:800;letter-spacing:-.03em;}
 .head h1 em{font-style:normal;color:var(--gold-light);}
-.head .sub{margin-top:.62cqw;font-size:1.02cqw;line-height:1.45;color:#CFC2DF;max-width:62cqw;}
-.badge{flex:none;text-align:right;border:1px solid rgba(201,169,97,.5);background:rgba(201,169,97,.10);border-radius:.85cqw;padding:.85cqw 1.15cqw;}
-.badge .l{font-family:var(--font-mono);font-size:.66cqw;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-soft);font-weight:700;}
-.badge .v{margin-top:.4cqw;font-size:1.08cqw;font-weight:800;line-height:1.25;letter-spacing:-.015em;}
+.badge{flex:none;text-align:right;border:1px solid rgba(201,169,97,.5);background:rgba(201,169,97,.10);border-radius:.7cqw;padding:.8cqw 1.1cqw;}
+.badge .l{font-family:var(--font-mono);font-size:.62cqw;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-soft);font-weight:700;}
+.badge .v{margin-top:.35cqw;font-size:1.02cqw;font-weight:800;line-height:1.25;letter-spacing:-.015em;}
 
 /* ── body ── */
-.body{flex:1;display:grid;grid-template-columns:1.55fr 1fr;gap:1.9cqw;padding:1.7cqw 2.6cqw 1.3cqw;min-height:0;}
+.body{flex:1;display:grid;grid-template-columns:1.42fr 1fr;gap:1.7cqw;padding:1.35cqw 2.4cqw 0;min-height:0;}
 .col{display:flex;flex-direction:column;min-height:0;}
-.lbl{display:flex;align-items:center;gap:.6cqw;font-family:var(--font-mono);font-size:.72cqw;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;margin-bottom:.75cqw;}
-.lbl::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent);}
+.shead{display:flex;align-items:center;gap:.65cqw;margin-bottom:.75cqw;flex:none;}
+.sno{font-family:var(--font-mono);font-size:.66cqw;font-weight:700;letter-spacing:.06em;color:#fff;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));padding:.24cqw .55cqw;border-radius:.32cqw;}
+.stitle{font-size:1.06cqw;font-weight:800;color:var(--ink);letter-spacing:-.022em;}
+.scap{margin-left:auto;font-family:var(--font-mono);font-size:.63cqw;letter-spacing:.1em;color:var(--muted);font-weight:600;}
 
-/* ladder */
-.ladder{display:flex;flex-direction:column;gap:.5cqw;flex:1;min-height:0;}
-.tier{
-  flex:1;display:grid;grid-template-columns:3.6cqw 1fr auto;gap:1cqw;align-items:center;
-  border:1px solid var(--line);border-radius:.7cqw;padding:.55cqw .95cqw;background:var(--paper);
-}
-.tier.star{border-color:var(--gold);background:linear-gradient(135deg,#FDFBF6,#fff);box-shadow:0 .25cqw .8cqw rgba(201,169,97,.16);}
-  .tier .t{font-size:1.62cqw;font-weight:800;line-height:1;letter-spacing:-.03em;text-align:center;
+/* left — the ladder */
+.ladder{display:flex;flex-direction:column;gap:.4cqw;flex:1;min-height:0;}
+.tier{flex:1;display:grid;grid-template-columns:4.3cqw 1fr auto;gap:.9cqw;align-items:center;
+  border:1px solid var(--line);border-radius:.55cqw;padding:.42cqw .85cqw;background:var(--cloud);}
+.tier.star{border-color:var(--gold);background:linear-gradient(135deg,#FDFAF3,#fff);}
+.tier .t{font-size:1.32cqw;font-weight:800;line-height:1;letter-spacing:-.03em;text-align:center;
   background:linear-gradient(135deg,var(--gold),var(--gold-deep));-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .tier .nm{font-family:var(--font-mono);font-size:.63cqw;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);font-weight:700;text-align:center;margin-top:.15cqw;}
-  .tier h3{font-size:1.13cqw;font-weight:700;color:var(--ink);letter-spacing:-.015em;line-height:1.25;}
-  .tier p{font-size:.87cqw;line-height:1.38;color:var(--steel);margin-top:.15cqw;}
-  .chip{font-family:var(--font-mono);font-size:.64cqw;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
-  padding:.28cqw .62cqw;border-radius:99px;border:1px solid;white-space:nowrap;}
+.tier .nm{font-family:var(--font-mono);font-size:.55cqw;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;text-align:center;margin-top:.18cqw;}
+.tier h3{font-size:.98cqw;font-weight:700;color:var(--ink);letter-spacing:-.015em;line-height:1.25;}
+.tier p{font-size:.79cqw;line-height:1.4;color:var(--steel);margin-top:.12cqw;}
+.chip{font-family:var(--font-mono);font-size:.58cqw;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  padding:.24cqw .55cqw;border-radius:99px;border:1px solid;white-space:nowrap;}
 .chip.m{background:var(--gold-soft);border-color:#CEAA5E;color:#6A4E18;}
 .chip.d{background:#F2ECF9;border-color:#C4ADDC;color:#5C3580;}
 .chip.c{background:#FBF0EE;border-color:#E09A92;color:#7A3329;}
 
-/* right-hand cards */
-.card{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-around;border:1px solid var(--line);border-radius:.7cqw;background:var(--cloud);padding:.7cqw 1cqw;}
+/* right — panel cards */
+.panels{display:flex;flex-direction:column;gap:.4cqw;flex:1;min-height:0;}
+.pcard{flex:1;display:grid;grid-template-columns:1.85cqw 1fr;gap:.75cqw;align-items:start;align-content:center;
+  border:1px solid var(--line);border-radius:.55cqw;padding:.5cqw .85cqw;background:var(--cloud);}
+.pcard .pn{font-family:var(--font-mono);font-size:.6cqw;font-weight:700;color:#fff;background:var(--ink);
+  border-radius:.3cqw;padding:.2cqw 0;text-align:center;margin-top:.1cqw;}
+.pcard h4{font-size:.94cqw;font-weight:700;color:var(--ink);letter-spacing:-.015em;line-height:1.2;}
+.pcard p{font-size:.77cqw;line-height:1.4;color:var(--steel);margin-top:.15cqw;}
+.tag{display:inline-block;margin-top:.32cqw;font-family:var(--font-mono);font-size:.62cqw;font-weight:700;
+  letter-spacing:.02em;padding:.2cqw .5cqw;border-radius:.28cqw;background:var(--gold-soft);color:#6A4E18;}
+.pcard.hi{background:var(--ink);border-color:var(--ink);}
+.pcard.hi .pn{background:rgba(201,169,97,.28);color:var(--gold-light);}
+.pcard.hi h4{color:#fff;}
+.pcard.hi p{color:#D0C3E0;}
+.pcard.hi .tag{background:rgba(201,169,97,.22);color:var(--gold-light);}
 
-.prow{display:grid;grid-template-columns:auto 1fr;gap:.7cqw;align-items:baseline;padding:.32cqw 0;}
-.prow + .prow{border-top:1px solid #E4DCEC;}
-  .prow .k{font-family:var(--font-mono);font-size:.67cqw;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;white-space:nowrap;}
-  .prow .v{font-size:.89cqw;line-height:1.4;color:var(--text);}
-.prow .v b{color:var(--ink);font-weight:700;}
-.prow.warn .k{color:#9C4A40;}
-.erow{padding:.38cqw 0;}
-.erow + .erow{border-top:1px solid #E4DCEC;}
-  .erow .k{font-family:var(--font-mono);font-size:.67cqw;letter-spacing:.09em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;}
-  .erow .v{font-size:.89cqw;line-height:1.42;color:var(--text);margin-top:.12cqw;}
+/* ── the chain strip ── */
+.strip{flex:none;margin:1.2cqw 2.4cqw 0;border-radius:.7cqw;padding:.85cqw 1.1cqw;
+  background:linear-gradient(100deg,var(--ink),var(--navy-2) 68%,#5C4A30);color:#fff;}
+.strip .slbl{font-family:var(--font-mono);font-size:.63cqw;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-light);font-weight:700;}
+.links{display:grid;grid-template-columns:repeat(5,1fr);gap:.6cqw;margin-top:.7cqw;}
+.link{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.13);border-radius:.45cqw;padding:.55cqw .7cqw;}
+.link .n{font-family:var(--font-mono);font-size:.58cqw;color:var(--gold-light);font-weight:700;letter-spacing:.08em;}
+.link h5{margin-top:.2cqw;font-size:.87cqw;font-weight:700;letter-spacing:-.012em;}
+.link p{margin-top:.22cqw;font-size:.72cqw;line-height:1.38;color:#C9BCD9;}
 
 /* ── footer ── */
-.foot{flex:none;display:flex;align-items:center;justify-content:space-between;gap:1.6cqw;
-  padding:.95cqw 2.6cqw;background:linear-gradient(100deg,var(--ink),var(--navy-2) 72%,#5C4A30);color:#fff;}
-.chain{display:flex;align-items:center;gap:.55cqw;flex-wrap:nowrap;font-size:.85cqw;font-weight:600;letter-spacing:-.006em;}
-.chain span{white-space:nowrap;}
-.chain i{font-style:normal;color:var(--gold-light);font-weight:700;}
-.disc{font-size:.72cqw;line-height:1.4;color:#C6B8D6;text-align:right;flex:none;max-width:30cqw;}
-.disc b{color:var(--gold-light);font-weight:700;}
+.foot{flex:none;display:flex;justify-content:space-between;gap:1.6cqw;padding:.9cqw 2.4cqw 1.1cqw;
+  font-family:var(--font-mono);font-size:.62cqw;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600;}
+.foot b{color:#7A3329;font-weight:700;}
 
 @media print{
   @page{size:landscape;margin:0}
@@ -106,13 +111,11 @@ body{font-family:var(--font-sans);display:flex;align-items:center;justify-conten
 <body>
 <div class="slide">
 
-  <!-- HEADER -->
   <header class="head">
     <div class="head-in">
       <div>
-        <div class="kicker">Pepper Atlas · Atlas Reports · Metric Model</div>
+        <div class="kicker">Pepper Atlas / Atlas Reports — Metric Model</div>
         <h1>Time saved is the input. <em>Brand velocity is the outcome.</em></h1>
-        <p class="sub">Four hours a week was the problem we were handed, not the goal. The hours only become value through two doors — the CSM reaches a brand's target sooner, and carries more brands. Every tier below is marked with what we can honestly claim about it.</p>
       </div>
       <div class="badge">
         <div class="l">Core Principle</div>
@@ -121,19 +124,17 @@ body{font-family:var(--font-sans);display:flex;align-items:center;justify-conten
     </div>
   </header>
 
-  <!-- BODY -->
   <div class="body">
 
-    <!-- LADDER -->
     <section class="col">
-      <div class="lbl">The outcome ladder — read down to translate, up to explain</div>
+      <div class="shead"><span class="sno">01</span><span class="stitle">The outcome ladder</span><span class="scap">Measured · modelled · correlational</span></div>
       <div class="ladder">
 
         <div class="tier">
           <div><div class="t">T1</div><div class="nm">Commercial</div></div>
           <div>
             <h3>Revenue influenced · leads converted</h3>
-            <p>Pipeline and closed revenue from organic and AI-search sessions, read from the client's CRM. What the retainer is judged on.</p>
+            <p>Pipeline and closed revenue from organic and AI-search sessions, read from the client's own CRM. What the retainer is judged on.</p>
           </div>
           <span class="chip c">◆ Correlational</span>
         </div>
@@ -160,7 +161,7 @@ body{font-family:var(--font-sans);display:flex;align-items:center;justify-conten
           <div><div class="t">T4</div><div class="nm">Leverage</div></div>
           <div>
             <h3>Brands assisted per CSM · assist depth</h3>
-            <p>Accounts held at cadence-compliant quality, and how many get a recommendation rather than just a report.</p>
+            <p>Accounts held at cadence-compliant quality, and how many get a proactive recommendation rather than just a report.</p>
           </div>
           <span class="chip d">◇ Modelled</span>
         </div>
@@ -177,32 +178,65 @@ body{font-family:var(--font-sans);display:flex;align-items:center;justify-conten
       </div>
     </section>
 
-    <!-- RIGHT -->
     <section class="col">
-      <div class="lbl">Time saved, by panel</div>
-      <div class="card">
-        <div class="prow"><span class="k">Source</span><span class="v">Pulling and checking raw data — <b>target → 0</b></span></div>
-        <div class="prow"><span class="k">Canvas</span><span class="v">Editing the draft — <b>falling = draft quality rising</b></span></div>
-        <div class="prow warn"><span class="k">Evidence</span><span class="v">Verifying claims — <b>a floor, never zero</b>. Zero is rubber-stamping, not speed.</span></div>
-        <div class="prow"><span class="k">Approve</span><span class="v">Last edit to decision — the residual</span></div>
-      </div>
+      <div class="shead"><span class="sno">02</span><span class="stitle">Time saved, by panel</span><span class="scap">In-app timer, per surface</span></div>
+      <div class="panels">
 
-      <div class="lbl" style="margin-top:1cqw">How we'd know it saved the four hours</div>
-      <div class="card">
-        <div class="erow"><div class="k">Measurement</div><div class="v">Stepped-wedge clustered on the CSM — 8 weeks, 4 cohorts, pre-registered mixed-effects model. Weeks 0–2 set the baseline first.</div></div>
-        <div class="erow"><div class="k">Dataset</div><div class="v">60 golden reports (12 clients × 5 periods, frozen snapshots), plus 15 rewritten by 3 senior CSMs for a measured human ceiling.</div></div>
-        <div class="erow"><div class="k">Success criteria</div><div class="v">Faster <b>and</b> no worse — time superiority plus quality non-inferiority, margin derived from inter-human SD. Then ≥ 70% still choose it when it goes optional.</div></div>
+        <div class="pcard">
+          <span class="pn">01</span>
+          <div>
+            <h4>Source panel</h4>
+            <p>Pulling and checking raw data — the assembly the pipeline replaces.</p>
+            <span class="tag">Target → 0</span>
+          </div>
+        </div>
+
+        <div class="pcard">
+          <span class="pn">02</span>
+          <div>
+            <h4>Studio canvas</h4>
+            <p>Editing the drafted narrative. Falling means draft quality is rising.</p>
+            <span class="tag">Falling = trust</span>
+          </div>
+        </div>
+
+        <div class="pcard hi">
+          <span class="pn">03</span>
+          <div>
+            <h4>Evidence panel</h4>
+            <p>Verifying claims against source. Zero is rubber-stamping, not speed.</p>
+            <span class="tag">A floor, never zero</span>
+          </div>
+        </div>
+
+        <div class="pcard">
+          <span class="pn">04</span>
+          <div>
+            <h4>Approve &amp; send</h4>
+            <p>Last edit to decision — whether the CSM trusts what they are signing.</p>
+            <span class="tag">The residual</span>
+          </div>
+        </div>
+
       </div>
     </section>
 
   </div>
 
-  <!-- FOOTER -->
-  <footer class="foot">
-    <div class="chain">
-      <span>Hours freed</span><i>→</i><span>brands served</span><i>→</i><span>goals hit sooner</span><i>→</i><span>share of voice &amp; citations</span><i>→</i><span>retainer renewed</span>
+  <section class="strip">
+    <div class="slbl">The chain — hours freed become brands served, brands served become goals hit sooner</div>
+    <div class="links">
+      <div class="link"><div class="n">01</div><h5>Hours freed</h5><p>Assembly time leaves the report cycle.</p></div>
+      <div class="link"><div class="n">02</div><h5>Brands served</h5><p>The same CSM holds more accounts at quality.</p></div>
+      <div class="link"><div class="n">03</div><h5>Goals hit sooner</h5><p>Time-to-target falls against a matched cohort.</p></div>
+      <div class="link"><div class="n">04</div><h5>Visible proof</h5><p>Share of voice and citations the client can see.</p></div>
+      <div class="link"><div class="n">05</div><h5>Retainer renewed</h5><p>Revenue influenced, leads converted.</p></div>
     </div>
-    <div class="disc"><b>What we won't claim:</b> revenue is not causally attributable over an 8-week trial. T3 is where the honest causal claim lives — it has a comparison cohort.</div>
+  </section>
+
+  <footer class="foot">
+    <div><b>What we won't claim:</b> revenue is not causally attributable over an 8-week trial — T3 carries the honest causal claim</div>
+    <div>Pepper Atlas · Metric Model</div>
   </footer>
 
 </div>
