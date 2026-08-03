@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>01 · The Shift — Search Became the Answer</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+@page{size:13.333in 7.5in;margin:0}
+:root{
+  --ink:#1A0F2E;--navy:#2D1B4E;--navy-2:#4A2C7A;
+  --gold:#C9A961;--gold-deep:#A8893F;--gold-light:#E8D097;--gold-soft:#F5EDD9;
+  --amber:#D4756B;--amber-light:#E89B92;--amber-soft:#FBF0EE;
+  --cloud:#F8F4F0;--paper:#FFFFFF;--text:#3D2A52;--steel:#6B5B7B;--muted:#8B7A9B;--line:#ECE5F2;
+  --shadow-lg:0 22px 60px rgba(45,27,78,.18);
+  --font-sans:system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+  --font-mono:ui-monospace,'Cascadia Code','Source Code Pro',Menlo,Consolas,monospace;
+}
+body{font-family:var(--font-sans);background:var(--cloud);color:var(--ink);-webkit-font-smoothing:antialiased;
+  display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;letter-spacing:-.008em}
+.slide{width:1280px;height:720px;background:var(--paper);border-radius:18px;overflow:hidden;
+  box-shadow:var(--shadow-lg);display:flex;flex-direction:column;position:relative}
+.slide::before{content:"";flex:none;height:4px;background:linear-gradient(90deg,var(--gold),var(--amber-light),var(--gold))}
+.kicker{font-family:var(--font-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:700}
+
+/* HERO */
+.hero{flex:none;position:relative;overflow:hidden;padding:26px 46px 24px;color:#fff;
+  background:radial-gradient(circle at 88% 8%,rgba(201,169,97,.38),transparent 30%),
+             radial-gradient(circle at 22% 108%,rgba(212,117,107,.24),transparent 30%),
+             linear-gradient(135deg,var(--ink),var(--navy) 58%,var(--navy-2))}
+.hero::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);
+  background-size:22px 22px;opacity:.55;pointer-events:none}
+.hero-top{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;gap:34px}
+.hero .kicker{color:var(--gold-light);margin-bottom:11px}
+.hero h1{font-size:29px;line-height:1.16;font-weight:800;letter-spacing:-.03em;max-width:830px;
+  background:linear-gradient(135deg,#fff 30%,#F5EDD9 118%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .subtitle{margin-top:9px;max-width:800px;color:#D8CCE6;font-size:13.5px;line-height:1.6}
+.badge{flex:none;border:1px solid rgba(201,169,97,.55);background:rgba(201,169,97,.10);border-radius:13px;
+  padding:12px 16px;min-width:186px;text-align:right}
+.badge .label{color:#F5EDD9;font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-family:var(--font-mono);font-weight:700}
+.badge .value{margin-top:6px;font-size:17px;font-weight:800;letter-spacing:-.015em}
+.badge .meta{margin-top:3px;font-size:10.5px;color:#C0B2D4}
+
+/* BODY */
+.body{flex:1;display:flex;flex-direction:column;gap:18px;padding:22px 46px 0}
+.section-head{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.section-no{font-family:var(--font-mono);font-size:10px;color:#fff;background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  padding:4px 9px;border-radius:7px;font-weight:700;letter-spacing:.08em}
+.section-title{font-size:14px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+.section-note{font-size:11px;color:var(--muted);margin-left:auto}
+
+/* SPLIT */
+.split{display:grid;grid-template-columns:1fr 46px 1fr;align-items:stretch;gap:0}
+.panel{border:1px solid var(--line);border-radius:14px;padding:15px 18px;background:linear-gradient(150deg,#FCFAF5,#fff)}
+.panel.today{border-color:var(--gold);background:linear-gradient(150deg,#FFFDF7,#fff);box-shadow:0 8px 22px rgba(201,169,97,.14)}
+.ptag{display:inline-block;font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+  padding:3px 9px;border-radius:999px;background:#EFEAF5;color:var(--steel)}
+.panel.today .ptag{background:var(--gold-soft);color:#5C481E}
+.panel h3{margin:8px 0 10px;font-size:16.5px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+.panel ul{list-style:none}
+.panel li{position:relative;padding-left:16px;font-size:12.3px;line-height:1.5;color:var(--text);margin-bottom:7px}
+.panel li:last-child{margin-bottom:0}
+.panel li::before{content:"";position:absolute;left:0;top:6px;width:6px;height:6px;border-radius:50%;background:#CFC4DC}
+.panel.today li::before{background:var(--gold)}
+.panel li b{color:var(--ink);font-weight:700}
+.arrow{display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--gold-deep);font-weight:800}
+
+/* LEARNINGS */
+.learnings{display:grid;grid-template-columns:repeat(5,1fr);gap:11px}
+.lcard{border:1px solid var(--line);border-radius:13px;padding:13px 13px 14px;background:#fff;display:flex;flex-direction:column}
+.lcard.dark{background:var(--ink);border-color:var(--ink)}
+.lcard .n{display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:9.5px;font-weight:700;
+  letter-spacing:.11em;color:var(--gold-deep)}
+.lcard .n::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold);flex:none}
+.lcard.dark .n{color:var(--gold-light)}
+.lcard h4{margin:9px 0 6px;font-size:12.8px;font-weight:800;line-height:1.25;letter-spacing:-.015em;color:var(--ink)}
+.lcard.dark h4{color:#fff}
+.lcard p{font-size:11.2px;line-height:1.45;color:var(--steel)}
+.lcard.dark p{color:#CBBEDD}
+
+/* FOOTER */
+.footer{flex:none;display:flex;justify-content:space-between;align-items:center;margin:0 46px;padding:11px 0 14px;
+  border-top:1px solid var(--line);font-family:var(--font-mono);font-size:9.5px;letter-spacing:.07em;color:var(--muted)}
+@media print{body{background:#fff;padding:0;display:block}
+  .slide{width:13.333in;height:7.5in;border-radius:0;box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <header class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="kicker">AEO / SEO Market Read · Slide 01 of 05</div>
+        <h1>Search stopped being a list of links. It became the answer.</h1>
+        <p class="subtitle">Google AI Overviews and AI modes now resolve the query on the results page. The click is optional — and leading publishers report traffic drops of more than 50% after those rollouts. Visibility has to be earned inside the answer, not on the page below it.</p>
+      </div>
+      <div class="badge">
+        <div class="label">Source</div>
+        <div class="value">AthenaHQ</div>
+        <div class="meta">State of AI Search 2026</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <section>
+      <div class="section-head">
+        <span class="section-no">01</span>
+        <span class="section-title">What actually changed for the user</span>
+        <span class="section-note">Fewer visits — but a materially better visitor</span>
+      </div>
+      <div class="split">
+        <div class="panel">
+          <span class="ptag">Before</span>
+          <h3>Traditional search</h3>
+          <ul>
+            <li><b>Users click links</b> and find their answer on publisher sites.</li>
+            <li><b>Steady inbound traffic</b> arrives from search into owned properties.</li>
+            <li><b>Lower intent</b> — visitors land early in the journey, less informed and further from purchase.</li>
+          </ul>
+        </div>
+        <div class="arrow">&rarr;</div>
+        <div class="panel today">
+          <span class="ptag alt">Today</span>
+          <h3>AI search</h3>
+          <ul>
+            <li><b>AI delivers the answer directly</b> on the results page.</li>
+            <li><b>Traffic drops of 50%+</b> reported by leading sites after AI rollouts.</li>
+            <li><b>Higher intent</b> — fewer visits, but users arrive highly educated and closer to purchase.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <span class="section-no">02</span>
+        <span class="section-title">Five learnings that follow from it</span>
+        <span class="section-note">The link-based web gives way to a direct-answer model</span>
+      </div>
+      <div class="learnings">
+        <div class="lcard">
+          <div class="n">01</div>
+          <h4>Answer, not a click</h4>
+          <p>Information is consumed in place. Impressions and clicks for external sites erode even where demand is unchanged.</p>
+        </div>
+        <div class="lcard">
+          <div class="n">02</div>
+          <h4>Traffic decline needs a plan</h4>
+          <p>Marketing leaders must budget for fewer search visits. Early generative-AI adopters lock in Share of Voice within months.</p>
+        </div>
+        <div class="lcard dark">
+          <div class="n">03</div>
+          <h4>From SEO to GEO</h4>
+          <p>SEO ranks a page. GEO gets brand data and expertise embedded in the generated answer as a trusted, cited source.</p>
+        </div>
+        <div class="lcard">
+          <div class="n">04</div>
+          <h4>New visibility metrics</h4>
+          <p>Rankings and clicks lose relevance. Share of Voice, mentions per prompt, daily citations and ROI per prompt take over.</p>
+        </div>
+        <div class="lcard">
+          <div class="n">05</div>
+          <h4>Category leaders emerge</h4>
+          <p>The Top Brands Study maps who dominates AI answers across 32 competitive categories — visibility is already concentrating.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="footer">
+    <span>SOURCE: ATHENAHQ · STATE OF AI SEARCH 2026 — TLDR &amp; INTRODUCTION (PP. 03–04)</span>
+    <span>AEO / SEO MARKET READ · 01 / 05</span>
+  </div>
+
+</div>
+</body>
+</html>

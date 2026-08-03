@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>02 · AEO vs SEO — Key Findings</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+@page{size:13.333in 7.5in;margin:0}
+:root{
+  --ink:#1A0F2E;--navy:#2D1B4E;--navy-2:#4A2C7A;
+  --gold:#C9A961;--gold-deep:#A8893F;--gold-light:#E8D097;--gold-soft:#F5EDD9;
+  --amber:#D4756B;--amber-light:#E89B92;--amber-soft:#FBF0EE;
+  --cloud:#F8F4F0;--paper:#FFFFFF;--text:#3D2A52;--steel:#6B5B7B;--muted:#8B7A9B;--line:#ECE5F2;
+  --shadow-lg:0 22px 60px rgba(45,27,78,.18);
+  --font-sans:system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+  --font-mono:ui-monospace,'Cascadia Code','Source Code Pro',Menlo,Consolas,monospace;
+}
+body{font-family:var(--font-sans);background:var(--cloud);color:var(--ink);-webkit-font-smoothing:antialiased;
+  display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;letter-spacing:-.008em}
+.slide{width:1280px;height:720px;background:var(--paper);border-radius:18px;overflow:hidden;
+  box-shadow:var(--shadow-lg);display:flex;flex-direction:column;position:relative}
+.slide::before{content:"";flex:none;height:4px;background:linear-gradient(90deg,var(--gold),var(--amber-light),var(--gold))}
+.kicker{font-family:var(--font-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:700}
+
+.hero{flex:none;position:relative;overflow:hidden;padding:26px 46px 24px;color:#fff;
+  background:radial-gradient(circle at 88% 8%,rgba(201,169,97,.38),transparent 30%),
+             radial-gradient(circle at 22% 108%,rgba(212,117,107,.24),transparent 30%),
+             linear-gradient(135deg,var(--ink),var(--navy) 58%,var(--navy-2))}
+.hero::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);
+  background-size:22px 22px;opacity:.55;pointer-events:none}
+.hero-top{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;gap:34px}
+.hero .kicker{color:var(--gold-light);margin-bottom:11px}
+.hero h1{font-size:29px;line-height:1.16;font-weight:800;letter-spacing:-.03em;max-width:840px;
+  background:linear-gradient(135deg,#fff 30%,#F5EDD9 118%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .subtitle{margin-top:9px;max-width:800px;color:#D8CCE6;font-size:13.5px;line-height:1.6}
+.badge{flex:none;border:1px solid rgba(201,169,97,.55);background:rgba(201,169,97,.10);border-radius:13px;
+  padding:12px 16px;min-width:186px;text-align:right}
+.badge .label{color:#F5EDD9;font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-family:var(--font-mono);font-weight:700}
+.badge .value{margin-top:6px;font-size:17px;font-weight:800;letter-spacing:-.015em}
+.badge .meta{margin-top:3px;font-size:10.5px;color:#C0B2D4}
+
+.body{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:26px;padding:26px 46px 4px}
+.col{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;padding:17px 18px 15px;
+  background:linear-gradient(160deg,#FCFAF5,#fff)}
+.col.accent{border-color:var(--gold);box-shadow:0 8px 22px rgba(201,169,97,.14)}
+.col .n{display:flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:9.5px;font-weight:700;
+  letter-spacing:.12em;color:var(--gold-deep)}
+.col .n::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold);flex:none}
+.finding{margin:10px 0 8px;font-size:15.5px;font-weight:800;line-height:1.3;letter-spacing:-.022em;color:var(--ink)}
+.detail{font-size:12.2px;line-height:1.55;color:var(--steel)}
+.detail b{color:var(--ink);font-weight:700}
+.viz{margin-top:auto;padding-top:16px}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:9.8px;color:var(--steel);margin-top:6px;font-weight:600}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.sw{width:12px;height:3px;border-radius:2px;display:inline-block}
+
+.bars{display:flex;flex-direction:column;gap:7px}
+.bar-row{display:flex;align-items:center;gap:9px;font-size:11px;color:var(--steel)}
+.bar-label{display:block;width:86px;text-align:right;font-family:var(--font-mono);font-size:9.6px;letter-spacing:.02em}
+.bar-track{display:block;flex:1;height:9px;background:#F1ECF7;border-radius:5px;overflow:hidden}
+.bar-fill{display:block;height:9px;border-radius:5px;background:linear-gradient(90deg,var(--gold),var(--gold-deep))}
+.bar-fill.alt{background:#D6CCE3}
+.bar-val{display:block;width:40px;font-size:10.5px;color:var(--ink);font-weight:700;text-align:right}
+
+.callout{margin-top:12px;background:linear-gradient(135deg,var(--ink),var(--navy));color:#fff;border-radius:11px;
+  padding:11px 13px;font-size:11.4px;line-height:1.5}
+.callout b{display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--gold-light);margin-bottom:4px;font-weight:700}
+
+.footer{flex:none;display:flex;justify-content:space-between;align-items:center;margin:0 46px;padding:11px 0 14px;
+  border-top:1px solid var(--line);font-family:var(--font-mono);font-size:9.5px;letter-spacing:.07em;color:var(--muted)}
+@media print{body{background:#fff;padding:0;display:block}
+  .slide{width:13.333in;height:7.5in;border-radius:0;box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <header class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="kicker">AEO / SEO Market Read · Slide 02 of 05</div>
+        <h1>AI search is displacing organic search as a channel — not adding to it</h1>
+        <p class="subtitle">Three findings from Semrush's 2025–2029 AI search traffic projection. The total addressable visitor pool stays roughly flat across the window, which makes this a reallocation of demand between channels rather than net new demand.</p>
+      </div>
+      <div class="badge">
+        <div class="label">Source</div>
+        <div class="value">Semrush</div>
+        <div class="meta">AI Search &amp; SEO Traffic Study</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <div class="col">
+      <div class="n">FINDING 01</div>
+      <div class="finding">AEO traffic overtakes SEO traffic by 2028</div>
+      <div class="detail">LLM-driven visits — including Google AI Overviews — rise continuously while traditional organic search declines across the full window. The total visitor pool stays roughly flat: <b>this is reallocation, not growth.</b></div>
+      <div class="viz">
+        <svg viewBox="0 0 320 130" width="100%" height="118" role="img" aria-label="Line chart: LLM visits overtake organic search in 2028">
+          <line x1="8" y1="108" x2="312" y2="108" stroke="var(--line)" stroke-width="1"/>
+          <line x1="228" y1="12" x2="228" y2="108" stroke="#D6CCE3" stroke-width="1" stroke-dasharray="3,3"/>
+          <polyline points="16,24 70,52 140,70 228,84 300,94" fill="none" stroke="#C0B4D0" stroke-width="2.5" stroke-linejoin="round"/>
+          <polyline points="16,100 70,95 140,90 228,84 300,40" fill="none" stroke="#A8893F" stroke-width="2.5" stroke-linejoin="round"/>
+          <circle cx="228" cy="84" r="4.5" fill="#A8893F"/>
+          <text x="205" y="126" font-size="10" fill="#1A0F2E" font-weight="700">2028</text>
+          <text x="10" y="126" font-size="10" fill="#8B7A9B">2025</text>
+          <text x="282" y="126" font-size="10" fill="#8B7A9B">2029</text>
+        </svg>
+        <div class="legend">
+          <span><i class="sw" style="background:#A8893F"></i>AI / LLM search</span>
+          <span><i class="sw" style="background:#C0B4D0"></i>Organic search</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="n">FINDING 02</div>
+      <div class="finding">A visitor from AI search is worth more than one from traditional search</div>
+      <div class="detail">Total LLM value crosses above organic search value in <b>2026</b> and diverges sharply through 2029. A large share sits in untracked or misattributed impressions — so the reported LLM figure understates the real one.</div>
+      <div class="viz">
+        <svg viewBox="0 0 320 130" width="100%" height="118" role="img" aria-label="Line chart: LLM value crosses organic value in 2026">
+          <line x1="8" y1="108" x2="312" y2="108" stroke="var(--line)" stroke-width="1"/>
+          <polyline points="16,84 70,74 140,64 228,58 300,56" fill="none" stroke="#C0B4D0" stroke-width="2.5" stroke-linejoin="round"/>
+          <polyline points="16,96 70,72 140,48 228,30 300,16" fill="none" stroke="#A8893F" stroke-width="2.5" stroke-linejoin="round"/>
+          <polyline points="16,102 70,94 140,80 228,66 300,52" fill="none" stroke="#D4756B" stroke-width="2.5" stroke-dasharray="4,3" stroke-linejoin="round"/>
+          <text x="10" y="126" font-size="10" fill="#8B7A9B">2025</text>
+          <text x="282" y="126" font-size="10" fill="#8B7A9B">2029</text>
+        </svg>
+        <div class="legend">
+          <span><i class="sw" style="background:#A8893F"></i>Total LLM value</span>
+          <span><i class="sw" style="background:#D4756B"></i>Untracked</span>
+          <span><i class="sw" style="background:#C0B4D0"></i>Organic</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col accent">
+      <div class="n">FINDING 03</div>
+      <div class="finding">Off-page sources are prioritised over owned pages</div>
+      <div class="detail">LLMs cite UGC and forum content. Reddit alone holds <b>21.9%</b> of top-10 citation share, and Reddit plus Quora dominate the domains cited in Google AI Overviews. Owned brand pages are largely absent from the citation set.</div>
+      <div class="viz">
+        <div class="bars">
+          <div class="bar-row"><span class="bar-label">reddit.com</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span><span class="bar-val">21.9%</span></div>
+          <div class="bar-row"><span class="bar-label">youtube.com</span><span class="bar-track"><span class="bar-fill" style="width:47%"></span></span><span class="bar-val">10.3%</span></div>
+          <div class="bar-row"><span class="bar-label">wikipedia.org</span><span class="bar-track"><span class="bar-fill" style="width:34%"></span></span><span class="bar-val">7.3%</span></div>
+          <div class="bar-row"><span class="bar-label">linkedin.com</span><span class="bar-track"><span class="bar-fill alt" style="width:30%"></span></span><span class="bar-val">6.5%</span></div>
+          <div class="bar-row"><span class="bar-label">forbes.com</span><span class="bar-track"><span class="bar-fill alt" style="width:24%"></span></span><span class="bar-val">5.3%</span></div>
+          <div class="bar-row"><span class="bar-label">medium.com</span><span class="bar-track"><span class="bar-fill alt" style="width:16%"></span></span><span class="bar-val">3.5%</span></div>
+        </div>
+        <div class="callout">
+          <b>My read</b>
+          Earned and community surfaces are now a primary distribution channel for brand facts — not a secondary one. Owned-content volume alone will not buy citation share.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span>SOURCE: SEMRUSH.COM/BLOG/AI-SEARCH-SEO-TRAFFIC-STUDY — PROJECTIONS, NOT OBSERVED DATA</span>
+    <span>AEO / SEO MARKET READ · 02 / 05</span>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>04 · AI Search Benchmarks — General (All Segments)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+@page{size:13.333in 7.5in;margin:0}
+:root{
+  --ink:#1A0F2E;--navy:#2D1B4E;--navy-2:#4A2C7A;
+  --gold:#C9A961;--gold-deep:#A8893F;--gold-light:#E8D097;--gold-soft:#F5EDD9;
+  --amber:#D4756B;--amber-light:#E89B92;--amber-soft:#FBF0EE;
+  --cloud:#F8F4F0;--paper:#FFFFFF;--text:#3D2A52;--steel:#6B5B7B;--muted:#8B7A9B;--line:#ECE5F2;
+  --shadow-lg:0 22px 60px rgba(45,27,78,.18);
+  --font-sans:system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+  --font-mono:ui-monospace,'Cascadia Code','Source Code Pro',Menlo,Consolas,monospace;
+}
+body{font-family:var(--font-sans);background:var(--cloud);color:var(--ink);-webkit-font-smoothing:antialiased;
+  display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;letter-spacing:-.008em}
+.slide{width:1280px;height:720px;background:var(--paper);border-radius:18px;overflow:hidden;
+  box-shadow:var(--shadow-lg);display:flex;flex-direction:column;position:relative}
+.slide::before{content:"";flex:none;height:4px;background:linear-gradient(90deg,var(--gold),var(--amber-light),var(--gold))}
+.kicker{font-family:var(--font-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:700}
+
+.hero{flex:none;position:relative;overflow:hidden;padding:24px 46px 0;color:#fff;
+  background:radial-gradient(circle at 88% 8%,rgba(201,169,97,.38),transparent 30%),
+             radial-gradient(circle at 22% 118%,rgba(212,117,107,.24),transparent 30%),
+             linear-gradient(135deg,var(--ink),var(--navy) 58%,var(--navy-2))}
+.hero::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);
+  background-size:22px 22px;opacity:.55;pointer-events:none}
+.hero-top{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;gap:34px}
+.hero .kicker{color:var(--gold-light);margin-bottom:10px}
+.hero h1{font-size:27px;line-height:1.16;font-weight:800;letter-spacing:-.03em;max-width:840px;
+  background:linear-gradient(135deg,#fff 30%,#F5EDD9 118%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .subtitle{margin-top:8px;max-width:810px;color:#D8CCE6;font-size:13px;line-height:1.55}
+.badge{flex:none;border:1px solid rgba(201,169,97,.55);background:rgba(201,169,97,.10);border-radius:13px;
+  padding:12px 16px;min-width:186px;text-align:right}
+.badge .label{color:#F5EDD9;font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-family:var(--font-mono);font-weight:700}
+.badge .value{margin-top:6px;font-size:17px;font-weight:800;letter-spacing:-.015em}
+.badge .meta{margin-top:3px;font-size:10.5px;color:#C0B2D4}
+
+.metric-row{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:18px;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12);border-radius:13px 13px 0 0;overflow:hidden}
+.metric{background:rgba(26,15,46,.5);padding:12px 15px;position:relative}
+.metric::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--amber-light))}
+.metric .num{font-size:22px;font-weight:800;letter-spacing:-.025em;color:var(--gold-light);line-height:1}
+.metric .lab{margin-top:6px;font-size:10.8px;color:#E4DAEE;line-height:1.35;font-weight:600}
+.metric .sub{margin-top:3px;font-size:9.5px;color:#AA9BBD;font-family:var(--font-mono);letter-spacing:.06em}
+
+.body{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;padding:20px 46px 2px;min-height:0}
+.col{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:13px;padding:14px 16px;background:#fff}
+.col.accent{border-color:var(--gold);background:linear-gradient(160deg,#FFFDF7,#fff)}
+.col .h{font-size:12.6px;font-weight:800;letter-spacing:-.015em;color:var(--ink)}
+.col .cap{font-size:10px;color:var(--muted);margin-top:2px;margin-bottom:11px;line-height:1.35}
+
+.bars{display:flex;flex-direction:column;gap:6.5px}
+.bar-row{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--steel)}
+.bar-label{display:block;width:92px;text-align:right;font-family:var(--font-mono);font-size:9.4px;letter-spacing:.02em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-track{display:block;flex:1;height:8px;background:#F1ECF7;border-radius:5px;overflow:hidden}
+.bar-fill{display:block;height:8px;border-radius:5px;background:linear-gradient(90deg,var(--gold),var(--gold-deep))}
+.bar-fill.alt{background:#D6CCE3}
+.bar-fill.amb{background:linear-gradient(90deg,var(--amber-light),var(--amber))}
+.bar-val{display:block;width:42px;font-size:10.4px;color:var(--ink);font-weight:700;text-align:right}
+
+.sov{display:flex;gap:8px;margin-bottom:12px}
+.sov-box{flex:1;border-radius:10px;padding:9px 10px;background:var(--gold-soft);text-align:center}
+.sov-box:nth-child(2){background:#F3EDF9}
+.sov-box:nth-child(3){background:#F6F3FA}
+.sov-box .r{font-family:var(--font-mono);font-size:8.8px;font-weight:700;letter-spacing:.1em;color:var(--steel)}
+.sov-box .v{font-size:18px;font-weight:800;letter-spacing:-.025em;color:var(--ink);margin-top:3px}
+
+.note{margin-top:auto;padding-top:12px;font-size:10.8px;line-height:1.45;color:var(--steel);border-top:1px dashed var(--line)}
+.note b{color:var(--gold-deep);font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  display:block;margin-bottom:4px}
+
+.footer{flex:none;display:flex;justify-content:space-between;align-items:center;margin:0 46px;padding:10px 0 13px;
+  border-top:1px solid var(--line);font-family:var(--font-mono);font-size:9.5px;letter-spacing:.07em;color:var(--muted)}
+@media print{body{background:#fff;padding:0;display:block}
+  .slide{width:13.333in;height:7.5in;border-radius:0;box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <header class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="kicker">AEO / SEO Market Read · Slide 04 of 05</div>
+        <h1>Visibility is already concentrated — and it is not sitting on owned domains</h1>
+        <p class="subtitle">General (All Segments) benchmark across 2,226 brands and 1,854 active websites. Top brands take 3.5× the mentions of the average brand, while 84% of brand domains are never cited by AI engines as a source.</p>
+      </div>
+      <div class="badge">
+        <div class="label">Source</div>
+        <div class="value">AthenaHQ</div>
+        <div class="meta">State of AI Search 2026, p.19</div>
+      </div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric">
+        <div class="num">16.30%</div>
+        <div class="lab">Average brand mention rate</div>
+        <div class="sub">Tracks the broader market</div>
+      </div>
+      <div class="metric">
+        <div class="num">56.48%</div>
+        <div class="lab">Mention rate for top brands</div>
+        <div class="sub">3.5× the average brand</div>
+      </div>
+      <div class="metric">
+        <div class="num">16.05%</div>
+        <div class="lab">Average citations of brand-owned domains</div>
+        <div class="sub">84% of domains never cited</div>
+      </div>
+      <div class="metric">
+        <div class="num">6 – 27</div>
+        <div class="lab">Distinct domains cited per response</div>
+        <div class="sub">Varies sharply by model</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <div class="col accent">
+      <div class="h">Share of Voice is winner-takes-most</div>
+      <div class="cap">Average Share of Voice by rank — the top three brands absorb roughly two-thirds of all answer presence</div>
+      <div class="sov">
+        <div class="sov-box"><div class="r">#1 RANK</div><div class="v">33.64</div></div>
+        <div class="sov-box"><div class="r">#2 RANK</div><div class="v">19.46</div></div>
+        <div class="sov-box"><div class="r">#3 RANK</div><div class="v">13.29</div></div>
+      </div>
+      <div class="h" style="margin-bottom:9px">Top cited sources</div>
+      <div class="bars">
+        <div class="bar-row"><span class="bar-label">reddit.com</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span><span class="bar-val">21.85%</span></div>
+        <div class="bar-row"><span class="bar-label">youtube.com</span><span class="bar-track"><span class="bar-fill" style="width:47%"></span></span><span class="bar-val">10.32%</span></div>
+        <div class="bar-row"><span class="bar-label">wikipedia.org</span><span class="bar-track"><span class="bar-fill" style="width:34%"></span></span><span class="bar-val">7.34%</span></div>
+        <div class="bar-row"><span class="bar-label">linkedin.com</span><span class="bar-track"><span class="bar-fill alt" style="width:30%"></span></span><span class="bar-val">6.51%</span></div>
+        <div class="bar-row"><span class="bar-label">forbes.com</span><span class="bar-track"><span class="bar-fill alt" style="width:24%"></span></span><span class="bar-val">5.26%</span></div>
+        <div class="bar-row"><span class="bar-label">facebook.com</span><span class="bar-track"><span class="bar-fill alt" style="width:18%"></span></span><span class="bar-val">3.99%</span></div>
+      </div>
+      <div class="note"><b>Read</b>Community platforms and authoritative publishers — not brand sites — are the substrate AI engines build answers from.</div>
+    </div>
+
+    <div class="col">
+      <div class="h">Where engines enter your site</div>
+      <div class="cap">The most common AI entry paths when a model explores a brand's content architecture</div>
+      <div class="bars">
+        <div class="bar-row"><span class="bar-label">/blog</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span><span class="bar-val">37.53%</span></div>
+        <div class="bar-row"><span class="bar-label">other paths</span><span class="bar-track"><span class="bar-fill alt" style="width:78%"></span></span><span class="bar-val">29.46%</span></div>
+        <div class="bar-row"><span class="bar-label">/home</span><span class="bar-track"><span class="bar-fill" style="width:51%"></span></span><span class="bar-val">19.22%</span></div>
+        <div class="bar-row"><span class="bar-label">/products</span><span class="bar-track"><span class="bar-fill" style="width:37%"></span></span><span class="bar-val">13.79%</span></div>
+      </div>
+
+      <div class="h" style="margin-top:16px">Source diversity across models</div>
+      <div class="cap">Mean number of distinct domains each model cites in a single response</div>
+      <div class="bars">
+        <div class="bar-row"><span class="bar-label">Model 1</span><span class="bar-track"><span class="bar-fill amb" style="width:100%"></span></span><span class="bar-val">26.99</span></div>
+        <div class="bar-row"><span class="bar-label">Model 2</span><span class="bar-track"><span class="bar-fill amb" style="width:70%"></span></span><span class="bar-val">18.86</span></div>
+        <div class="bar-row"><span class="bar-label">Model 3</span><span class="bar-track"><span class="bar-fill alt" style="width:41%"></span></span><span class="bar-val">11.16</span></div>
+        <div class="bar-row"><span class="bar-label">Model 4</span><span class="bar-track"><span class="bar-fill alt" style="width:32%"></span></span><span class="bar-val">8.74</span></div>
+        <div class="bar-row"><span class="bar-label">Model 5</span><span class="bar-track"><span class="bar-fill alt" style="width:30%"></span></span><span class="bar-val">8.23</span></div>
+      </div>
+      <div class="note"><b>Read</b>The blog is the front door, not the homepage. Gated or unstructured content is invisible to the crawl that matters.</div>
+    </div>
+
+    <div class="col">
+      <div class="h">What engines want to cite</div>
+      <div class="cap">Content-intent distribution of cited sources — where AI engines place editorial weight</div>
+      <div class="bars">
+        <div class="bar-row"><span class="bar-label">Informational</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span><span class="bar-val">36.23%</span></div>
+        <div class="bar-row"><span class="bar-label">Comparative</span><span class="bar-track"><span class="bar-fill" style="width:64%"></span></span><span class="bar-val">23.16%</span></div>
+        <div class="bar-row"><span class="bar-label">Acquisition</span><span class="bar-track"><span class="bar-fill" style="width:42%"></span></span><span class="bar-val">15.05%</span></div>
+        <div class="bar-row"><span class="bar-label">Learning / Edu</span><span class="bar-track"><span class="bar-fill alt" style="width:37%"></span></span><span class="bar-val">13.43%</span></div>
+        <div class="bar-row"><span class="bar-label">Decision-driven</span><span class="bar-track"><span class="bar-fill alt" style="width:10%"></span></span><span class="bar-val">3.70%</span></div>
+        <div class="bar-row"><span class="bar-label">Navigational</span><span class="bar-track"><span class="bar-fill alt" style="width:10%"></span></span><span class="bar-val">3.48%</span></div>
+        <div class="bar-row"><span class="bar-label">Experience</span><span class="bar-track"><span class="bar-fill alt" style="width:5%"></span></span><span class="bar-val">1.84%</span></div>
+        <div class="bar-row"><span class="bar-label">Research</span><span class="bar-track"><span class="bar-fill alt" style="width:5%"></span></span><span class="bar-val">1.81%</span></div>
+      </div>
+      <div class="note"><b>Read</b>Nearly 60% of citation weight sits in informational and comparative content — explainers and honest "X vs Y" comparisons, not campaign pages.</div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span>SOURCE: ATHENAHQ · STATE OF AI SEARCH 2026 — GENERAL (ALL SEGMENTS), P.19 · N = 2,226 BRANDS / 1,854 ACTIVE WEBSITES</span>
+    <span>AEO / SEO MARKET READ · 04 / 05</span>
+  </div>
+
+</div>
+</body>
+</html>

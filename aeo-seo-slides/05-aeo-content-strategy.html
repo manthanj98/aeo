@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>05 · AEO Content Strategy — The GEO Playbook</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+@page{size:13.333in 7.5in;margin:0}
+:root{
+  --ink:#1A0F2E;--navy:#2D1B4E;--navy-2:#4A2C7A;
+  --gold:#C9A961;--gold-deep:#A8893F;--gold-light:#E8D097;--gold-soft:#F5EDD9;
+  --amber:#D4756B;--amber-light:#E89B92;--amber-soft:#FBF0EE;
+  --cloud:#F8F4F0;--paper:#FFFFFF;--text:#3D2A52;--steel:#6B5B7B;--muted:#8B7A9B;--line:#ECE5F2;
+  --shadow-lg:0 22px 60px rgba(45,27,78,.18);
+  --font-sans:system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+  --font-mono:ui-monospace,'Cascadia Code','Source Code Pro',Menlo,Consolas,monospace;
+}
+body{font-family:var(--font-sans);background:var(--cloud);color:var(--ink);-webkit-font-smoothing:antialiased;
+  display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;letter-spacing:-.008em}
+.slide{width:1280px;height:720px;background:var(--paper);border-radius:18px;overflow:hidden;
+  box-shadow:var(--shadow-lg);display:flex;flex-direction:column;position:relative}
+.slide::before{content:"";flex:none;height:4px;background:linear-gradient(90deg,var(--gold),var(--amber-light),var(--gold))}
+.kicker{font-family:var(--font-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:700}
+
+.hero{flex:none;position:relative;overflow:hidden;padding:20px 46px 16px;color:#fff;
+  background:radial-gradient(circle at 88% 8%,rgba(201,169,97,.38),transparent 30%),
+             radial-gradient(circle at 22% 118%,rgba(212,117,107,.24),transparent 30%),
+             linear-gradient(135deg,var(--ink),var(--navy) 58%,var(--navy-2))}
+.hero::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);
+  background-size:22px 22px;opacity:.55;pointer-events:none}
+.hero-top{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;gap:34px}
+.hero .kicker{color:var(--gold-light);margin-bottom:8px}
+.hero h1{font-size:23px;line-height:1.15;font-weight:800;letter-spacing:-.03em;max-width:960px;
+  background:linear-gradient(135deg,#fff 30%,#F5EDD9 118%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .subtitle{margin-top:7px;max-width:900px;color:#D8CCE6;font-size:12.2px;line-height:1.5}
+.badge{flex:none;border:1px solid rgba(201,169,97,.55);background:rgba(201,169,97,.10);border-radius:13px;
+  padding:11px 15px;min-width:186px;text-align:right}
+.badge .label{color:#F5EDD9;font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-family:var(--font-mono);font-weight:700}
+.badge .value{margin-top:5px;font-size:16px;font-weight:800;letter-spacing:-.015em}
+.badge .meta{margin-top:3px;font-size:10px;color:#C0B2D4}
+
+.body{flex:1;display:grid;grid-template-columns:1.04fr .96fr;gap:20px;padding:14px 46px 0;min-height:0}
+.col{display:flex;flex-direction:column;min-height:0}
+.chead{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.cno{font-family:var(--font-mono);font-size:9.5px;color:#fff;background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  padding:3.5px 8px;border-radius:6px;font-weight:700;letter-spacing:.08em}
+.ctitle{font-size:13.5px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+.cnote{font-size:10px;color:var(--muted);margin-left:auto;font-family:var(--font-mono);letter-spacing:.05em}
+
+/* SIGNALS */
+.signals{display:flex;flex-direction:column;gap:9px}
+.sig{display:grid;grid-template-columns:96px 1fr;gap:11px;align-items:center;border:1px solid var(--line);
+  border-radius:11px;padding:9px 13px;background:linear-gradient(150deg,#FCFAF5,#fff)}
+.sig.hot{border-color:var(--gold);background:linear-gradient(150deg,#FFFDF7,#fff)}
+.sig .stat{display:flex;flex-direction:column;align-items:flex-start;gap:1px}
+.sig .big{font-size:17px;font-weight:800;letter-spacing:-.03em;line-height:1;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sig .small{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.08em;color:var(--muted)}
+.sig h4{font-size:11.8px;font-weight:800;letter-spacing:-.015em;color:var(--ink);margin-bottom:2px}
+.sig p{font-size:10.3px;line-height:1.38;color:var(--steel)}
+
+/* PILLARS */
+.pillars{display:flex;flex-direction:column;gap:9px}
+.pil{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:11px;
+  padding:10px 13px;background:#fff}
+.pil.dark{background:linear-gradient(135deg,var(--ink),var(--navy));border-color:var(--ink)}
+.pil .ic{flex:none;width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--ink),var(--navy));
+  display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-mono);font-weight:700;font-size:10.5px}
+.pil.dark .ic{background:linear-gradient(135deg,var(--gold),var(--gold-deep))}
+.pil h4{font-size:11.8px;font-weight:800;letter-spacing:-.015em;color:var(--ink);margin-bottom:2px}
+.pil.dark h4{color:#fff}
+.pil p{font-size:10.3px;line-height:1.38;color:var(--steel)}
+.pil.dark p{color:#CBBEDD}
+.pil .ex{display:inline-block;margin-top:3px;font-family:var(--font-mono);font-size:8.8px;font-weight:700;
+  letter-spacing:.06em;padding:2.5px 7px;border-radius:999px;background:var(--gold-soft);color:#5C481E}
+.pil.dark .ex{background:rgba(201,169,97,.22);color:var(--gold-light)}
+
+/* CYCLE */
+.cycle{flex:none;margin:12px 46px 0;padding:11px 15px;border-radius:13px;position:relative;overflow:hidden;
+  background:radial-gradient(circle at 90% 20%,rgba(212,117,107,.26),transparent 30%),
+             linear-gradient(120deg,var(--ink),var(--navy-2),#5C4A30);color:#fff}
+.cycle-head{position:relative;z-index:1;font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--gold-light);margin-bottom:9px}
+.steps{position:relative;z-index:1;display:grid;grid-template-columns:repeat(6,1fr);gap:9px}
+.step{border:1px solid rgba(255,255,255,.20);background:rgba(255,255,255,.08);border-radius:9px;padding:7px 9px}
+.step .n{font-family:var(--font-mono);font-size:8.5px;font-weight:700;letter-spacing:.1em;color:var(--gold-light)}
+.step h5{margin:4px 0 3px;font-size:11.4px;font-weight:700;letter-spacing:-.012em;color:#fff}
+.step p{font-size:9.4px;line-height:1.34;color:#CFC3DE}
+
+.footer{flex:none;display:flex;justify-content:space-between;align-items:center;margin:0 46px;padding:9px 0 12px;
+  border-top:1px solid var(--line);font-family:var(--font-mono);font-size:9.5px;letter-spacing:.07em;color:var(--muted)}
+@media print{body{background:#fff;padding:0;display:block}
+  .slide{width:13.333in;height:7.5in;border-radius:0;box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <header class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="kicker">AEO / SEO Market Read · Slide 05 of 05</div>
+        <h1>AI search rewards freshness, structure and off-site credibility</h1>
+        <p class="subtitle">AI search reshaped how people discover and evaluate brands in 2025. Visibility now depends on freshness, off-site credibility and how cleanly content can be interpreted inside an answer — not just how it ranks. Across millions of datapoints the message is consistent: keep content current, structured, and backed by strong off-site validation.</p>
+      </div>
+      <div class="badge">
+        <div class="label">Source</div>
+        <div class="value">AthenaHQ GEO</div>
+        <div class="meta">Best practices, p.12 + 2025 AI search analysis</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <div class="col">
+      <div class="chead">
+        <span class="cno">01</span>
+        <span class="ctitle">What the evidence says</span>
+        <span class="cnote">2025 AI search analysis</span>
+      </div>
+      <div class="signals">
+
+        <div class="sig hot">
+          <div class="stat"><span class="big">30% / 20%</span><span class="small">PERSISTENCE</span></div>
+          <div>
+            <h4>Brand visibility is in constant flux</h4>
+            <p>Only 30% of brands stay visible from one answer to the next, and just 20% remain present across five consecutive runs. A single good answer is not a position.</p>
+          </div>
+        </div>
+
+        <div class="sig">
+          <div class="stat"><span class="big">3× / 2.8×</span><span class="small">FRESHNESS</span></div>
+          <div>
+            <h4>Fresh, structured content wins</h4>
+            <p>Pages not updated quarterly are 3× more likely to lose citations. Sequential headings and rich schema correlate with 2.8× higher citation rates.</p>
+          </div>
+        </div>
+
+        <div class="sig">
+          <div class="stat"><span class="big">40% / 28%</span><span class="small">DUAL SIGNAL</span></div>
+          <div>
+            <h4>Mentions plus citations create stability</h4>
+            <p>Brands earning both signals are 40% more likely to reappear across answers — yet only 28% of answers include a brand with dual visibility. It is an open lane.</p>
+          </div>
+        </div>
+
+        <div class="sig hot">
+          <div class="stat"><span class="big">48% / 85%</span><span class="small">OFF-SITE</span></div>
+          <div>
+            <h4>Credibility is earned off-site</h4>
+            <p>About 48% of citations come from community platforms like Reddit and YouTube, and 85% of brand mentions originate on third-party pages rather than owned domains.</p>
+          </div>
+        </div>
+
+        <div class="sig">
+          <div class="stat"><span class="big">60%</span><span class="small">RANK BYPASS</span></div>
+          <div>
+            <h4>AIO citations bypass rankings</h4>
+            <p>Roughly 60% of AI Overview citations come from URLs not ranking in the top 20 organic results. Rank is no longer the gate on inclusion.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="chead">
+        <span class="cno">02</span>
+        <span class="ctitle">The GEO playbook</span>
+        <span class="cnote">Four strategic pillars</span>
+      </div>
+      <div class="pillars">
+
+        <div class="pil">
+          <div class="ic">01</div>
+          <div>
+            <h4>Open, structured and trustworthy content</h4>
+            <p>Centralise knowledge in open sections with nothing hidden behind forms. Use metadata and schema so models can interpret and trust the data.</p>
+            <span class="ex">Publish in /blog or /docs with schema markup</span>
+          </div>
+        </div>
+
+        <div class="pil">
+          <div class="ic">02</div>
+          <div>
+            <h4>Prompt strategy, not keyword strategy</h4>
+            <p>Identify the questions your audience actually asks chatbots, then create in-depth content that answers them completely.</p>
+            <span class="ex">Address “What is the best CRM for SMBs?”</span>
+          </div>
+        </div>
+
+        <div class="pil">
+          <div class="ic">03</div>
+          <div>
+            <h4>Continuous monitoring and optimisation</h4>
+            <p>Track when and how the brand appears in AI answers. Measure Share of Voice on key prompts, monitor daily citations, and write to close the gaps.</p>
+            <span class="ex">Monitor SoV weekly to close gaps</span>
+          </div>
+        </div>
+
+        <div class="pil dark">
+          <div class="ic">04</div>
+          <div>
+            <h4>Authority signals</h4>
+            <p>Cite respected sources, keep data current, showcase expertise, and lean on third-party validation. Become part of the knowledge base engines rely on.</p>
+            <span class="ex">Third-party validation on critical prompts</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cycle">
+    <div class="cycle-head">The operating cycle — seen, then trusted, then cited, then preferred</div>
+    <div class="steps">
+      <div class="step"><div class="n">01</div><h5>AI-accessible content</h5><p>Open hubs and structured data so engines can read and trust you.</p></div>
+      <div class="step"><div class="n">02</div><h5>Answer real prompts</h5><p>Complete answers to the questions users actually ask.</p></div>
+      <div class="step"><div class="n">03</div><h5>Track your share</h5><p>Mentions, citations and Share of Voice — adjust to close gaps.</p></div>
+      <div class="step"><div class="n">04</div><h5>Build model trust</h5><p>Cited sources, fresh data, visible expertise.</p></div>
+      <div class="step"><div class="n">05</div><h5>Go beyond basics</h5><p>Depth plus third-party validation on critical prompts.</p></div>
+      <div class="step"><div class="n">06</div><h5>Sustain the cycle</h5><p>Not just seen — trusted, cited and preferred in AI search.</p></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>SOURCES: ATHENAHQ · STATE OF AI SEARCH 2026 — STRATEGIC RECOMMENDATIONS (GEO), P.12 · 2025 AI SEARCH VISIBILITY ANALYSIS</span>
+    <span>AEO / SEO MARKET READ · 05 / 05</span>
+  </div>
+
+</div>
+</body>
+</html>

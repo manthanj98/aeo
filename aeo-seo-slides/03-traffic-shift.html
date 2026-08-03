@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>03 · The Traffic Shift &amp; the Attribution Gap</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+@page{size:13.333in 7.5in;margin:0}
+:root{
+  --ink:#1A0F2E;--navy:#2D1B4E;--navy-2:#4A2C7A;
+  --gold:#C9A961;--gold-deep:#A8893F;--gold-light:#E8D097;--gold-soft:#F5EDD9;
+  --amber:#D4756B;--amber-light:#E89B92;--amber-soft:#FBF0EE;
+  --cloud:#F8F4F0;--paper:#FFFFFF;--text:#3D2A52;--steel:#6B5B7B;--muted:#8B7A9B;--line:#ECE5F2;
+  --shadow-lg:0 22px 60px rgba(45,27,78,.18);
+  --font-sans:system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+  --font-mono:ui-monospace,'Cascadia Code','Source Code Pro',Menlo,Consolas,monospace;
+}
+body{font-family:var(--font-sans);background:var(--cloud);color:var(--ink);-webkit-font-smoothing:antialiased;
+  display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;letter-spacing:-.008em}
+.slide{width:1280px;height:720px;background:var(--paper);border-radius:18px;overflow:hidden;
+  box-shadow:var(--shadow-lg);display:flex;flex-direction:column;position:relative}
+.slide::before{content:"";flex:none;height:4px;background:linear-gradient(90deg,var(--gold),var(--amber-light),var(--gold))}
+.kicker{font-family:var(--font-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:700}
+
+.hero{flex:none;position:relative;overflow:hidden;padding:22px 46px 18px;color:#fff;
+  background:radial-gradient(circle at 88% 8%,rgba(201,169,97,.38),transparent 30%),
+             radial-gradient(circle at 22% 108%,rgba(212,117,107,.24),transparent 30%),
+             linear-gradient(135deg,var(--ink),var(--navy) 58%,var(--navy-2))}
+.hero::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);
+  background-size:22px 22px;opacity:.55;pointer-events:none}
+.hero-top{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;gap:34px}
+.hero .flag{display:inline-block;font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;background:var(--amber);color:#fff;padding:4px 9px;border-radius:5px;margin-bottom:10px}
+.hero .kicker{color:var(--gold-light);margin-bottom:9px}
+.hero h1{font-size:24px;line-height:1.18;font-weight:800;letter-spacing:-.03em;max-width:830px;
+  background:linear-gradient(135deg,#fff 30%,#F5EDD9 118%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .subtitle{margin-top:8px;max-width:800px;color:#D8CCE6;font-size:13px;line-height:1.55}
+.badge{flex:none;border:1px solid rgba(201,169,97,.55);background:rgba(201,169,97,.10);border-radius:13px;
+  padding:12px 16px;min-width:186px;text-align:right}
+.badge .label{color:#F5EDD9;font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-family:var(--font-mono);font-weight:700}
+.badge .value{margin-top:6px;font-size:17px;font-weight:800;letter-spacing:-.015em}
+.badge .meta{margin-top:3px;font-size:10.5px;color:#C0B2D4}
+
+.body{flex:1;display:grid;grid-template-columns:1.06fr .94fr;gap:20px;padding:16px 46px 2px;min-height:0}
+.left,.right{display:flex;flex-direction:column;gap:10px;min-height:0}
+
+.stat-row{display:flex;gap:10px}
+.stat{flex:1;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:11px;
+  background:linear-gradient(150deg,#FCFAF5,#fff);padding:9px 13px}
+.stat.warn{border-left-color:var(--amber);background:linear-gradient(150deg,#FDF6F4,#fff)}
+.stat .num{font-size:19px;font-weight:800;letter-spacing:-.025em;color:var(--ink);line-height:1.1}
+.stat .lab{font-size:10.6px;color:var(--steel);margin-top:4px;line-height:1.38}
+
+.findings{border:1px solid var(--line);border-radius:13px;padding:12px 14px;flex:1;min-height:0;background:#fff}
+.findings .h{font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--gold-deep);margin-bottom:9px}
+.findings ol{list-style:none;counter-reset:f}
+.findings li{counter-increment:f;position:relative;padding-left:24px;font-size:11.2px;line-height:1.42;
+  color:var(--steel);margin-bottom:6px}
+.findings li:last-child{margin-bottom:0}
+.findings li::before{content:counter(f,decimal-leading-zero);position:absolute;left:0;top:1px;font-family:var(--font-mono);
+  font-size:9px;font-weight:700;color:var(--gold-deep);background:var(--gold-soft);border-radius:4px;padding:2px 4px}
+.findings li b{color:var(--ink);font-weight:700}
+.findings li .src{color:var(--muted);font-size:10px}
+
+.move{background:linear-gradient(135deg,var(--ink),var(--navy));color:#fff;border-radius:12px;padding:11px 14px;
+  font-size:11.2px;line-height:1.48;position:relative;overflow:hidden}
+.move::before{content:"";position:absolute;width:150px;height:150px;border-radius:50%;right:-50px;top:-60px;
+  background:radial-gradient(circle,rgba(201,169,97,.30),transparent 70%)}
+.move b{position:relative;z-index:1;display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--gold-light);margin-bottom:5px;font-weight:700}
+.move span{position:relative;z-index:1;display:block;color:#EEE5F5}
+.move .no{display:block;margin-top:7px;color:#C9B9DA;font-style:italic}
+
+.card{border:1px solid var(--line);border-radius:13px;padding:12px 15px 10px;background:#fff}
+.card .h{font-size:12px;font-weight:800;letter-spacing:-.015em;color:var(--ink)}
+.card .cap{font-size:10px;color:var(--muted);margin-bottom:4px}
+.legend{display:flex;gap:13px;font-size:9.6px;color:var(--steel);margin-top:2px;font-weight:600}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.sw{width:11px;height:3px;border-radius:2px;display:inline-block}
+
+table.cited{width:100%;border-collapse:collapse;font-size:11px}
+table.cited th{text-align:left;font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;color:var(--muted);
+  text-transform:uppercase;padding:4px 6px;border-bottom:1px solid var(--line);font-weight:700}
+table.cited td{padding:3.5px 6px;border-bottom:1px solid #F6F2FA;color:var(--text)}
+table.cited tr:last-child td{border-bottom:none}
+table.cited td.num{text-align:right;font-weight:700;color:var(--ink)}
+table.cited tr.hi td{background:var(--gold-soft)}
+
+.footer{flex:none;display:flex;justify-content:space-between;align-items:center;margin:0 46px;padding:10px 0 13px;
+  border-top:1px solid var(--line);font-family:var(--font-mono);font-size:9.5px;letter-spacing:.07em;color:var(--muted)}
+@media print{body{background:#fff;padding:0;display:block}
+  .slide{width:13.333in;height:7.5in;border-radius:0;box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <header class="hero">
+    <div class="hero-top">
+      <div>
+        <span class="flag">High priority — GTM / content strategy input</span>
+        <div class="kicker">AEO / SEO Market Read · Slide 03 of 05</div>
+        <h1>The measurement gap is bigger than the content gap</h1>
+        <p class="subtitle">LLM referral traffic overtakes traditional organic search by 2028 — but untracked LLM value already exceeds the tracked channel. We are optimising against numbers we know are undercounted.</p>
+      </div>
+      <div class="badge">
+        <div class="label">Source</div>
+        <div class="value">Semrush</div>
+        <div class="meta">5-year projection, 2025–2029</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <div class="left">
+      <div class="stat-row">
+        <div class="stat warn">
+          <div class="num">2025 &rarr; 2029</div>
+          <div class="lab">Traditional organic search visitors decline continuously across the full projection window</div>
+        </div>
+        <div class="stat">
+          <div class="num">2028</div>
+          <div class="lab">Crossover year — LLM-driven visitors (incl. Google AI Overviews) overtake traditional organic search</div>
+        </div>
+      </div>
+
+      <div class="findings">
+        <div class="h">Findings, ranked by decision impact</div>
+        <ol>
+          <li><b>Untracked LLM value is larger than the tracked channel itself</b> by 2029 — "untracked / misattributed LLM impressions" tracks above the labelled "LLMs (incl. Google AI)" line every year from 2026. <span class="src">Semrush</span></li>
+          <li><b>Total LLM value compounds while organic search value flattens then declines</b> — the two series cross in 2026 and diverge sharply through 2029. <span class="src">Semrush</span></li>
+          <li><b>Citation share is concentrated, not distributed</b> — Reddit and Quora together take the largest share of domains cited in Google AI Overviews; Reddit alone holds 21.85% of top-10 citation share. <span class="src">Semrush</span></li>
+          <li><b>UGC and forum content outperforms owned content for citation</b> — LinkedIn, YouTube and Wikipedia round out the top five cited domains, ahead of most brand and publisher sites. <span class="src">Semrush</span></li>
+        </ol>
+      </div>
+
+      <div class="move">
+        <b>Highest-leverage move</b>
+        <span>Attribution tooling is the gap, not content volume. Untracked LLM impressions already exceed tracked LLM referrals, so GA4 / analytics instrumentation for LLM referral detection outranks a content-volume push on ROI.</span>
+        <span class="no">Not worth doing yet: broad content expansion before attribution is fixed — we would be optimising against numbers we know are undercounted.</span>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="card">
+        <div class="h">Projected annual visitors by source</div>
+        <div class="cap">2025–2029, indexed</div>
+        <svg viewBox="0 0 460 180" width="100%" height="168" role="img" aria-label="Projected annual visitors by source, 2025 to 2029">
+          <line x1="30" y1="10" x2="30" y2="146" stroke="var(--line)" stroke-width="1"/>
+          <line x1="30" y1="146" x2="440" y2="146" stroke="var(--line)" stroke-width="1"/>
+          <polyline points="40,30 130,75 220,100 310,118 400,130" fill="none" stroke="#C0B4D0" stroke-width="2.6" stroke-linejoin="round"/>
+          <polyline points="40,138 130,132 220,105 310,70 400,42" fill="none" stroke="#A8893F" stroke-width="2.6" stroke-linejoin="round"/>
+          <polyline points="40,22 130,78 220,88 310,82 400,72" fill="none" stroke="#D4756B" stroke-width="2.6" stroke-dasharray="5,4" stroke-linejoin="round"/>
+          <circle cx="310" cy="70" r="4" fill="#A8893F"/>
+          <text x="40" y="161" font-size="9" fill="#8B7A9B">2025</text>
+          <text x="120" y="161" font-size="9" fill="#8B7A9B">2026</text>
+          <text x="205" y="161" font-size="9" fill="#8B7A9B">2027</text>
+          <text x="293" y="161" font-size="9" fill="#1A0F2E" font-weight="700">2028</text>
+          <text x="385" y="161" font-size="9" fill="#8B7A9B">2029</text>
+        </svg>
+        <div class="legend">
+          <span><i class="sw" style="background:#C0B4D0"></i>Organic search</span>
+          <span><i class="sw" style="background:#A8893F"></i>LLMs (incl. Google AI)</span>
+          <span><i class="sw" style="background:#D4756B"></i>Total</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="h">Top cited domains in Google AI Overviews</div>
+        <div class="cap">Share of citations · top 8</div>
+        <table class="cited">
+          <tr><th>Domain</th><th style="text-align:right">Share</th></tr>
+          <tr class="hi"><td>reddit.com</td><td class="num">21.85%</td></tr>
+          <tr><td>youtube.com</td><td class="num">10.32%</td></tr>
+          <tr><td>en.wikipedia.org</td><td class="num">7.34%</td></tr>
+          <tr><td>linkedin.com</td><td class="num">6.51%</td></tr>
+          <tr><td>forbes.com</td><td class="num">5.26%</td></tr>
+          <tr><td>facebook.com</td><td class="num">3.99%</td></tr>
+          <tr><td>medium.com</td><td class="num">3.54%</td></tr>
+          <tr><td>nerdwallet.com</td><td class="num">3.44%</td></tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span>SOURCE: SEMRUSH.COM/BLOG/AI-SEARCH-SEO-TRAFFIC-STUDY — AI SEARCH &amp; SEO TRAFFIC STUDY</span>
+    <span>AEO / SEO MARKET READ · 03 / 05</span>
+  </div>
+
+</div>
+</body>
+</html>
