@@ -1,6 +1,6 @@
-# AEO / SEO Market Read — 5 slides
+# AEO / SEO Market Read — 6 slides
 
-Five standalone HTML slides, one per source attachment. Each file is fully
+Six standalone HTML slides, one per source attachment. Each file is fully
 self-contained (no external CSS, fonts, JS or images) and renders at 1280×720.
 
 | File | Slide | Source |
@@ -10,6 +10,7 @@ self-contained (no external CSS, fonts, JS or images) and renders at 1280×720.
 | `03-traffic-shift.html` | The measurement gap is bigger than the content gap | Semrush, 5-year projection 2025–2029 |
 | `04-benchmarks.html` | Visibility is already concentrated | AthenaHQ, *State of AI Search 2026* — General (All Segments), p.19 |
 | `05-aeo-content-strategy.html` | AI search rewards freshness, structure and off-site credibility | AthenaHQ GEO best practices (p.12) + 2025 AI search visibility analysis |
+| `06-competitive-landscape.html` | The vendor landscape has split into two camps | Own vendor review — SEO/AEO competitive landscape (16 vendors, 8 in depth) |
 
 ## Using them
 
@@ -21,7 +22,10 @@ self-contained (no external CSS, fonts, JS or images) and renders at 1280×720.
 
 ## Branding
 
-Shared token set across all five files — deep plum/navy gradient headers with a dot
+Shared token set across all six files — deep plum/navy gradient headers with a dot
 matrix overlay, gold (`#C9A961`) as the primary accent, coral (`#D4756B`) as the
 secondary, monospace kickers and footers, and a gold→coral shimmer rule at the top of
 every slide.
+
+Slide 06 carries the vendor logos inline as base64 data URIs, so it stays self-contained
+like the rest.
