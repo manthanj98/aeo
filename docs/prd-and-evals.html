@@ -187,7 +187,7 @@
 <article class="sheet">
   <header class="runhead">
     <span><strong>Atlas Reports</strong> · PRD &amp; Eval Plan</span>
-    <span>Product Requirements — I <span class="folio">01 / 03</span></span>
+    <span>Product Requirements — I <span class="folio">01 / 04</span></span>
   </header>
 
   <div class="masthead">
@@ -202,7 +202,7 @@
       <div><dt>Reviewers</dt><dd>CS Lead · Eng · Design · Data</dd></div>
       <div><dt>Surface</dt><dd>Pepper Atlas, in-product</dd></div>
       <div><dt>Sources</dt><dd>7 (GSC, GA4, Semrush, GEO, 3× CMS)</dd></div>
-      <div><dt>Companion</dt><dd>Sheet 03 — Eval plan</dd></div>
+      <div><dt>Companion</dt><dd>Sheets 03–04 — Evals</dd></div>
     </dl>
   </div>
 
@@ -314,7 +314,7 @@
 <article class="sheet">
   <header class="runhead">
     <span><strong>Atlas Reports</strong> · PRD &amp; Eval Plan</span>
-    <span>Product Requirements — II <span class="folio">02 / 03</span></span>
+    <span>Product Requirements — II <span class="folio">02 / 04</span></span>
   </header>
 
   <section class="sec">
@@ -423,7 +423,7 @@
 <article class="sheet">
   <header class="runhead">
     <span><strong>Atlas Reports</strong> · PRD &amp; Eval Plan</span>
-    <span>Evaluation &amp; Experiment Design <span class="folio">03 / 03</span></span>
+    <span>Evaluation &amp; Experiment Design <span class="folio">03 / 04</span></span>
   </header>
 
   <section class="sec">
@@ -463,7 +463,7 @@
   <section class="sec">
     <div class="rail">
       <span class="num">13</span><span class="lbl">Dataset</span>
-      <span class="note">The golden set is the durable asset: a week of CS time that outlives every model we swap in.</span>
+      <span class="note">The golden set is the durable asset: a week of CS time that outlives every model we swap in. Its ceiling is measured in §19.</span>
     </div>
     <div class="main">
       <div class="tw"><table>
@@ -480,7 +480,7 @@
   <section class="sec">
     <div class="rail">
       <span class="num">14</span><span class="lbl">Metrics</span>
-      <span class="note">One north star; drivers explain it; guardrails can veto it. Edit distance is a proxy — FR-8 reason tags separate <em>wrong</em> from <em>not how I'd say it</em>, and only the first counts against a gate.</span>
+      <span class="note">One north star, decomposed in §17; drivers explain it; guardrails can veto it. Edit distance is a proxy — FR-8 reason tags separate <em>wrong</em> from <em>not how I'd say it</em>, and only the first counts.</span>
     </div>
     <div class="main">
       <div class="tw"><table>
@@ -488,7 +488,7 @@
         <tbody>
           <tr><td class="k">North star</td><td><strong>CSM minutes per approved report</strong></td><td>In-app session timer + weekly diary</td><td>≥ 50% below baseline; stretch 80%</td></tr>
           <tr><td class="k">Driver</td><td>Draft acceptance rate</td><td>Approved with &lt; 10% token edit distance</td><td>≥ 70% by week 8</td></tr>
-          <tr><td class="k">Driver</td><td>Time to first draft, p90</td><td>Pipeline telemetry</td><td>≤ 4 min</td></tr>
+          <tr><td class="k">Second-order</td><td>Capacity headroom</td><td>Modelled from time freed (§18)</td><td>Tracked for real post-GA</td></tr>
           <tr><td class="k">Quality gate</td><td>Numeric fidelity</td><td>L1 automated citation checker</td><td>100% grounded · ≥ 99.5% exact</td></tr>
           <tr><td class="k">Quality gate</td><td>Unsupported claim rate</td><td>L2 human audit, full golden set</td><td>&lt; 1 per 20 reports</td></tr>
           <tr><td class="k">Guardrail</td><td>Client-flagged errors</td><td>CS ticket tag <span class="id">report_error</span></td><td>No increase vs. baseline</td></tr>
@@ -517,7 +517,7 @@
   <section class="sec">
     <div class="rail">
       <span class="num">16</span><span class="lbl">Decision</span>
-      <span class="note">Written before the data arrives, so the result is read rather than negotiated.</span>
+      <span class="note">Written before the data arrives, so the result is read rather than negotiated. Stated formally in §20.</span>
     </div>
     <div class="main">
       <div class="tw"><table>
@@ -532,7 +532,100 @@
     </div>
   </section>
 
-  <footer class="runfoot"><span>Pepper Atlas · Internal · Draft v0.9</span><span>End of document · 03 / 03</span></footer>
+  <footer class="runfoot"><span>Pepper Atlas · Internal · Draft v0.9</span><span>Continued — Measurement detail ▸</span></footer>
+</article>
+
+<!-- ═══════════════════════ SHEET 4 ═══════════════════════ -->
+<article class="sheet">
+  <header class="runhead">
+    <span><strong>Atlas Reports</strong> · PRD &amp; Eval Plan</span>
+    <span>Measurement Detail — Evaluation II <span class="folio">04 / 04</span></span>
+  </header>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">17</span><span class="lbl">Time model</span>
+      <span class="note">Sheet 03 asks whether the four hours fell. This asks which hour fell — the only version of the question that can distinguish success from a CSM rubber-stamping.</span>
+    </div>
+    <div class="main">
+      <h2>Where the four hours actually go</h2>
+      <p>A single minutes-per-report number cannot tell <em>we removed the assembly</em> from <em>the CSM stopped reading</em>, and the guardrails that would catch the second — CSAT, client-flagged errors — are quarterly and rare. So the north star is banded across the nine moves from §01, and each band carries its own target.</p>
+      <div class="tw"><table>
+        <thead><tr><th style="width:15%">Band</th><th style="width:33%">Moves it covers</th><th style="width:24%">Target</th><th>Instrument</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Collection</strong></td><td>Pull GSC, GA4, Semrush, GEO; check the CMS</td><td>→ 0</td><td>Pipeline replaces it entirely</td></tr>
+          <tr><td><strong>Assembly</strong></td><td>Paste into the sheet, compute deltas</td><td>→ 0</td><td>Metric layer (FR-3) replaces it</td></tr>
+          <tr><td><strong>Composition</strong></td><td>Write the narrative, format the deck</td><td>Format → 0; narrative → review-and-edit</td><td>Studio canvas time</td></tr>
+          <tr><td><strong>Judgment</strong></td><td>Decide what mattered; decide what to recommend</td><td><strong>Held flat or up</strong></td><td>Evidence-panel + edit time</td></tr>
+        </tbody>
+      </table></div>
+      <p><strong>Instrumentation.</strong> The in-app timer already attributes session time by active surface — source panel, studio canvas, evidence panel — which maps onto the bands without asking the CSM for anything extra. The weekly diary supplies one corroborating split. Weeks 0–2 measure the real shape; until then the bands have targets but no baseline.</p>
+      <div class="call gate">
+        <b>The shape test</b>
+        <p>If total time falls but the judgment band falls with it, that is a <strong>failure, not a success</strong> — we will have automated the thinking and kept the typing. A report that takes 18 minutes with 12 of them spent on judgment is the win. Eighteen minutes with two is the failure mode this metric exists to catch.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">18</span><span class="lbl">Capacity</span>
+      <span class="note">The metric the business buys. It is second-order here because it physically cannot move inside an eight-week trial.</span>
+    </div>
+    <div class="main">
+      <div class="tw"><table>
+        <thead><tr><th style="width:17%">Facet</th><th>Accounts per CSM at cadence-compliant quality</th></tr></thead>
+        <tbody>
+          <tr><td><strong>In the trial</strong></td><td><strong>Modelled, not measured.</strong> Nobody hands a CSM new accounts mid-wedge, so capacity headroom is inferred: time freed per CSM-week ÷ time per account-week. The wedge measures time; capacity is the inference drawn from it, and the document should say so rather than dress an inference as a result.</td></tr>
+          <tr><td><strong>Post-GA</strong></td><td>Becomes a real tracked metric — accounts per CSM and reports per CSM-week, quarterly, with the expected trajectory pre-registered before GA so it cannot be re-fitted afterwards.</td></tr>
+          <tr><td><strong>Failure mode</strong></td><td>Capacity bought with cadence slippage or quality drop. The §14 quality gates travel with this metric, and FR-12 cadence adherence is the check: headroom claimed while adherence falls is not headroom.</td></tr>
+          <tr><td><strong>Operational SLO</strong></td><td>Time to first draft ≤ 4 min at p90 (pipeline telemetry). Not a success metric — a latency floor, since a draft that misses the T−72h window costs a CSM the whole review lead.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">19</span><span class="lbl">Human ceiling</span>
+      <span class="note">§13 compares against the report the CSM sent — a floor. This measures the ceiling, and the distance between two competent humans.</span>
+    </div>
+    <div class="main">
+      <h2>What "human-level" actually scores</h2>
+      <div class="tw"><table>
+        <thead><tr><th style="width:14%">Step</th><th>Protocol</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Sample</strong></td><td>15 of the 60 golden cases from §13, stratified across the same archetypes.</td></tr>
+          <tr><td><strong>Procedure</strong></td><td>Three senior CSMs write each case independently from the same frozen snapshot, blind to one another and to the report originally sent.</td></tr>
+          <tr><td><strong>Cost</strong></td><td>~90 min per report per rater ≈ <strong>67 senior-hours</strong>, run once, refreshed annually or on a major model change. Stated plainly because a protocol whose cost is hidden is a protocol that never gets run.</td></tr>
+          <tr><td><strong>Outputs</strong></td><td>Human mean and SD per rubric dimension — the ceiling <em>and</em> the noise floor. Inter-rater agreement (ICC or Krippendorff's α). Finding overlap: how often two humans independently pick the same 3–5 findings.</td></tr>
+          <tr><td><strong>Use</strong></td><td>The target stops being "beat the historical report" and becomes <strong>"land inside the human band"</strong>. Where two competent humans disagree, an agent that differs from one of them has not necessarily erred.</td></tr>
+        </tbody>
+      </table></div>
+      <p>It also disciplines §12: a rubric dimension where three senior CSMs cannot agree is a dimension no LLM judge should be trusted on either, and probably not one we should gate a release on. Expect finding overlap to come in lower than intuition suggests — which reframes a good share of "the agent missed something" as ordinary human variance.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail">
+      <span class="num">20</span><span class="lbl">Decision rule</span>
+      <span class="note">§16 gives the verdicts. This gives the test behind them, so the margin is derived rather than chosen after the fact.</span>
+    </div>
+    <div class="main">
+      <div class="tw"><table>
+        <thead><tr><th style="width:16%">Endpoint</th><th>Pre-registered test</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Quality</strong><br><span class="fin">Non-inferiority</span></td><td>One-sided. <span class="id">H₀: μ_agent ≤ μ_human − δ</span> against <span class="id">H₁: μ_agent &gt; μ_human − δ</span>, with <strong>δ = 0.5 × the inter-human SD measured in §19</strong> — half the noise between two competent humans, rather than the round 0.3 §16 quotes. Accuracy carries a tighter δ and an absolute floor: it is the one dimension where sitting inside the human band is not sufficient.</td></tr>
+          <tr><td><strong>Time</strong><br><span class="fin">Superiority</span></td><td>One-sided, from the §15 mixed-effects model. Ship requires the CI lower bound above the stated MDE, not merely a point estimate that clears it.</td></tr>
+          <tr><td><strong>Both</strong></td><td>Required together. Non-inferior quality alone is not a win; faster alone is certainly not. Because two primary endpoints must <em>both</em> pass, this is an intersection–union test and takes no alpha adjustment.</td></tr>
+          <tr><td><strong>Revealed preference</strong></td><td>After the wedge, two weeks optional. Ship needs <strong>≥ 70% continued voluntary use</strong>. It prices what the rubric cannot — trust, fit, and whether the thing is pleasant to use.</td></tr>
+        </tbody>
+      </table></div>
+      <p class="lead"><span class="fin">Everything else is exploratory</span> — segment cuts, per-template breakdowns and archetype-level results are labelled as such when reported. Pre-registration is only worth something if the list stays short.</p>
+    </div>
+  </section>
+
+  <footer class="runfoot"><span>Pepper Atlas · Internal · Draft v0.9</span><span>End of document · 04 / 04</span></footer>
 </article>
 
 </div>
