@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What We're Actually Optimising — Atlas Reports Metric Model</title>
+<style>
+:root{
+  --ink:#1A0F2E;--navy:#2D1B4E;--navy-2:#4A2C7A;
+  --teal:#C9A961;--teal-deep:#A8893F;--teal-light:#E8D097;--teal-soft:#F5EDD9;
+  --amber:#D4756B;--amber-light:#E89B92;
+  --cloud:#F8F4F0;--paper:#FFFFFF;--text:#3D2A52;--steel:#6B5B7B;--muted:#8B7A9B;--line:#ECE5F2;
+  --shadow-sm:0 1px 2px rgba(45,27,78,.06),0 1px 4px rgba(45,27,78,.07);
+  --shadow-md:0 8px 22px rgba(45,27,78,.12);
+  --shadow-lg:0 22px 60px rgba(45,27,78,.18);
+  --ease:cubic-bezier(.22,.9,.32,1);
+  --font-sans:system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+  --font-mono:ui-monospace,'Cascadia Code','Source Code Pro',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{margin:0;padding:0;background:var(--cloud)}
+body{font-family:var(--font-sans);letter-spacing:-.008em;color:var(--ink);-webkit-font-smoothing:antialiased;padding:30px 16px;}
+::selection{background:var(--teal);color:#fff;}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:var(--cloud)}
+::-webkit-scrollbar-thumb{background:#D6CCE3;border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:#B6A5C9}
+
+.page{max-width:1180px;margin:0 auto;background:var(--paper);box-shadow:var(--shadow-lg),0 2px 8px rgba(45,27,78,.06);border-radius:22px;overflow:hidden;position:relative;animation:pageFadeIn .55s var(--ease);}
+.page::before{content:"";display:block;height:4px;width:100%;background:linear-gradient(90deg,var(--teal),var(--amber-light),var(--teal));background-size:200% 100%;animation:shimmer 6s linear infinite;}
+@keyframes pageFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:0% 0}100%{background-position:200% 0}}
+
+.kicker{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;}
+h1,h2,h3,h4{font-family:var(--font-sans);font-weight:800;}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;background:radial-gradient(circle at 86% 12%,rgba(201,169,97,.38),transparent 28%),radial-gradient(circle at 30% 92%,rgba(212,117,107,.22),transparent 26%),linear-gradient(135deg,var(--ink),var(--navy) 58%,var(--navy-2));color:#fff;padding:46px 48px 36px;}
+.hero::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:24px 24px;opacity:.55;pointer-events:none;}
+.hero-top{position:relative;z-index:1;display:flex;justify-content:space-between;gap:32px;align-items:flex-start;}
+.hero .kicker{color:var(--teal-light);margin-bottom:15px;}
+.hero h1{margin:0;font-size:53px;line-height:1;font-weight:800;letter-spacing:-.035em;background:linear-gradient(135deg,#fff 25%,#F5EDD9 115%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero .subtitle{margin-top:10px;color:#E8D097;font-size:18.5px;font-weight:700;letter-spacing:-.015em;}
+.hero .summary{margin-top:16px;max-width:720px;color:#D8CCE6;font-size:15.5px;line-height:1.72;letter-spacing:-.003em;}
+.hero-badge{position:relative;z-index:1;border:1px solid rgba(201,169,97,.55);background:rgba(201,169,97,.10);backdrop-filter:blur(10px);border-radius:16px;padding:15px 19px;min-width:190px;text-align:center;box-shadow:0 10px 26px rgba(0,0,0,.20);transition:transform .35s var(--ease),box-shadow .35s var(--ease);}
+.hero-badge:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(0,0,0,.26);}
+.hero-badge .label{color:#F5EDD9;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-family:var(--font-mono);font-weight:700;}
+.hero-badge .value{margin-top:8px;font-size:19px;font-weight:800;letter-spacing:-.015em;line-height:1.25;}
+.metric-row{position:relative;z-index:1;display:grid;grid-template-columns:repeat(5,1fr);gap:1px;margin-top:30px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12);border-radius:16px;overflow:hidden;}
+.metric{background:rgba(26,15,46,.46);padding:16px 17px;position:relative;overflow:hidden;transition:background .3s var(--ease);}
+.metric::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--amber-light));transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease);}
+.metric:hover{background:rgba(201,169,97,.14);}
+.metric:hover::before{transform:scaleX(1);}
+.metric .num{color:var(--teal-light);font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;}
+.metric .txt{margin-top:7px;font-size:13px;color:#EEE5F5;font-weight:600;letter-spacing:-.008em;line-height:1.35;}
+
+/* SECTION */
+.section{padding:36px 48px;}
+.section-head{display:flex;align-items:center;gap:12px;margin-bottom:19px;}
+.section-no{font-family:var(--font-mono);font-size:11px;color:#fff;background:linear-gradient(135deg,var(--teal),var(--teal-deep));padding:5px 11px;border-radius:8px;font-weight:700;letter-spacing:.08em;box-shadow:0 4px 12px rgba(201,169,97,.35);}
+.section-title{margin:0;font-size:19.5px;font-weight:800;color:var(--ink);letter-spacing:-.025em;}
+.section-sub{margin:-9px 0 19px;max-width:820px;color:var(--muted);font-size:13.6px;line-height:1.68;letter-spacing:-.003em;}
+.divider{height:1px;margin:0 48px;background:linear-gradient(90deg,transparent,var(--line) 12%,var(--line) 88%,transparent);}
+
+/* WHY */
+.why-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;}
+.statement{background:linear-gradient(150deg,#FCFAF5,#fff);border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:16px;padding:22px;transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-left-width .35s var(--ease);}
+.statement:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-left-width:6px;}
+.statement h3{margin:0 0 10px;font-size:21px;font-weight:700;color:var(--ink);line-height:1.32;letter-spacing:-.022em;}
+.statement p{margin:0 0 11px;color:var(--text);font-size:14.4px;line-height:1.72;letter-spacing:-.005em;}
+.statement p:last-child{margin-bottom:0;}
+.callout{background:linear-gradient(135deg,var(--ink),var(--navy));color:#fff;border-radius:16px;padding:24px;position:relative;overflow:hidden;transition:transform .35s var(--ease),box-shadow .35s var(--ease);}
+.callout:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+.callout::before{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,97,.30),transparent 70%);right:-55px;top:-55px;z-index:0;}
+.callout::after{content:"\201C";position:absolute;top:-22px;right:20px;font-size:104px;font-weight:800;color:rgba(255,255,255,.07);line-height:1;z-index:0;pointer-events:none;}
+.callout h3{position:relative;z-index:1;margin:0 0 12px;font-size:19.5px;font-weight:700;letter-spacing:-.02em;}
+.callout p{position:relative;z-index:1;margin:0;color:#EEE5F5;font-size:15.5px;line-height:1.68;font-style:italic;letter-spacing:-.006em;}
+.callout .quote-by{position:relative;z-index:1;display:block;margin-top:13px;color:var(--teal-light);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;font-style:normal;}
+
+/* JOURNEY */
+.journey{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding-top:2px;}
+.journey::before{content:"";position:absolute;top:34px;left:38px;right:38px;height:2px;z-index:0;background-image:linear-gradient(90deg,var(--teal) 0 8px,transparent 8px 16px);background-size:16px 2px;background-repeat:repeat-x;opacity:.55;}
+.step{position:relative;z-index:1;border:1px solid var(--line);background:#fff;border-radius:16px;padding:18px 16px;min-height:170px;transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s var(--ease);}
+.step:hover{transform:translateY(-5px);box-shadow:var(--shadow-md);border-color:var(--teal);}
+.step.dark{background:var(--ink);border-color:var(--ink);color:#fff;}
+.step.dark:hover{box-shadow:0 16px 34px rgba(26,15,46,.45);}
+.step.cert{border-color:var(--amber);background:#FBF0EE;}
+.step.cert:hover{box-shadow:0 14px 30px rgba(212,117,107,.28);}
+.step .num{display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--teal-deep);font-weight:700;letter-spacing:.11em;}
+.step .num::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--teal);flex:none;}
+.step.dark .num{color:var(--teal-light);}
+.step.dark .num::before{background:var(--teal-light);}
+.step.cert .num{color:#9C4A40;}
+.step.cert .num::before{background:var(--amber);}
+.step h4{margin:11px 0 6px;font-size:14.5px;line-height:1.3;color:var(--ink);font-weight:700;letter-spacing:-.012em;}
+.step.dark h4{color:#fff;}
+.step p{margin:0 0 11px;color:var(--muted);font-size:12.6px;line-height:1.55;letter-spacing:-.003em;}
+.step.dark p{color:#D8CCE6;}
+.step .tag{display:inline-block;font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--teal-soft);color:#5C481E;}
+.step.dark .tag{background:rgba(201,169,97,.22);color:var(--teal-light);}
+.step.cert .tag{background:#FBDEDA;color:#7A3329;}
+
+/* STORY GRID */
+.rolegrid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
+.role-card{display:flex;gap:13px;align-items:flex-start;background:var(--cloud);border:1px solid var(--line);border-radius:14px;padding:16px 17px;transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s var(--ease),background .3s var(--ease);}
+.role-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--teal);background:#fff;}
+.role-card .ric{flex:none;width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--ink),var(--navy));display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-mono);font-weight:700;font-size:11px;letter-spacing:.06em;transition:transform .35s var(--ease),background .35s var(--ease);}
+.role-card:hover .ric{transform:scale(1.1) rotate(-6deg);background:linear-gradient(135deg,var(--teal),var(--teal-deep));}
+.role-card .rtx h4{margin:0 0 5px;font-size:14.6px;font-weight:600;color:var(--ink);letter-spacing:-.012em;}
+.role-card .rtx .name{font-family:var(--font-mono);font-size:10px;color:var(--teal-deep);letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:4px;display:block;}
+.role-card .rtx p{margin:0 0 7px;font-size:12.8px;color:var(--steel);line-height:1.58;letter-spacing:-.003em;}
+.role-card .rtx p:last-child{margin-bottom:0;}
+.role-card .rtx .inst{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700;}
+.role-card .rtx .dep{color:#9C4A40;}
+
+/* OUTCOMES */
+.outcome2,.outcome3{display:grid;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-sm);}
+.outcome2{grid-template-columns:1fr 1fr;}
+.outcome3{grid-template-columns:repeat(3,1fr);}
+.oc-card{padding:22px;border-right:1px solid var(--line);background:var(--paper);transition:background .3s var(--ease);}
+.oc-card:hover{background:var(--cloud);}
+.oc-card:last-child{border-right:none;}
+.oc-card .oc-num{font-weight:800;font-size:35px;line-height:1;margin-bottom:11px;letter-spacing:-.02em;background:linear-gradient(135deg,var(--teal),var(--teal-deep));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.oc-card h4{font-size:15px;font-weight:600;color:var(--ink);margin:0 0 7px;letter-spacing:-.013em;}
+.oc-card p{font-size:12.8px;color:var(--steel);line-height:1.58;margin:0 0 8px;letter-spacing:-.004em;}
+.oc-card p:last-child{margin-bottom:0;}
+.oc-card .lede{font-weight:700;color:var(--ink);}
+
+/* LADDER (roster) */
+.roster{display:flex;flex-direction:column;gap:11px;}
+.roster-row{display:grid;grid-template-columns:96px 1fr auto;gap:20px;align-items:center;border:1px solid var(--line);border-radius:16px;padding:18px 22px;background:var(--paper);position:relative;overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s var(--ease);}
+.roster-row::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:scaleY(0);transform-origin:top;transition:transform .4s var(--ease);}
+.roster-row:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--teal);}
+.roster-row:hover::before{transform:scaleY(1);}
+.roster-row.star{border-color:var(--teal);background:linear-gradient(150deg,#FCFAF5,#fff);}
+.roster-row.star::before{transform:scaleY(1);}
+.rdb{text-align:center;}
+.rdb .rday{font-size:36px;font-weight:800;line-height:1;background:linear-gradient(135deg,var(--teal),var(--teal-deep));-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.02em;}
+.rdb .rmon{font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:3px;}
+.racc{display:flex;align-items:center;gap:13px;}
+.racc-info{display:flex;flex-direction:column;gap:3px;}
+.racc-info .ridx{font-family:var(--font-mono);font-size:9px;font-weight:700;color:var(--muted);letter-spacing:.13em;text-transform:uppercase;}
+.racc-info h4{margin:0;font-size:15.5px;font-weight:700;color:var(--ink);letter-spacing:-.013em;}
+.racc-info .rsub{font-size:12.4px;color:var(--steel);line-height:1.5;max-width:640px;}
+.ract{display:flex;flex-direction:column;gap:6px;align-items:flex-end;}
+.apill{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:5px 12px;border-radius:999px;border:1px solid;letter-spacing:-.002em;white-space:nowrap;}
+.apill.mt{background:#F2ECF9;border-color:#C4ADDC;color:#5C3580;}
+.apill.em{background:var(--teal-soft);border-color:#CEAA5E;color:#6A4E18;}
+.apill.so{background:#FBF0EE;border-color:#E09A92;color:#7A3329;}
+
+.roster-legend{display:flex;gap:16px;margin-bottom:18px;padding:13px 16px;background:var(--cloud);border-radius:12px;border:1px solid var(--line);flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:var(--steel);}
+.legend-dot{width:8px;height:8px;border-radius:50%;flex:none;}
+.legend-dot.mt{background:#8B5FBF;}
+.legend-dot.em{background:var(--teal);}
+.legend-dot.so{background:var(--amber);}
+
+.note{margin:18px 0 0;padding:14px 18px;background:#FBF0EE;border:1px solid #F0D9D5;border-left:3px solid var(--amber);border-radius:12px;font-size:12.9px;line-height:1.6;color:#6E4038;letter-spacing:-.004em;}
+.note strong{color:#7A3329;}
+
+/* CTA */
+.cta{position:relative;overflow:hidden;background:radial-gradient(circle at 86% 18%,rgba(212,117,107,.26),transparent 26%),linear-gradient(120deg,var(--ink),var(--navy-2),#5C4A30);color:#fff;padding:32px 48px;}
+.cta-wrap{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap;}
+.cta h2{margin:0;font-size:26px;font-weight:800;max-width:620px;letter-spacing:-.022em;line-height:1.2;color:#fff;}
+.cta-pills{display:flex;gap:11px;flex-wrap:wrap;}
+.pill{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);border-radius:999px;padding:10px 16px;font-size:12.8px;font-weight:600;letter-spacing:-.004em;color:#fff;transition:transform .3s var(--ease),box-shadow .3s var(--ease),background .3s var(--ease);}
+.pill:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(0,0,0,.25);background:rgba(255,255,255,.15);}
+.footer{position:relative;z-index:1;margin-top:20px;color:#A89BBE;font-size:10px;font-family:var(--font-mono);letter-spacing:.1em;font-weight:500;}
+
+@media(max-width:900px){
+  .hero-top,.why-grid,.rolegrid,.outcome2,.outcome3,.cta-wrap{grid-template-columns:1fr;display:block;}
+  .why-grid .callout,.rolegrid .role-card,.oc-card{margin-top:15px;}
+  .oc-card{border-right:none;border-bottom:1px solid var(--line);}
+  .oc-card:last-child{border-bottom:none;}
+  .hero-badge{margin-top:20px;text-align:left;}
+  .hero h1{font-size:36px;}
+  .metric-row,.journey{grid-template-columns:1fr 1fr;}
+  .journey::before{display:none;}
+  .roster-row{grid-template-columns:1fr;gap:14px;}
+  .rdb{text-align:left;display:flex;align-items:baseline;gap:9px;}
+  .rdb .rmon{margin-top:0;}
+  .racc-info .rsub{max-width:none;}
+  .ract{align-items:flex-start;flex-direction:row;flex-wrap:wrap;}
+  body{padding:14px 10px;}
+  .page{border-radius:16px;}
+  .section{padding:26px 20px;}
+  .divider{margin:0 20px;}
+  .hero,.cta{padding:30px 20px;}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{animation:none!important;transition:none!important;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="kicker">Pepper Atlas · Customer Success · Metric Model</div>
+        <h1>What we're actually optimising</h1>
+        <div class="subtitle">Time saved is the input. Brand velocity is the outcome.</div>
+        <div class="summary">Four hours a week is the problem we were handed, not the goal. Saving them only matters because of what the CSM does with them: reach a brand's target sooner, and carry more brands while doing it. This is the ladder from a minute saved in Report Studio to a retainer renewed.</div>
+      </div>
+      <div class="hero-badge">
+        <div class="label">Core Principle</div>
+        <div class="value">Faster to goal,<br>across more brands</div>
+      </div>
+    </div>
+    <div class="metric-row">
+      <div class="metric"><div class="num">T1 · Commercial</div><div class="txt">Revenue influenced, leads converted</div></div>
+      <div class="metric"><div class="num">T2 · Platform</div><div class="txt">Share of voice, citations, clicks</div></div>
+      <div class="metric"><div class="num">T3 · Velocity</div><div class="txt">Weeks to hit the target</div></div>
+      <div class="metric"><div class="num">T4 · Leverage</div><div class="txt">Brands assisted per CSM</div></div>
+      <div class="metric"><div class="num">T5 · Effort</div><div class="txt">Minutes per report, per panel</div></div>
+    </div>
+  </section>
+
+  <!-- 01 WHY -->
+  <section class="section">
+    <div class="section-head"><span class="section-no">01</span><h2 class="section-title">Why the four hours is the wrong headline</h2></div>
+    <div class="why-grid">
+      <div class="statement">
+        <h3>Four hours saved is worth nothing if the brand reaches its goal no sooner.</h3>
+        <p>A tool that halves reporting time and changes nothing else has moved an internal cost line. That is real, but it is not what a client renews for — and it is trivially gameable, because the fastest report is the one nobody thought about.</p>
+        <p>The hours only convert into value through two doors: the CSM spends them on the judgment that moves a brand's numbers, and the CSM carries more brands. Every metric below exists to check that one of those two doors actually opened.</p>
+      </div>
+      <div class="callout">
+        <h3>The chain, in one line.</h3>
+        <p>"Hours freed become brands served, brands served become goals hit sooner, goals hit sooner become share of voice and citations, and that is what the retainer is judged on."</p>
+        <span class="quote-by">— ATLAS REPORTS · METRIC MODEL</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 02 LADDER -->
+  <section class="section">
+    <div class="section-head"><span class="section-no">02</span><h2 class="section-title">The outcome ladder</h2></div>
+    <p class="section-sub">Read top-down it is a translation — the commercial goal a client states, expressed as platform metrics Atlas can actually move. Read bottom-up it is the causal chain. Each tier is marked with what we can honestly claim about it.</p>
+
+    <div class="roster-legend">
+      <div class="legend-item"><div class="legend-dot em"></div>Measured — instrumented directly</div>
+      <div class="legend-item"><div class="legend-dot mt"></div>Modelled — inferred from a measured tier</div>
+      <div class="legend-item"><div class="legend-dot so"></div>Correlational — tracked, never claimed as caused</div>
+    </div>
+
+    <div class="roster">
+
+      <div class="roster-row">
+        <div class="rdb"><div class="rday">T1</div><div class="rmon">Commercial</div></div>
+        <div class="racc">
+          <div class="racc-info">
+            <span class="ridx">What the client buys</span>
+            <h4>Revenue influenced · leads converted</h4>
+            <span class="rsub">Pipeline and closed revenue from organic and AI-search sessions, read from the client's own CRM. The number the retainer is judged on at renewal.</span>
+          </div>
+        </div>
+        <div class="ract"><span class="apill so">◆ Correlational</span></div>
+      </div>
+
+      <div class="roster-row">
+        <div class="rdb"><div class="rday">T2</div><div class="rmon">Platform</div></div>
+        <div class="racc">
+          <div class="racc-info">
+            <span class="ridx">What Atlas moves</span>
+            <h4>Share of voice · AI citations &amp; mentions · impressions · clicks · avg. position</h4>
+            <span class="rsub">The visibility surface, tracked as a time series rather than a monthly snapshot — share of voice <em>rising over time</em> is the claim, not share of voice today.</span>
+          </div>
+        </div>
+        <div class="ract"><span class="apill em">● Measured</span></div>
+      </div>
+
+      <div class="roster-row star">
+        <div class="rdb"><div class="rday">T3</div><div class="rmon">Velocity ★</div></div>
+        <div class="racc">
+          <div class="racc-info">
+            <span class="ridx">The reframe</span>
+            <h4>Time-to-target · goal attainment rate</h4>
+            <span class="rsub">Weeks from a goal being set to the brand hitting it, against a matched cohort of pre-Atlas accounts. Not "did share of voice rise" but "did it rise <em>sooner</em> than it would have".</span>
+          </div>
+        </div>
+        <div class="ract"><span class="apill em">● Measured</span><span class="apill mt">◇ vs. cohort</span></div>
+      </div>
+
+      <div class="roster-row">
+        <div class="rdb"><div class="rday">T4</div><div class="rmon">Leverage</div></div>
+        <div class="racc">
+          <div class="racc-info">
+            <span class="ridx">The CSM's reach</span>
+            <h4>Brands assisted per CSM · assist depth</h4>
+            <span class="rsub">Accounts held at cadence-compliant quality, and how many receive a proactive recommendation rather than just a report. Capacity that costs quality is not capacity.</span>
+          </div>
+        </div>
+        <div class="ract"><span class="apill mt">◇ Modelled in trial</span></div>
+      </div>
+
+      <div class="roster-row">
+        <div class="rdb"><div class="rday">T5</div><div class="rmon">Effort</div></div>
+        <div class="racc">
+          <div class="racc-info">
+            <span class="ridx">The input</span>
+            <h4>Minutes per approved report, decomposed by panel</h4>
+            <span class="rsub">The original four hours, broken down to the surface the CSM was actually looking at. Necessary to prove, insufficient to celebrate.</span>
+          </div>
+        </div>
+        <div class="ract"><span class="apill em">● Measured</span></div>
+      </div>
+
+    </div>
+
+    <p class="note"><strong>What we will not claim.</strong> T1 is not causally attributable to Atlas over an eight-week trial — organic and AI search to revenue is a long, multi-touch, seasonal path, and any vendor who draws a straight line from a report to a closed deal is selling something. We track T1, we model the link from T2, and we say which is which. T3 is where the honest causal claim lives, because it has a comparison cohort.</p>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 03 VELOCITY -->
+  <section class="section">
+    <div class="section-head"><span class="section-no">03</span><h2 class="section-title">Velocity and leverage, defined</h2></div>
+    <p class="section-sub">Four metrics carry the argument. Each needs a definition sharp enough to instrument, or the tier above it is decoration.</p>
+    <div class="rolegrid">
+      <div class="role-card">
+        <div class="ric">TTT</div>
+        <div class="rtx">
+          <span class="name">Time-to-target</span>
+          <h4>Weeks from goal-set to goal-hit</h4>
+          <p>Measured per goal from the moment it is set in the Report Profile, against a matched baseline cohort. The headline velocity number.</p>
+          <p class="inst">Goal object + weekly SoV / citation series <span class="dep">· needs the client goal object (PRD §09)</span></p>
+        </div>
+      </div>
+      <div class="role-card">
+        <div class="ric">GAR</div>
+        <div class="rtx">
+          <span class="name">Goal attainment rate</span>
+          <h4>Share of client goals hit on schedule</h4>
+          <p>The portfolio view of the same thing. Catches the case where a few accounts accelerate while the tail quietly slips.</p>
+          <p class="inst">Goal object + quarterly review</p>
+        </div>
+      </div>
+      <div class="role-card">
+        <div class="ric">BPC</div>
+        <div class="rtx">
+          <span class="name">Brands per CSM</span>
+          <h4>Accounts at cadence-compliant quality</h4>
+          <p>Not headcount on a spreadsheet — accounts actually receiving their reports on cadence, at a standard the CS Lead would defend.</p>
+          <p class="inst">Lead console (PRD FR-12) + quality gates</p>
+        </div>
+      </div>
+      <div class="role-card">
+        <div class="ric">AD</div>
+        <div class="rtx">
+          <span class="name">Assist depth</span>
+          <h4>Accounts getting a recommendation, not just a report</h4>
+          <p>The difference between reporting on a brand and advising it. This is the metric that shows the freed hours went somewhere useful.</p>
+          <p class="inst">Recommendation events per account per month</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 04 TIME -->
+  <section class="section">
+    <div class="section-head"><span class="section-no">04</span><h2 class="section-title">Time saved, instrumented to the panel</h2></div>
+    <p class="section-sub">A single minutes-per-report figure cannot tell "we removed the assembly" from "the CSM stopped reading". The in-app timer already attributes session time by active surface, so the breakdown costs no extra telemetry — and each surface means something different when it moves.</p>
+    <div class="journey">
+      <div class="step">
+        <div class="num">Panel 01</div>
+        <h4>Source panel</h4>
+        <p>Time spent pulling and checking raw source data. Falling towards zero is the core win — this is the assembly the pipeline replaces.</p>
+        <span class="tag">Target → 0</span>
+      </div>
+      <div class="step">
+        <div class="num">Panel 02</div>
+        <h4>Studio canvas</h4>
+        <p>Time editing the drafted narrative. Falling means draft quality is rising; flat after week 4 means the narrative layer is not learning.</p>
+        <span class="tag">Falling = trust</span>
+      </div>
+      <div class="step cert">
+        <div class="num">Panel 03</div>
+        <h4>Evidence panel</h4>
+        <p>Time verifying claims against source. Must <strong>not</strong> reach zero — a CSM who stops checking has not got faster, they have started rubber-stamping.</p>
+        <span class="tag">★ Floor, not target</span>
+      </div>
+      <div class="step dark">
+        <div class="num">Panel 04</div>
+        <h4>Approve &amp; send</h4>
+        <p>Time from last edit to decision. The residual, and the cleanest read on whether the CSM trusts what they are about to put their name on.</p>
+        <span class="tag">Residual</span>
+      </div>
+    </div>
+    <p class="note"><strong>The shape test.</strong> If total time falls but judgment time falls with it, that is a failure, not a success — we will have automated the thinking and kept the typing. A report that takes 18 minutes with 12 spent on judgment is the win. Eighteen minutes with two is the failure this breakdown exists to catch.</p>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 05 EVAL -->
+  <section class="section">
+    <div class="section-head"><span class="section-no">05</span><h2 class="section-title">How we'd know it actually saved the four hours</h2></div>
+    <p class="section-sub">The measurement, dataset and success criteria in short — the full design sits on sheets 03 and 04 of the PRD.</p>
+    <div class="outcome3">
+      <div class="oc-card">
+        <div class="oc-num">01</div>
+        <h4>Measurement</h4>
+        <p class="lede">Stepped-wedge, clustered on the CS manager.</p>
+        <p>Eight weeks, four cohorts crossing over every two weeks in randomised order. Randomising by client would leak — a CSM who gets faster on one account gets faster on all of them.</p>
+        <p>Analysis is a pre-registered mixed-effects model on minutes per approved report, reported as an effect with its 95% CI. Weeks 0–2 establish the baseline first; "4+ hours" is the stated problem, not a measurement.</p>
+      </div>
+      <div class="oc-card">
+        <div class="oc-num">02</div>
+        <h4>Dataset</h4>
+        <p class="lede">60 golden reports, plus a measured human ceiling.</p>
+        <p>Twelve clients × five historical periods, frozen as source snapshots and stratified for what breaks things: partial source sets, mid-period replatforms, a flat month, a real incident.</p>
+        <p>Fifteen of those cases are rewritten independently by three senior CSMs, giving a ceiling and a noise floor rather than just the report that happened to be sent.</p>
+      </div>
+      <div class="oc-card">
+        <div class="oc-num">03</div>
+        <h4>Success criteria</h4>
+        <p class="lede">Faster and no worse — both, or it does not ship.</p>
+        <p>Time: one-sided superiority, CI lower bound above the stated MDE. Quality: one-sided non-inferiority with the margin derived from measured inter-human SD, not a round number.</p>
+        <p>Then the gate nobody can game — two weeks optional after the wedge, and ≥ 70% of CSMs still choosing it. Velocity and capacity are read post-GA, over quarters, not weeks.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta-wrap">
+      <h2>Faster to goal, across more brands. The hours are how we pay for it.</h2>
+      <div class="cta-pills">
+        <div class="pill">💷 Revenue &amp; leads</div>
+        <div class="pill">📈 Share of voice</div>
+        <div class="pill">⚡ Time-to-target</div>
+        <div class="pill">🤝 Brands per CSM</div>
+        <div class="pill">⏱ Minutes per panel</div>
+      </div>
+    </div>
+    <div class="footer">PEPPER ATLAS · ATLAS REPORTS · METRIC MODEL · COMPANION TO THE PRD &amp; EVAL PLAN</div>
+  </section>
+
+</div>
+</body>
+</html>
